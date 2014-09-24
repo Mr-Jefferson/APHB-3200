@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS seminarmarks;
 DROP DATABASE IF EXISTS seminar_marks;
 CREATE DATABASE seminar_marks;
 USE seminar_marks;

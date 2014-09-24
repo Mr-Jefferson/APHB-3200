@@ -1,5 +1,9 @@
 <?php
-include_once "/var/www/html/CITS3200_Group_H/Library/DB/Database_Connection.php";
+if(strpos(php_uname(),'NICK') !== false) {
+    include_once "C:/xampp/htdocs/CITS3200_Group_H/Library/DB/Database_Connection.php";
+} else {
+    include_once "/var/www/html/CITS3200_Group_H/Library/DB/Database_Connection.php";
+}
 
 Class User_Control{
     
@@ -19,7 +23,7 @@ Class User_Control{
      * @return boolean
      */
     public function validate_User($user,$password){
-        $Query_result = $this->DB_connection->query_Database("select * from Users where username =\"".$user."\"");
+        $Query_result = $this->DB_connection->query_Database("select * from users where username =\"".$user."\"");
         if($Query_result == false){
             return false;   // there wasn't any username in the DB with the username the current user provided 
         }

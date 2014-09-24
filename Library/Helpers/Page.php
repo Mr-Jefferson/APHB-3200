@@ -1,5 +1,9 @@
 <?php
-include_once "/var/www/html/CITS3200_Group_H/Library/Helpers/Table_Generation.php";
+if(strpos(php_uname(),'NICK') !== false) {
+    include_once "C:/xampp/htdocs/CITS3200_Group_H/Library/Helpers/Table_Generation.php";
+} else {
+    include_once "/var/www/html/CITS3200_Group_H/Library/Helpers/Table_Generation.php";
+}
 
 class Page{
     

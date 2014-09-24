@@ -2,8 +2,13 @@
 /**
  * The login.php page will consist of conditional statments and echo statements to produce the final page which is then pushed to the browser.
  */
-include_once "/var/www/html/CITS3200_Group_H/Library/Helpers/Page.php";
-include_once "/var/www/html/CITS3200_Group_H/Library/Helpers/User_Control.php";
+if(strpos(php_uname(),'NICK') !== false) {
+    include_once "C:/xampp/htdocs/CITS3200_Group_H/Library/Helpers/Page.php";
+    include_once "C:/xampp/htdocs/CITS3200_Group_H/Library/Helpers/User_Control.php";
+} else {
+    include_once "/var/www/html/CITS3200_Group_H/Library/Helpers/Page.php";
+    include_once "/var/www/html/CITS3200_Group_H/Library/Helpers/User_Control.php";
+}
 
 if(isset($_POST['username']) && isset($_POST['password'])){
     $new_user = new User_Control();
