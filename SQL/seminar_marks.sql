@@ -2,7 +2,23 @@ DROP DATABASE IF EXISTS seminar_marks;
 CREATE DATABASE seminar_marks;
 USE seminar_marks;
 -- -----------------------------------------------------
--- Table Students
+-- Users Relation
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS users (
+    id_user INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(45) NOT NULL UNIQUE,
+    password VARCHAR(45) NOT NULL
+);
+-- -----------------------------------------------------
+-- Markers Relation
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS markers (
+    id_marker INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    marker_first_name VARCHAR(45) NOT NULL,
+    marker_last_name VARCHAR(45) NOT NULL
+);
+-- -----------------------------------------------------
+-- Students Relation
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS students (
     id_student INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -11,23 +27,7 @@ CREATE TABLE IF NOT EXISTS students (
     student_number VARCHAR(45) NULL
 );
 -- -----------------------------------------------------
--- Table Markers
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS markers (
-    id_marker INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    marker_first_name VARCHAR(45) NOT NULL,
-    marker_last_name VARCHAR(45) NOT NULL
-);
--- -----------------------------------------------------
--- Table Users
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS users (
-    id_user INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(45) NOT NULL UNIQUE,
-    password VARCHAR(45) NOT NULL
-);
--- -----------------------------------------------------
--- Table Marks
+-- Marks Relation
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS marks (
     id_mark INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
