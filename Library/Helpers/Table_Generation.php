@@ -72,20 +72,7 @@ class Table_Generation{
         if($queryResult != false ){
             $return_string .= $this->print_Marker_Overall_Rows($queryResult);
         }
-        
-                            /*    "<tr>"
-                                . "<td>Test Marker</td>"
-                                . "<td>0</td>"
-                                . "<td>0</td>"
-                                . "<td>0</td>"
-                                . "<td>0</td>"
-                                . "<td>0</td>"
-                                . "<td>0</td>"
-                                . "<td>0</td>"
-                                . "<td><a href=\"Marker.php?M_ID=1\">Inspect</a></td>"
-                            . "</tr>"*/
-                                
-                            
+                        
         $return_string .=  "</table>".
                 "</div>";
         
