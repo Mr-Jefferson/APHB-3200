@@ -135,8 +135,9 @@ class Page {
         if ($queryResult != false) {
             $row = $queryResult->fetch_assoc();
             $this->Master_String .= "<h3 id=\"page_title\">";
-            if($type = 1) { $this->Master_String .= "Marker Name: "; }
-            $this->Master_String .= $row['name'] . "</h3>";
+            if($type == 1) { $this->Master_String .= "Marker"; }
+            if($type == 2) { $this->Master_String .= "Student"; }
+            $this->Master_String .= " Name: " . $row['name'] . "</h3>";
         }
     }
 
@@ -166,15 +167,15 @@ class Page {
 
     public function load_student_tables($Student_ID) {
         $this->Master_String .= $this->Table_generator->generate_Student_Individual($Student_ID);
-        $this->Master_String .= $this->Table_generator->generate_Student_Individual_Proposal_Marks($Student_ID);
-        $this->Master_String .= $this->Table_generator->generate_Student_Individual_Final_Marks($Student_ID);
+        $this->Master_String .= $this->Table_generator->generate_Student_Individual_Marks(1, $Student_ID);
+        $this->Master_String .= $this->Table_generator->generate_Student_Individual_Marks(2, $Student_ID);
     }
 
     public function load_marker_tables($Marker_ID) {
         // need a way to determine marker_ID/validate it.
         $this->Master_String .= $this->Table_generator->generate_Marker_Individual($Marker_ID);
-        $this->Master_String .= $this->Table_generator->generate_Marker_Individual_Proposal_Marks($Marker_ID);
-        $this->Master_String .= $this->Table_generator->generate_Marker_Individual_Final_Marks($Marker_ID);
+        $this->Master_String .= $this->Table_generator->generate_Marker_Individual_Marks(1, $Marker_ID);
+        $this->Master_String .= $this->Table_generator->generate_Marker_Individual_Marks(2, $Marker_ID);
     }
 
     /**

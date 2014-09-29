@@ -15,7 +15,36 @@ class Table_Generation {
         $this->Database_connection = new Database_Connection();
     }
 
-    private function print_Marker_Overall_Rows(mysqli_result $query_outcome) {
+    private function print_Marker_Individual(mysqli_result $query_outcome) {
+        $return_string = "";
+        while ($row = $query_outcome->fetch_assoc()) {
+            $return_string .= "<tr>" .
+                    "<td>" . $row['mark_1_average'] . "</td>" .
+                    "<td>" . $row['mark_2_average'] . "</td>" .
+                    "<td>" . $row['mark_3_average'] . "</td>" .
+                    "<td>" . $row['overall_average'] . "</td>" .
+                    "</tr>";
+        }
+        return $return_string;
+    }
+    
+    private function print_Marker_Individual_Marks(mysqli_result $query_outcome) {
+        $return_string = "";
+        while ($row = $query_outcome->fetch_assoc()) {
+            $return_string .= "<tr>" . 
+                    "<td>" . $row['student_name'] . "</td>" .
+                    "<td>" . $row['student_number'] . "</td>" .
+                    "<td>" . $row['mark_1'] . "</td>" .
+                    "<td>" . $row['mark_2'] . "</td>" .
+                    "<td>" . $row['mark_3'] . "</td>" .
+                    "<td>" . $row['mark_total'] . "</td>" .
+                    "<td><a href=\"dEntry.php?Mark_ID=" . $row['id_mark'] . "\">Alter</a></td>" .
+                    "</tr>";
+        }
+        return $return_string;
+    }
+    
+    private function print_Marker_Overall(mysqli_result $query_outcome) {
         $return_string = "";
         while ($row = $query_outcome->fetch_assoc()) {
             $return_string .= "<tr>" .
@@ -34,7 +63,7 @@ class Table_Generation {
         return $return_string;
     }
 
-    private function print_Student_Overall_Rows(mysqli_result $query_outcome) {
+    private function print_Student_Overall(mysqli_result $query_outcome) {
         $return_string = "";
         while ($row = $query_outcome->fetch_assoc()) {
             $return_string .= "<tr>" .
@@ -55,7 +84,7 @@ class Table_Generation {
         return $return_string;
     }
 
-    private function print_Student_Individual_Rows(mysqli_result $query_outcome) {
+    private function print_Student_Individual(mysqli_result $query_outcome) {
         $return_string = "";
         while ($row = $query_outcome->fetch_assoc()) {
             $return_string .= "<tr>" .
@@ -73,17 +102,32 @@ class Table_Generation {
         return $return_string;
     }
 
+    private function print_Student_Individual_Marks(mysqli_result $query_outcome) {
+        $return_string = "";
+        while ($row = $query_outcome->fetch_assoc()) {
+            $return_string .= "<tr>" .
+                    "<td>" . $row["marker_name"] . "</td>" .
+                    "<td>" . $row["mark_1"] . "</td>" .
+                    "<td>" . $row["mark_2"] . "</td>" .
+                    "<td>" . $row["mark_3"] . "</td>" .
+                    "<td>" . $row["mark_total"] . "</td>" .
+                    "<td><a href=\"dEntry.php?Mark_ID=" . $row['id_mark'] . "\">Alter</a></td>" .
+                    "</tr>";
+        }
+        return $return_string;
+    }
+    
     /**
      * The method used for generating the table on the marker tab from the global navigation menu.
      * Description: A mysql query to made to collect all markers and produce the appropriate statistics per marker
      * Author:  Arun Gimblett 
      * Started on: 24/09/2014, 4:30
      * Completed on: 24/9/2014, 5:19
-     * Comment: added print_Marker_Overall_Rows 
+     * Comment: added print_Marker_Overall 
      */
     public function generate_Marker_Overall() {
 
-        $query = "select * from markers_view";
+        $query = "select * from markers_overall";
         $queryResult = $this->Database_connection->query_Database($query);
 
         $return_string = "<div id=\"Table_wrapper\">" .
@@ -102,7 +146,7 @@ class Table_Generation {
                 . "</tr>";
 
         if ($queryResult != false) {
-            $return_string .= $this->print_Marker_Overall_Rows($queryResult);
+            $return_string .= $this->print_Marker_Overall($queryResult);
         }
 
         $return_string .= "</table>" .
@@ -117,8 +161,7 @@ class Table_Generation {
      * @return string, the overall string to produce the table
      */
     public function generate_Student_Individual($student_ID) {
-
-        $query = "select * from students_view where id_student=" . $student_ID;
+        $query = "select * from students_overall where id_student=" . $student_ID;
         $queryResult = $this->Database_connection->query_Database($query);
 
         $return_string = "";
@@ -143,7 +186,7 @@ class Table_Generation {
                 . "</tr>";
 
         if ($queryResult != false) {
-            $return_string .= $this->print_Student_Individual_Rows($queryResult);
+            $return_string .= $this->print_Student_Individual($queryResult);
         }
 
         $return_string .= "</table>" . "</div>";
@@ -156,117 +199,39 @@ class Table_Generation {
      * @param int $student_ID, the unique student identifier. Used in the DB query
      * @return string, the overall string to produce the table
      */
-    public function generate_Student_Individual_Proposal_Marks($student_ID) {
+    public function generate_Student_Individual_Marks($seminar, $student_ID) {
+        $query = "select * from students_individual_marks where id_student = " . $student_ID . " and seminar = " .$seminar;
+        $queryResult = $this->Database_connection->query_Database($query);
+
         $return_string = "";
-        $return_string .="<div id=\"student_proposal_table_wrapper\">"
-                . "<h4>Proposal Seminar Marks:</h4>"
-                . "<table>"
-                . "<tr>"
-                . "<th class=\"subheading\">Marker Name</th>"
-                . "<th class=\"subheading\">Mark 1</th>"
-                . "<th class=\"subheading\">Mark 2</th>"
-                . "<th class=\"subheading\">Mark 3</th>"
-                . "<th class=\"subheading\">Total</th>"
-                . "<th><a href=\"dEntry.php\">Add</a></th>"
-                . "</tr>"
-                . "<tr>"
-                . "<td>Test</td>"
-                . "<td>0</td>"
-                . "<td>0</td>"
-                . "<td>0</td>"
-                . "<td>0</td>"
-                . "<td><a href=\"dEntry.php\">Alter</a></td>"
-                . "</tr>"
-                . "<tr>"
-                . "<td>Test</td>"
-                . "<td>0</td>"
-                . "<td>0</td>"
-                . "<td>0</td>"
-                . "<td>0</td>"
-                . "<td><a href=\"dEntry.php\">Alter</a></td>"
-                . "</tr>"
-                . "<tr>"
-                . "<td>Test</td>"
-                . "<td>0</td>"
-                . "<td>0</td>"
-                . "<td>0</td>"
-                . "<td>0</td>"
-                . "<td><a href=\"dEntry.php\">Alter</a></td>"
-                . "</tr>"
-                . "<tr>"
-                . "<td>Test</td>"
-                . "<td>0</td>"
-                . "<td>0</td>"
-                . "<td>0</td>"
-                . "<td>0</td>"
-                . "<td><a href=\"dEntry.php\">Alter</a></td>"
-                . "</tr>"
-                . "<tr>"
-                . "<td>Test</td>"
-                . "<td>0</td>"
-                . "<td>0</td>"
-                . "<td>0</td>"
-                . "<td>0</td>"
-                . "<td><a href=\"dEntry.php\">Alter</a></td>"
-                . "</tr>"
-                . "</table>"
-                . "</div>";
+        if($seminar==1) { $return_string .= "<div id=\"student_proposal_table_wrapper\">"."<h4>Proposal Seminar Marks:</h4>"; }
+        if($seminar==2) { $return_string .= "<div id=\"student_final_table_wrapper\">"."<h4>Final Seminar Marks:</h4>"; }
+        $return_string .=
+                "<table>" .
+                "<tr>" .
+                "<th class=\"subheading\">Marker Name</th>" .
+                "<th class=\"subheading\">Mark 1</th>" .
+                "<th class=\"subheading\">Mark 2</th>" .
+                "<th class=\"subheading\">Mark 3</th>" .
+                "<th class=\"subheading\">Total</th>" .
+                "<th><a href=\"dEntry.php\">Add</a></th>" .
+                "</tr>";
+
+        if ($queryResult != false) {
+            $return_string .= $this->print_Student_Individual_Marks($queryResult);
+        }
+
+        $return_string .= "</table>" . "</div>";
+
         return $return_string;
     }
-
-    /**
-     * Description: produces the third of the  three tables displayed in the individual student page. Responcible for the display of all final marks 
-     * @param int $student_ID, the unique student identifier. Used in the DB query
-     * @return string, the overall string to produce the table
-     */
-    public function generate_Student_Individual_Final_Marks($student_ID) {
-        $return_string = "";
-        $return_string .="<div id=\"student_final_table_wrapper\">"
-                . "<h4>Final Seminar Marks:</h4>"
-                . "<table>"
-                . "<tr>"
-                . "<th class=\"subheading\">Marker Name</th>"
-                . "<th class=\"subheading\">Mark 1</th>"
-                . "<th class=\"subheading\">Mark 2</th>"
-                . "<th class=\"subheading\">Mark 3</th>"
-                . "<th class=\"subheading\">Total</th>"
-                . "<th><a href=\"dEntry.php\">Add</a></th>"
-                . "</tr>"
-                . "<tr>"
-                . "<td>Test</td>"
-                . "<td>0</td>"
-                . "<td>0</td>"
-                . "<td>0</td>"
-                . "<td>0</td>"
-                . "<td><a href=\"dEntry.php\">Alter</a></td>"
-                . "</tr>"
-                . "<tr>"
-                . "<td>Test</td>"
-                . "<td>0</td>"
-                . "<td>0</td>"
-                . "<td>0</td>"
-                . "<td>0</td>"
-                . "<td><a href=\"dEntry.php\">Alter</a></td>"
-                . "</tr>"
-                . "<tr>"
-                . "<td>Test</td>"
-                . "<td>0</td>"
-                . "<td>0</td>"
-                . "<td>0</td>"
-                . "<td>0</td>"
-                . "<td><a href=\"dEntry.php\">Alter</a></td>"
-                . "</tr>"
-                . "</table>"
-                . "</div>";
-        return $return_string;
-    }
-
+    
     /**
      * The method used for generating the table on the Student tab from the global navigation menu.
      * Description: A mysql query to made to collect all Students from a cohort and display their marks for their proposal and/or final seminar 
      */
     public function generate_Student_Overall() {
-        $query = "select * from students_view";
+        $query = "select * from students_overall";
         $queryResult = $this->Database_connection->query_Database($query);
 
         $return_string = "";
@@ -299,11 +264,10 @@ class Table_Generation {
         // everything below will be swithced out for a for loop which will iterate over the mysql_result object.                   
 
         if ($queryResult != false) {
-            $return_string .= $this->print_Student_Overall_Rows($queryResult);
+            $return_string .= $this->print_Student_Overall($queryResult);
         }
 
-        $return_string .= "</table>" .
-                "</div>";
+        $return_string .= "</table>" . "</div>";
 
         return $return_string;
     }
@@ -314,12 +278,11 @@ class Table_Generation {
      * @return string, the overall string to produce the table
      */
     public function generate_Marker_Individual($Marker_ID) {
-
-        $query = "select mark_1_average,mark_2_average,mark_3_average,overall_average from markers_view where id_marker =" . $_GET['M_ID'];
+        $query = "select * from markers_overall where id_marker=".$Marker_ID;
         $queryResult = $this->Database_connection->query_Database($query);
 
-        $Return_String = "";
-        $Return_String .=
+        $return_string = "";
+        $return_string .=
                 "<div id= \"student_overall_table_wrapper\">" .
                 "<h4>Marker Average Marks:</h4>" .
                 "<table>" .
@@ -335,19 +298,14 @@ class Table_Generation {
 
         if ($queryResult != false) {
             $row = $queryResult->fetch_assoc();
-            $Return_String .=
-                    "<tr>"
-                    . "<td>" . $row['mark_1_average'] . "</td>"
-                    . "<td>" . $row['mark_2_average'] . "</td>"
-                    . "<td>" . $row['mark_3_average'] . "</td>"
-                    . "<td>" . $row['overall_average'] . "</td>"
-                    . "</tr>";
+            $return_string .= $this->print_Marker_Individual($queryResult);
+        } else {
+            $return_string .="<tr>help</tr>";
         }
 
-        $Return_String .= "</table>" .
-                "</div>";
+        $return_string .= "</table>" . "</div>";
 
-        return $Return_String;
+        return $return_string;
     }
 
     /**
@@ -355,64 +313,31 @@ class Table_Generation {
      * @param int $Maker_ID, the unique Marker identifier. Used in the DB query
      * @return string, the overall string to produce the table
      */
-    public function generate_Marker_Individual_Proposal_Marks($marker_ID) {
-        $return_string = "";
-        $return_string .="<div id=\"student_proposal_table_wrapper\">"
-                . "<h4>Proposal Seminar Marks:</h4>"
-                . "<table>"
-                . "<tr>"
-                . "<th class=\"subheading\">Student Name</th>"
-                . "<th class=\"subheading\">Student Number</th>"
-                . "<th class=\"subheading\">Mark 1</th>"
-                . "<th class=\"subheading\">Mark 2</th>"
-                . "<th class=\"subheading\">Mark 3</th>"
-                . "<th class=\"subheading\">Total</th>"
-                . "<th><a href=\"dEntry.php\">Add</a></th>"
-                . "</tr>"
-                . "<tr>"
-                . "<td>Test</td>"
-                . "<td>21136295</td>"
-                . "<td>0</td>"
-                . "<td>0</td>"
-                . "<td>0</td>"
-                . "<td>0</td>"
-                . "<td><a href=\"dEntry.php\">Alter</a></td>"
-                . "</tr>"
-                . "</table>"
-                . "</div>";
-        return $return_string;
-    }
+    public function generate_Marker_Individual_Marks($seminar, $marker_ID) {
+        $query = "select * from markers_individual_marks where id_marker = " . $marker_ID . " and seminar = " . $seminar;
+        $queryResult = $this->Database_connection->query_Database($query);
 
-    /**
-     * Description: produces the third of three tables displayed in the individual Marker page.
-     * @param int $Maker_ID, the unique Marker identifier. Used in the DB query
-     * @return string, the overall string to produce the table
-     */
-    public function generate_Marker_Individual_Final_Marks($Marker_ID) {
         $return_string = "";
-        $return_string .="<div id=\"student_final_table_wrapper\">"
-                . "<h4>Final Seminar Marks:</h4>"
-                . "<table>"
-                . "<tr>"
-                . "<th class=\"subheading\">Student Name</th>"
-                . "<th class=\"subheading\">Student Number</th>"
-                . "<th class=\"subheading\">Mark 1</th>"
-                . "<th class=\"subheading\">Mark 2</th>"
-                . "<th class=\"subheading\">Mark 3</th>"
-                . "<th class=\"subheading\">Total</th>"
-                . "<th><a href=\"dEntry.php\">Add</a></th>"
-                . "</tr>"
-                . "<tr>"
-                . "<td>Test</td>"
-                . "<td>21136295</td>"
-                . "<td>0</td>"
-                . "<td>0</td>"
-                . "<td>0</td>"
-                . "<td>0</td>"
-                . "<td><a href=\"dEntry.php\">Alter</a></td>"
-                . "</tr>"
-                . "</table>"
-                . "</div>";
+        if($seminar==1){ $return_string .="<div id=\"student_proposal_table_wrapper\"><h4>Proposal Seminar Marks:</h4>"; }
+        if($seminar==2){ $return_string .="<div id=\"student_proposal_table_wrapper\"><h4>Final Seminar Marks:</h4>"; }
+        $return_string .= "<table>" .
+                        "<tr>" .
+                        "<th class=\"subheading\">Student Name</th>" .
+                        "<th class=\"subheading\">Student Number</th>" .
+                        "<th class=\"subheading\">Mark 1</th>" .
+                        "<th class=\"subheading\">Mark 2</th>" .
+                        "<th class=\"subheading\">Mark 3</th>" .
+                        "<th class=\"subheading\">Total</th>" .
+                        "<th><a href=\"dEntry.php\">Add</a></th>" .
+                        "</tr>";
+
+        if ($queryResult != false) {
+            $row = $queryResult->fetch_assoc();
+            $return_string .= $this->print_Marker_Individual_Marks($queryResult);
+        }
+
+        $return_string .= "</table>" . "</div>";
+
         return $return_string;
     }
 

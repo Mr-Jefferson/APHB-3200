@@ -1,5 +1,6 @@
-DROP VIEW IF EXISTS seminar_marks.markers_view;
-CREATE VIEW seminar_marks.markers_view AS
+DROP VIEW IF EXISTS seminar_marks.markers_overall;
+
+CREATE VIEW seminar_marks.markers_overall AS
 SELECT  marks.id_marker,
         CONCAT(marker_first_name, ' ', marker_last_name) AS marker_name,
         TRUNCATE(AVG(mark_1),2) AS mark_1_average,
@@ -10,4 +11,6 @@ SELECT  marks.id_marker,
         MIN(mark_1 + mark_2 + mark_3) AS minimum_mark,
         MAX(mark_2 + mark_3) AS maximum_mark,
         STDDEV(mark_1 + mark_2 + mark_3) AS standard_deviation
-        FROM marks INNER JOIN markers ON markers.id_marker = marks.id_marker GROUP BY marks.id_marker;
+FROM 	marks INNER JOIN
+		markers ON markers.id_marker = marks.id_marker
+GROUP BY marks.id_marker;
