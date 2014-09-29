@@ -11,8 +11,8 @@ SELECT 	CONCAT(student_first_name, ' ', student_last_name) AS student_name,
         AVG(final_marks.mark_3) AS final_mark_3,
         AVG(final_marks.mark_1) + AVG(final_marks.mark_2) + AVG(final_marks.mark_3) AS final_total,
         AVG(proposal_marks.mark_1) + AVG(proposal_marks.mark_2) + AVG(proposal_marks.mark_3) + AVG(final_marks.mark_1) + AVG(final_marks.mark_2) + AVG(final_marks.mark_3) AS total,
-        proposal_marks.cohort,
-        proposal_marks.semester
+        students.cohort,
+        students.semester
 FROM students
 INNER JOIN marks AS proposal_marks ON students.id_student = proposal_marks.id_student
 INNER JOIN marks AS final_marks ON students.id_student = final_marks.id_student
