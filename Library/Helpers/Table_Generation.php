@@ -47,7 +47,7 @@ class Table_Generation{
      */
     public function generate_Marker_view_all_table(){
         
-        $query =  "select markers_view";
+        $query =  "select * from markers_view";
         $queryResult = $this->Database_connection->query_Database($query);
         
         
