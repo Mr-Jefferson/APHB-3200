@@ -22,7 +22,7 @@ else{
     $new_page->load_shadow(1);
     $new_page->load_main_body_wrapper();
     if(isset($_GET['M_ID'])){
-        $new_page->load_page_title("Marker: Test");
+        $new_page->load_page_title_marker_student(1,$_GET['M_ID']);
         $new_page->load_marker_tables($_GET['M_ID']);
     }
     else{
