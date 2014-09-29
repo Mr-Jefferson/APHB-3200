@@ -128,15 +128,23 @@ class Page {
     }
 
     public function load_page_title_name($type, $ID) {
-        $query="";
-        if ($type == 1) { $query .= "select concat(marker_first_name, ' ', marker_last_name) as name from markers where id_marker = " . $ID; }
-        if ($type == 2) { $query .= "select concat(student_first_name, ' ', student_last_name) as name from students where id_student =" . $ID; }
+        $query = "";
+        if ($type == 1) {
+            $query .= "select concat(marker_first_name, ' ', marker_last_name) as name from markers where id_marker = " . $ID;
+        }
+        if ($type == 2) {
+            $query .= "select concat(student_first_name, ' ', student_last_name) as name from students where id_student =" . $ID;
+        }
         $queryResult = $this->Database_connection->query_Database($query);
         if ($queryResult != false) {
             $row = $queryResult->fetch_assoc();
             $this->Master_String .= "<h3 id=\"page_title\">";
-            if($type == 1) { $this->Master_String .= "Marker"; }
-            if($type == 2) { $this->Master_String .= "Student"; }
+            if ($type == 1) {
+                $this->Master_String .= "Marker";
+            }
+            if ($type == 2) {
+                $this->Master_String .= "Student";
+            }
             $this->Master_String .= " Name: " . $row['name'] . "</h3>";
         }
     }
