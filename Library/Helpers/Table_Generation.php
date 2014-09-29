@@ -309,6 +309,10 @@ class Table_Generation{
      * @return string, the overall string to produce the table
      */
     public function generate_marker_overall_table($Marker_ID){
+        
+        $query =  "select mark_1_average,mark_2_average,mark_3_average,overall_average from markers_view where id_marker =".$_GET['M_ID'];
+        $queryResult = $this->Database_connection->query_Database($query);
+        
         $Return_String = "";
         $Return_String .=
                 "<div id= \"student_overall_table_wrapper\">".
@@ -322,18 +326,21 @@ class Table_Generation{
                             .   "<th class=\"subheading\">Mark 2</th>"
                             .   "<th class=\"subheading\">Mark 3</th>"
                             .   "<th class=\"subheading\" style=\"border-right:1px solid black;\">Total</th>"
-                            .   "</tr>"
-                            .   "<tr>"
-                            .       "<td>0</td>"
-                            .       "<td>0</td>"
-                            .       "<td>0</td>"
-                            .       "<td>0</td>"
-                            .   "</tr>"
-                    ."</table>"
-                ."</div>";
-               
+                            .   "</tr>";
+        
+        if($queryResult != false ){
+            $row = $queryResult->fetch_assoc();
+            $Return_String .= 
+                        "<tr>"
+                    .   "<td>".$row['mark_1_average'] ."</td>"
+                    .   "<td>".$row['mark_2_average'] . "</td>"
+                    .   "<td>".$row['mark_3_average'] . "</td>"
+                    .   "<td>".$row['overall_average'] ."</td>"
+                    .   "</tr>";
+        }
                 
-                
+        $Return_String .=  "</table>".
+                "</div>";
         
         return $Return_String;
     }
