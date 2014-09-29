@@ -19,7 +19,7 @@ Class User_Control{
      * @return boolean
      */
     public function validate_User($user,$password){
-        $Query_result = $this->DB_connection->query_Database("select * from Users where username =\"".$user."\"");
+        $Query_result = $this->DB_connection->query_Database("select * from users where username =\"".$user."\"");
         if($Query_result == false){
             return false;   // there wasn't any username in the DB with the username the current user provided 
         }

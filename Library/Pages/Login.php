@@ -8,10 +8,14 @@ include_once "/var/www/html/CITS3200_Group_H/Library/Helpers/User_Control.php";
 if(isset($_POST['username']) && isset($_POST['password'])){
     $new_user = new User_Control();
     $outcome = $new_user->validate_User($_POST['username'],$_POST['password']);
+   
     if($outcome == true){
         $new_user->generate_Session($_POST['username']);
    
-        header('location:/CITS3200_Group_H/Library/Pages/Student.php');
+        header('location:Student.php');
+    }
+    else{
+        header('location:Login.php');
     }
 }
 

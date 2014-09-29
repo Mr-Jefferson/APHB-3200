@@ -12,13 +12,46 @@ class Table_Generation{
     }
     
     
-    /**
+
+    
+    private function print_Marker_Overall_Rows(mysqli_result $query_outcome){
+        $return_string = "";
+        while($row = $query_outcome->fetch_assoc()){
+            $return_string .= "<tr>".
+                                "<td>".$row["name"]. " </td>".
+                                "<td>".$row["AVGm1"]."</td>".
+                                "<td>".$row["AVGm2"]."</td>".
+                                "<td>".$row["AVGm3"]."</td>".
+                                "<td>".$row["AVGmark"]."</td>".
+                                "<td>".$row["count"]."</td>".
+                                "<td>".$row["Ran"]."</td>".
+                                "<td>0</td>".
+                                "<td><a href=\"Marker.php?M_ID=1\">Inspect</a></td>".
+                               "</tr>";
+        }
+        return $return_string;
+    }
+
+        /**
      * The method used for generating the table on the marker tab from the global navigation menu.
      * Description: A mysql query to made to collect all markers and produce the appropriate statistics per marker
+     * Author:  Arun Gimblett 
+     * Started on: 24/09/2014, 4:30
+     * Completed on: 24/9/2014, 5:19
+     * Comment: added print_Marker_Overall_Rows 
      */
-    
     public function generate_Marker_view_all_table(){
-        return
+        
+        $query =  "select concat(MarkerFirstName,\" \",MarkerLastName) as name, truncate(sum(Mark1)/count(Mark1),2) as AVGm1, truncate(sum(Mark2)/count(Mark1),2) as AVGm2,truncate(sum(Mark3)/count(Mark1),2) as AVGm3,
+                   truncate(sum(Mark1 + Mark2 + Mark3)/count(Mark1 + Mark2 + Mark3),2) as AVGmark, count(marks.idMarker) as count,
+
+                   (greatest(max(Mark1),max(Mark2),max(Mark3))-LEAST(MIN(Mark1),MIN(Mark2),MIN(Mark3)) ) as Ran
+                   from marks join markers on marks.idMarker = markers.idMarker
+                   group by marks.idMarker";
+        $queryResult = $this->Database_connection->query_Database($query);
+        
+        
+        $return_string =
                 "<div id=\"Table_wrapper\">".
                         "<table>"
                             . "<tr>"
@@ -31,7 +64,13 @@ class Table_Generation{
                             .   "<th class=\"subheading\">Range</th>"
                             .   "<th class=\"subheading\" style =\"border-right:1px solid #000066;\">SD</th>"
                             .   "<th class=\"subheading\"></th>"
-                            . "<tr>"
+                            .  "</tr>";
+                            
+        if($queryResult != false ){
+            $return_string .= $this->print_Marker_Overall_Rows($queryResult);
+        }
+        
+                            /*    "<tr>"
                                 . "<td>Test Marker</td>"
                                 . "<td>0</td>"
                                 . "<td>0</td>"
@@ -41,11 +80,13 @@ class Table_Generation{
                                 . "<td>0</td>"
                                 . "<td>0</td>"
                                 . "<td><a href=\"Marker.php?M_ID=1\">Inspect</a></td>"
-                            . "</tr>"
+                            . "</tr>"*/
                                 
                             
-                        . "</table>".
+        $return_string .=  "</table>".
                 "</div>";
+        
+        return $return_string;
     }
     
     /**
