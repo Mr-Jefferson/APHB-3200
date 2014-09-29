@@ -25,7 +25,9 @@ CREATE TABLE IF NOT EXISTS students (
     id_student INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     student_first_name VARCHAR(45) NOT NULL,
     student_last_name VARCHAR(45) NOT NULL,
-    student_number VARCHAR(45) NULL
+    student_number VARCHAR(45) NULL,
+    cohort INT NOT NULL,
+    semester TINYINT NOT NULL
 );
 -- -----------------------------------------------------
 -- Marks Relation
@@ -35,14 +37,10 @@ CREATE TABLE IF NOT EXISTS marks (
     mark_1 INT NOT NULL,
     mark_2 INT NOT NULL,
     mark_3 INT NOT NULL,
-    cohort INT NOT NULL,
-    semester TINYINT NOT NULL,
     seminar TINYINT NOT NULL,
     id_student INT NOT NULL,
     id_marker INT NOT NULL,
-    id_user INT NOT NULL,
 
     FOREIGN KEY (id_student) REFERENCES students(id_student) ON DELETE CASCADE,
-    FOREIGN KEY (id_marker) REFERENCES markers(id_marker) ON DELETE CASCADE,
-    FOREIGN KEY (id_user) REFERENCES users(id_user) ON DELETE CASCADE
+    FOREIGN KEY (id_marker) REFERENCES markers(id_marker) ON DELETE CASCADE
 );
