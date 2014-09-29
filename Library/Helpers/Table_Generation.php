@@ -21,7 +21,7 @@ class Table_Generation{
         $return_string = "";
         while($row = $query_outcome->fetch_assoc()){
             $return_string .= "<tr>".
-                                "<td>".$row["marker_name"]. " </td>".
+                                "<td>".$row["marker_name"]."</td>".
                                 "<td>".$row["mark_1_average"]."</td>".
                                 "<td>".$row["mark_2_average"]."</td>".
                                 "<td>".$row["mark_3_average"]."</td>".
@@ -36,6 +36,26 @@ class Table_Generation{
         return $return_string;
     }
 
+    private function print_Student_Overall_Rows(mysqli_result $query_outcome){
+        $return_string = "";
+        while($row = $query_outcome->fetch_assoc()){
+            $return_string .= "<tr>".
+                                "<td>".$row["student_name"]."</td>".
+                                "<td>".$row["student_number"]."</td>".
+                                "<td>".$row["proposal_mark_1"]."</td>".
+                                "<td>".$row["proposal_mark_2"]."</td>".
+                                "<td>".$row["proposal_mark_3"]."</td>".
+                                "<td>".$row["proposal_total"]."</td>".
+                                "<td>".$row["final_mark_1"]."</td>".
+                                "<td>".$row["final_mark_2"]."</td>".
+                                "<td>".$row["final_mark_3"]."</td>".
+                                "<td>".$row["final_total"]."</td>".
+                                "<td>".$row["total"]."</td>".
+                                "<td><a href=\"Student.php?S_ID=". $row['id_student']."\">Inspect</a></td>".
+                               "</tr>";
+        }
+        return $return_string;
+    }
         /**
      * The method used for generating the table on the marker tab from the global navigation menu.
      * Description: A mysql query to made to collect all markers and produce the appropriate statistics per marker
@@ -83,6 +103,10 @@ class Table_Generation{
      */
     
     public function generate_student_overall_table($student_ID){
+        
+        $query =  "select * from students_view";
+        $queryResult = $this->Database_connection->query_Database($query);
+        
         $Return_String = "";
         $Return_String .=
                 "<div id= \"student_overall_table_wrapper\">".
@@ -114,12 +138,16 @@ class Table_Generation{
                             .       "<td>0</td>"
                             .       "<td>0</td>"
                             .       "<td>0</td>"
-                            .   "</tr>"
-                    ."</table>"
-                ."</div>";
-               
+                            .   "</tr>";
                 
-                
+        if($queryResult != false ){
+            $return_string .= $this->print_Student_Overall_Rows($queryResult);
+        }
+                        
+        $return_string .=  "</table>".
+                "</div>";
+        
+        return $return_string; 
         
         return $Return_String;
     }
@@ -237,8 +265,11 @@ class Table_Generation{
      * Description: A mysql query to made to collect all Students from a cohort and display their marks for their proposal and/or final seminar 
      */
     public function generate_Student_View_All_Table(){
-        $Return_string = "";
-        $Return_string .= 
+        $query =  "select * from students_view";
+        $queryResult = $this->Database_connection->query_Database($query);
+        
+        $return_string = "";
+        $return_string .= 
                                 
                     "<div id=\"Table_wrapper\">".
                         "<table>"
@@ -261,45 +292,19 @@ class Table_Generation{
                             .   "<th class=\"subheading\"style=\"border-right:1px solid black;\">Total</th>"
                             .   "<th class=\"subheading\"style=\"border-right:1px solid black;\"> Total</th>"
                             .   "<th class=\"subheading\"></th>"
-                            .   "</tr>";
+                            .  "</tr>";
       
         
          // everything below will be swithced out for a for loop which will iterate over the mysql_result object.                   
-                            
-        $Return_string .=     "<tr>"
-                                . "<td>Arun Gimblett</td>"
-                                . "<td>21136295</td>"
-                                . "<td>0</td>"
-                                . "<td>0</td>"
-                                . "<td>0</td>"
-                                . "<td>0</td>"
-                                . "<td>0</td>"
-                                . "<td>0</td>"
-                                . "<td>0</td>"
-                                . "<td>0</td>"
-                                . "<td>0</td>"
-                                . "<td><a href=\"Student.php?S_ID=21136295\">Inspect</a></td>"
-                            . "</tr>"
-                            . "<tr>"
-                                . "<td>Arun Gimblett</td>"
-                                . "<td>21136295</td>"
-                                . "<td>0</td>"
-                                . "<td>0</td>"
-                                . "<td>0</td>"
-                                . "<td>0</td>"
-                                . "<td>0</td>"
-                                . "<td>0</td>"
-                                . "<td>0</td>"
-                                . "<td>0</td>"
-                                . "<td>0</td>"
-                                . "<td><a href=\"Student.php?S_ID=21136295\">Inspect</a></td>"
-                            . "</tr>";
-     
-               
-        $Return_string .= "</table>".
-                    "</div>";
+                
+        if($queryResult != false ){
+            $return_string .= $this->print_Student_Overall_Rows($queryResult);
+        }
+                        
+        $return_string .=  "</table>".
+                "</div>";
         
-        return $Return_string;
+        return $return_string;
                
     }
     
