@@ -21,13 +21,15 @@ class Table_Generation{
         $return_string = "";
         while($row = $query_outcome->fetch_assoc()){
             $return_string .= "<tr>".
-                                "<td>".$row["name"]. " </td>".
-                                "<td>".$row["AVGm1"]."</td>".
-                                "<td>".$row["AVGm2"]."</td>".
-                                "<td>".$row["AVGm3"]."</td>".
-                                "<td>".$row["AVGmark"]."</td>".
-                                "<td>".$row["count"]."</td>".
-                                "<td>".$row["Ran"]."</td>".
+                                "<td>".$row["marker_name"]. " </td>".
+                                "<td>".$row["mark_1_average"]."</td>".
+                                "<td>".$row["mark_2_average"]."</td>".
+                                "<td>".$row["mark_3_average"]."</td>".
+                                "<td>".$row["overall_average"]."</td>".
+                                "<td>".$row["number_of_marks"]."</td>".
+                                "<td>".$row["minimum_mark"]."</td>".
+                                "<td>".$row["maximum_mark"]."</td>".
+                                "<td>".$row["standard_deviation"]."</td>".
                                 "<td>0</td>".
                                 "<td><a href=\"Marker.php?M_ID=1\">Inspect</a></td>".
                                "</tr>";
@@ -45,12 +47,7 @@ class Table_Generation{
      */
     public function generate_Marker_view_all_table(){
         
-        $query =  "select concat(MarkerFirstName,\" \",MarkerLastName) as name, truncate(sum(Mark1)/count(Mark1),2) as AVGm1, truncate(sum(Mark2)/count(Mark1),2) as AVGm2,truncate(sum(Mark3)/count(Mark1),2) as AVGm3,
-                   truncate(sum(Mark1 + Mark2 + Mark3)/count(Mark1 + Mark2 + Mark3),2) as AVGmark, count(marks.idMarker) as count,
-
-                   (greatest(max(Mark1),max(Mark2),max(Mark3))-LEAST(MIN(Mark1),MIN(Mark2),MIN(Mark3)) ) as Ran
-                   from marks join markers on marks.idMarker = markers.idMarker
-                   group by marks.idMarker";
+        $query =  "select markers_view";
         $queryResult = $this->Database_connection->query_Database($query);
         
         
@@ -64,7 +61,8 @@ class Table_Generation{
                             .   "<th class=\"subheading\">AVG M3</th>"
                             .   "<th class=\"subheading\">AVG Overall</th>"
                             .   "<th class=\"subheading\">Count</th>"
-                            .   "<th class=\"subheading\">Range</th>"
+                            .   "<th class=\"subheading\">Min</th>"
+                            .   "<th class=\"subheading\">Max</th>"
                             .   "<th class=\"subheading\" style =\"border-right:1px solid #000066;\">SD</th>"
                             .   "<th class=\"subheading\"></th>"
                             .  "</tr>";
