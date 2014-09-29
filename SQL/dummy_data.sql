@@ -1,4 +1,4 @@
-USE seminar_marks; 
+USE seminar_marks;
 DELETE FROM users;
 DELETE FROM markers;
 DELETE FROM students;
