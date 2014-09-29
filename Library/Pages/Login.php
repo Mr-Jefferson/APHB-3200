@@ -1,8 +1,9 @@
 <?php
+
 /**
  * The login.php page will consist of conditional statments and echo statements to produce the final page which is then pushed to the browser.
  */
-if(strpos(php_uname(),'NICK') !== false) {
+if (strpos(php_uname(), 'NICK') !== false) {
     include_once "C:/xampp/htdocs/CITS3200_Group_H/Library/Helpers/Page.php";
     include_once "C:/xampp/htdocs/CITS3200_Group_H/Library/Helpers/User_Control.php";
 } else {
@@ -10,16 +11,15 @@ if(strpos(php_uname(),'NICK') !== false) {
     include_once "/var/www/html/CITS3200_Group_H/Library/Helpers/User_Control.php";
 }
 
-if(isset($_POST['username']) && isset($_POST['password'])){
+if (isset($_POST['username']) && isset($_POST['password'])) {
     $new_user = new User_Control();
-    $outcome = $new_user->validate_User($_POST['username'],$_POST['password']);
-   
-    if($outcome == true){
+    $outcome = $new_user->validate_User($_POST['username'], $_POST['password']);
+
+    if ($outcome == true) {
         $new_user->generate_Session($_POST['username']);
-   
+
         header('location:Student.php');
-    }
-    else{
+    } else {
         header('location:Login.php');
     }
 }
