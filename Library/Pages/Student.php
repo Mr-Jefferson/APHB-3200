@@ -2,9 +2,16 @@
 /*
  * Page is dedicated to displaying the student/marker table
  */
-include_once "/var/www/html/CITS3200_Group_H/Library/Helpers/Page.php";
-include_once "/var/www/html/CITS3200_Group_H/Library/Helpers/User_Control.php";
-include_once "/var/www/html/CITS3200_Group_H/Library/Helpers/Table_Generation.php";
+if(strpos(php_uname(),'NICK') !== false) {
+    include_once "C:/xampp/htdocs/CITS3200_Group_H/Library/Helpers/Page.php";
+    include_once "C:/xampp/htdocs/CITS3200_Group_H/Library/Helpers/User_Control.php";
+    include_once "C:/xampp/htdocs/CITS3200_Group_H/Library/Helpers/Table_Generation.php";
+} else {
+    include_once "/var/www/html/CITS3200_Group_H/Library/Helpers/Page.php";
+    include_once "/var/www/html/CITS3200_Group_H/Library/Helpers/User_Control.php";
+    include_once "/var/www/html/CITS3200_Group_H/Library/Helpers/Table_Generation.php";
+}
+
 session_start();
 $User_Check = new User_Control();
 $User_Check_Outcome = $User_Check->is_Session_Active();
