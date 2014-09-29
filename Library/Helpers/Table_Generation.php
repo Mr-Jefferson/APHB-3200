@@ -30,8 +30,7 @@ class Table_Generation{
                                 "<td>".$row["minimum_mark"]."</td>".
                                 "<td>".$row["maximum_mark"]."</td>".
                                 "<td>".$row["standard_deviation"]."</td>".
-                                "<td>0</td>".
-                                "<td><a href=\"Marker.php?M_ID=1\">Inspect</a></td>".
+                                "<td><a href=\"Marker.php?M_ID=". $row['id_marker']."\">Inspect</a></td>".
                                "</tr>";
         }
         return $return_string;
