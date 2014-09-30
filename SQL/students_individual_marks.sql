@@ -1,6 +1,7 @@
-DROP VIEW IF EXISTS seminar_marks.students_individual_marks;
+USE seminar_marks;
+DROP VIEW IF EXISTS students_individual_marks;
 
-CREATE VIEW seminar_marks.students_individual_marks AS
+CREATE VIEW students_individual_marks AS
 SELECT	CONCAT(marker_first_name, ' ', marker_last_name) AS marker_name,
 		mark_1,
 		mark_2,
@@ -10,4 +11,5 @@ SELECT	CONCAT(marker_first_name, ' ', marker_last_name) AS marker_name,
 		marks.seminar,
 		marks.id_mark
 FROM	marks INNER JOIN
-		markers ON marks.id_marker = markers.id_marker;
+		markers ON marks.id_marker = markers.id_marker
+ORDER BY students.student_number;

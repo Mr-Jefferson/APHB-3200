@@ -44,12 +44,10 @@ class Page {
      */
     public function load_shadow($Page_type) {
         $this->Master_String .=
-                "<div id=\"hidden_form\">" .
-                "<div id=\"shadow\" onclick = \"Hide()\"> </div>" .
-                "<div id=\"add_wrapper\">";
-        if ($Page_type == 2) {
-
-            $this->Master_String .="<h2>Add Student</h2>
+                "<div id=\"hidden_form\">
+                    <div id=\"shadow\" onclick = \"Hide()\"> </div>
+                        <div class=\"shadow\" id=\"shadow_add_student\">
+                            <h2>Add Student</h2>
                             <form>
                                 <div id =\"add_student\">
                                     <div id=\"SID\">
@@ -63,10 +61,10 @@ class Page {
                                     </div>
                                     <input type=\"submit\" value=\"create\">
                                 </div>
-                            </form>";
-        }
-        if ($Page_type == 1) {
-            $this->Master_String .="<h2>Add Marker</h2>
+                            </form>
+                        </div>
+                        <div class=\"shadow\" id=\"shadow_add_marker\">
+                            <h2>Add Marker</h2>
                             <form>
                                 <div id= \"add_marker\">
                                     <div id= \"first_name\">
@@ -77,8 +75,8 @@ class Page {
                                     </div>
                                     <input type=\"submit\" value=\"create\"></input>
                                 </div>
-                            </form>";
-        }
+                            </form>
+                        </div>";
         $this->Master_String .="</div></div>";
     }
 
@@ -202,6 +200,7 @@ class Page {
                             
                         </ul> 
                 </div>";
+        $this->load_shadow(1);
     }
 
     /**
@@ -269,14 +268,13 @@ class Page {
      * set of unique seminars. Ie search for all seminars in the winthrop hall... or look for all seminars on an exact date.
      */
     public function load_table_nav_bar($table_type) {
-        $this->Master_String.= "<div id=\"table_nav_wrapper\">";
         if ($table_type == "Students_home") {
-            $this->Master_String.= $this->generate_student_home_navigation_bar();
+            $this->Master_String.= "<div id=\"table_nav_wrapper\">" . $this->generate_student_home_navigation_bar() . "</div>";
         }
+        
         if ($table_type == "Marker_home") {
-            $this->Master_String .= $this->generate_marker_home_navigation_bar();
+            $this->Master_String.= "<div id=\"table_nav_wrapper\">" . $this->generate_marker_home_navigation_bar() . "</div>";
         }
-        $this->Master_String.= "</div>";
     }
 
     /**
@@ -294,7 +292,7 @@ class Page {
                 "<input type=\"submit\" value = \"search\"></input>" .
                 "</div>" .
                 "</form>" .
-                "<button onclick=\"display()\">Add</button>";
+                "<button onclick=\"display('marker')\">Add</button>";
     }
 
     /**
@@ -321,7 +319,7 @@ class Page {
                 "<input type=\"submit\" value = \"search\"></input>" .
                 "</div>" .
                 "</form>" .
-                "<button onclick=\"display()\">Add</button>";
+                "<button onclick=\"display('student')\">Add</button>";
     }
 
     /**
