@@ -376,7 +376,7 @@ and open the template in the editor.
     border:2px solid #0A489B;
 }
 
-#shadow_add_student{
+#shadow_add_student, #shadow_add_marker{
     position:relative;
     margin:200px auto 0 auto;
     width:400px;
@@ -388,24 +388,7 @@ and open the template in the editor.
     border:2px solid #0A489B;
 }
 
-#shadow_add_marker{
-    position:relative;
-    margin:200px auto 0 auto;
-    width:400px;
-    height:230px;
-    background-color:#F0F0F0  ;
-    z-index:10;
-    color:black;
-    border-radius:10px;
-    border:2px solid #0A489B;
-}
-
-#shadow_add_marker h2{
-    position:absolute;
-    left:20px;
-}
-
-#shadow_add_student h2{
+#shadow_add_marker h2,#shadow_add_student h2{
     position:absolute;
     left:20px;
 }
