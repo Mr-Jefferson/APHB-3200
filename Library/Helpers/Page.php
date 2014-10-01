@@ -207,7 +207,6 @@ class Page {
                             
                         "</ul>". 
                 "</div>";
-
         $this->load_shadow(1);
 
     }
