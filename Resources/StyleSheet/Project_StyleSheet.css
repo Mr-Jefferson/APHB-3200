@@ -44,7 +44,7 @@ and open the template in the editor.
     top:45px;
     left:20px;
     border:1px solid black;
-    
+
 }
 
 #Login_inner_wrapper #password_title{
@@ -90,9 +90,9 @@ and open the template in the editor.
     width:700px;
            
 }
-            
+
 #nav ul{
-    
+
     list-style: none;
     margin: 0;
     padding-left: 0;
@@ -105,7 +105,7 @@ and open the template in the editor.
     padding: 5px 16px;
     position: relative;
     text-decoration: none;
-    
+
 }
 
 #nav #left_nav{
@@ -126,7 +126,7 @@ and open the template in the editor.
     text-decoration: none;
     display: block;
 }
-            
+
 #nav li:hover{
     color: #0A489B;
     cursor: pointer;
@@ -137,8 +137,8 @@ and open the template in the editor.
     color: #0A489B;
     cursor: pointer;
 }
-           
-            
+
+
 #nav_bar_log_out{
     border-left:1px solid black;
     margin-right:35px;
@@ -195,24 +195,24 @@ and open the template in the editor.
  */
 
 #Main_content_wrapper #Table_wrapper  {
-                position:relative;
-                margin:10px auto 10px auto;
-                width:1145px;
-                border:2px solid  	 	#D0D0D0  ;
-                background-color:#C0C0C0 ;
-                border-radius:10px;
-                display:block
-                
+    position:relative;
+    margin:10px auto 10px auto;
+    width:1145px;
+    border:2px solid  	 	#D0D0D0  ;
+    background-color:#C0C0C0 ;
+    border-radius:10px;
+    display:block
+
 }
 #student_overall_table_wrapper{
-                position:relative;
-                left:25px;
-                top:0px;
-                width:1145px;
-                border:2px solid  	 	#D0D0D0  ;
-                background-color:#C0C0C0 ;
-                border-radius:10px;  
-                margin-bottom:5px
+    position:relative;
+    left:25px;
+    top:0px;
+    width:1145px;
+    border:2px solid  	 	#D0D0D0  ;
+    background-color:#C0C0C0 ;
+    border-radius:10px;  
+    margin-bottom:5px
 }
 
 #student_proposal_table_wrapper{
@@ -236,7 +236,7 @@ and open the template in the editor.
     background-color:#C0C0C0 ;
     border-radius:10px;  
     margin-bottom:10px;
-    
+
 }
 
 
@@ -254,23 +254,23 @@ and open the template in the editor.
 
 
 #Table_wrapper table, #student_overall_table_wrapper table, #student_proposal_table_wrapper table , #student_final_table_wrapper table{
-                width:1100px;
-                background-color:#909090  ;
-                border-spacing:0px 0px;
-                margin-top:20px;
-                margin-bottom:20px;
-                margin-left:auto;
-                margin-right:auto;
+    width:1100px;
+    background-color:#909090  ;
+    border-spacing:0px 0px;
+    margin-top:20px;
+    margin-bottom:20px;
+    margin-left:auto;
+    margin-right:auto;
 }
-            
+
 #Main_content_wrapper table tr th.subheading, #Main_content_wrapper table tr th.seminar_table_headings{
-                
-                height:30px;
-                border-left:1px solid #000066;
-                color:white;
-                font-size:14px;
-                
-                
+
+    height:30px;
+    border-left:1px solid #000066;
+    color:white;
+    font-size:14px;
+
+
 }
 
 #Main_content_wrapper table tr th.subheading, #student_proposal_table_wrapper table tr th.subheading{
@@ -285,7 +285,7 @@ and open the template in the editor.
     background-color:#E8E8E8 ;
     border-bottom:1px solid #707070;
     text-align:center;
-    
+
 }
 
 
@@ -312,7 +312,7 @@ and open the template in the editor.
     background-color:  	#C8C8C8    ;
     z-index:1;
     margin-bottom:20px;
-    
+
 }
 
 #table_nav_wrapper #Cohort_Search, #Table_nav_wrapper #Student_Search {
@@ -344,108 +344,137 @@ and open the template in the editor.
     color:black;
 }
 
-            #hidden_form{
-                width:100%;
-                height:100%;
-                position:absolute;
-                left:0;
-                top:0;
-                display:none;
-                z-index:7;
-            }
+#hidden_form{
+    width:100%;
+    height:100%;
+    position:absolute;
+    left:0;
+    top:0;
+    display:none;
+    z-index:7;
+}
 
 #shadow{
-                width:100%;
-                height:100%;
-                position:absolute;
-                left:0;
-                top:0;
-                background-color:black;
-                opacity: 0.4;
-            }
-            
-            #add_wrapper{
-                position:relative;
-                margin:200px auto 0 auto;
-                width:400px;
-                height:230px;
-                background-color:#F0F0F0  ;
-                z-index:10;
-                color:black;
-                border-radius:10px;
-                border:2px solid #0A489B;
-            }
-            
-            #add_wrapper h2{
-                position:absolute;
-                left:20px;
-            }
-            
-            #add_student #SID{
-                position:absolute;
-                left:20px;
-                height:30px;
-                width:360px;
-                top:60px;
-                line-height:30px;
-                
-            }
-            
-            #add_marker #first_name{
-                position:absolute;
-                left:20px;
-                height:30px;
-                width:360px;
-                top:60px;
-                line-height:30px;
-            }
-            
-            #add_marker #last_name{
-                position:absolute;
-                left:20px;
-                height:30px;
-                width:360px;
-                top:100px;
-                line-height:30px;
-            }
-            
-            #SID input[type='text'],#first_name input[type='text'],#last_name input[type='text']{
-                position:absolute;
-                left:150px;
-                top:3px;
-                width:150px;
-                
-            }
-            
-            #add_student #first_name{
-                position:absolute;
-                left:20px;
-                height:30px;
-                width:360px;
-                top:100px;
-                line-height:30px;
-            }
-            
-            #add_student #last_name{
-                position:absolute;
-                left:20px;
-                height:30px;
-                width:360px;
-                top:140px;
-                line-height:30px;
-            }
-       
-            #add_student input[type='submit'], #add_marker input[type='submit']{
-                position:absolute;
-                bottom:10px;
-                right:10px;
-                background-color:#0A489B;
-                width:100px;
-                height:25px;
-                border:1px solid #000066;
-                color:white;
-            }
- 
+    width:100%;
+    height:100%;
+    position:absolute;
+    left:0;
+    top:0;
+    background-color:black;
+    opacity: 0.4;
+}
+
+#add_wrapper{
+    position:relative;
+    margin:200px auto 0 auto;
+    width:400px;
+    height:230px;
+    background-color:#F0F0F0  ;
+    z-index:10;
+    color:black;
+    border-radius:10px;
+    border:2px solid #0A489B;
+}
+
+#shadow_add_student{
+    position:relative;
+    margin:200px auto 0 auto;
+    width:400px;
+    height:230px;
+    background-color:#F0F0F0  ;
+    z-index:10;
+    color:black;
+    border-radius:10px;
+    border:2px solid #0A489B;
+}
+
+#shadow_add_marker{
+    position:relative;
+    margin:200px auto 0 auto;
+    width:400px;
+    height:230px;
+    background-color:#F0F0F0  ;
+    z-index:10;
+    color:black;
+    border-radius:10px;
+    border:2px solid #0A489B;
+}
+
+#shadow_add_marker h2{
+    position:absolute;
+    left:20px;
+}
+
+#shadow_add_student h2{
+    position:absolute;
+    left:20px;
+}
+
+#add_student #SID{
+    position:absolute;
+    left:20px;
+    height:30px;
+    width:360px;
+    top:60px;
+    line-height:30px;
+
+}
+
+#add_marker #first_name{
+    position:absolute;
+    left:20px;
+    height:30px;
+    width:360px;
+    top:60px;
+    line-height:30px;
+}
+
+#add_marker #last_name{
+    position:absolute;
+    left:20px;
+    height:30px;
+    width:360px;
+    top:100px;
+    line-height:30px;
+}
+
+#SID input[type='text'],#first_name input[type='text'],#last_name input[type='text']{
+    position:absolute;
+    left:150px;
+    top:3px;
+    width:150px;
+
+}
+
+#add_student #first_name{
+    position:absolute;
+    left:20px;
+    height:30px;
+    width:360px;
+    top:100px;
+    line-height:30px;
+}
+
+#add_student #last_name{
+    position:absolute;
+    left:20px;
+    height:30px;
+    width:360px;
+    top:140px;
+    line-height:30px;
+}
+
+#add_student input[type='submit'], #add_marker input[type='submit']{
+    position:absolute;
+    bottom:10px;
+    right:10px;
+    background-color:#0A489B;
+    width:100px;
+    height:25px;
+    border:1px solid #000066;
+    color:white;
+}
+
 /*
 ================================================================
                                 data entry style

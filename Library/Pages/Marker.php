@@ -19,7 +19,6 @@ if ($User_Check_Outcome == false) {
     $new_page->load_html_header();
     $new_page->load_body_wrapper();
     $new_page->load_global_navigation_bar();
-    $new_page->load_shadow(1);
     $new_page->load_main_body_wrapper();
     if (isset($_GET['M_ID'])) {
         $new_page->load_page_title_name(1, $_GET['M_ID']);
