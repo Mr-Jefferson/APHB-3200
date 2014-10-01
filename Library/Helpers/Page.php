@@ -195,13 +195,19 @@ class Page {
                 "<div id = \"nav\">
                         <ul>
                             <li id =\"left_nav\"><a href=\"/CITS3200_Group_H/Library/Pages/Student.php\">Students</a></li>" .
-                //<li id =\"middle_nav\"><a href=\"/CITS3200_Group_H/Library/Pages/Cohort_home.php\">Cohorts</a></li>
-                "<li id =\"middle_nav\"><a href=\"/CITS3200_Group_H/Library/Pages/Marker.php\">Markers</a></li>
-                            <li id =\"middle_nav\"><a href=\"/CITS3200_Group_H/Library/Pages/dEntry.php\">Data Entry</a></li>
-                            <li id = \"nav_bar_log_out\"><a href=\"#\">Log Out</a></li>
                             
-                        </ul> 
-                </div>";
+                            "<li id =\"middle_nav\"><a href=\"/CITS3200_Group_H/Library/Pages/Marker.php\">Markers</a></li>".
+                            "<li id =\"middle_nav\" style = \"border-right:2px solid black\">Set Cohort</li>".
+                            "<li id =\"data_import_menu\" ><a href=\"/CITS3200_Group_H/Library/Pages/dEntry.php\">Data Management</a>".
+                            
+                                "<ul>".
+                                    "<li id = \"#\">Import</li>".
+                                    "<li id = \"#\" >Export</li>".
+                                "</ul></li>".
+                            "<li id = \"nav_bar_log_out\" style = \"border-left:2px solid black\"><a href=\"#\">Log Out</a></li>".
+                            
+                        "</ul>". 
+                "</div>";
     }
 
     /**

@@ -81,14 +81,14 @@ and open the template in the editor.
 #nav {
     height:35px;
     position:relative;
-    margin:40px auto 0px auto;
+    margin:40px auto 70px auto;
     display: block;
     font-family: 'Titillium Web', sans-serif;
     font-size: 16px;
     font-weight: bold;
     z-index:1;
-    width:540px;
-    border-bottom:2px solid black;        
+    width:700px;
+           
 }
             
 #nav ul{
@@ -97,7 +97,7 @@ and open the template in the editor.
     margin: 0;
     padding-left: 0;
 }
-#nav #middle_nav, #nav #left_nav, #nav #nav_bar_log_out{
+#nav #middle_nav, #nav #left_nav, #nav #nav_bar_log_out,#data_import_menu{
 
     display: block;
     float: left;
@@ -129,7 +129,8 @@ and open the template in the editor.
             
 #nav li:hover{
     color: #0A489B;
-    cursor: pointer;              
+    cursor: pointer;
+   
 }
 
 #nav a:hover{
@@ -140,6 +141,23 @@ and open the template in the editor.
             
 #nav_bar_log_out{
     border-left:1px solid black;
+    margin-right:35px;
+}
+
+#nav ul li ul{
+    display:none;
+    transition: visibility 0.65s ease-in;
+    
+}
+
+#nav ul li:hover > ul { display:block; }
+
+#nav ul li ul li{
+    line-height:25px;
+    color:black;
+    padding-top:10px;
+    z-index:10;
+    text-align:center;
     
 }
 
@@ -153,7 +171,7 @@ and open the template in the editor.
     position:relative;
     left:30px;
     top:8px;
-    
+    z-index:1;
     
 }
 
