@@ -17,7 +17,8 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 
     if ($outcome == true) {
         $new_user->generate_Session($_POST['username']);
-
+        $new_user->set_Cohort();
+    
         header('location:Student.php');
     } else {
         header('location:Login.php');

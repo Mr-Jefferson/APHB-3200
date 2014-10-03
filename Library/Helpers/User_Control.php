@@ -70,4 +70,13 @@ Class User_Control {
         
     }
 
+    public function set_Cohort(){
+        $query = "select max(cohort) as cohort,max(semester) as semester from students";
+        $result = $this->DB_connection->query_Database($query);
+        if($result != false){
+            $row = $result->fetch_assoc();
+            $update_query = "update users set cohort=".$row['cohort'].",semester=".$row['semester'];
+            $this->DB_connection->query_Database($update_query);
+        }
+    }
 }

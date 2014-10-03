@@ -376,19 +376,27 @@ and open the template in the editor.
     border:2px solid #0A489B;
 }
 
-#shadow_add_student, #shadow_add_marker{
+#shadow_add_student, #shadow_add_marker,#shadow_cohort_select{
     position:relative;
     margin:200px auto 0 auto;
     width:400px;
-    height:230px;
     background-color:#F0F0F0  ;
     z-index:10;
     color:black;
     border-radius:10px;
     border:2px solid #0A489B;
+    display:none;
 }
 
-#shadow_add_marker h2,#shadow_add_student h2{
+#shadow_cohort_select{
+     height:130px;
+}
+
+#shadow_add_student, #shadow_add_marker {
+    height:210px;
+}
+
+#shadow_add_marker h2,#shadow_add_student h2,#shadow_cohort_select h2{
     position:absolute;
     left:20px;
 }
@@ -403,7 +411,7 @@ and open the template in the editor.
 
 }
 
-#add_marker #first_name{
+#add_marker #first_name,#shadow_cohort_select #select_cohort{
     position:absolute;
     left:20px;
     height:30px;
@@ -429,6 +437,8 @@ and open the template in the editor.
 
 }
 
+
+
 #add_student #first_name{
     position:absolute;
     left:20px;
@@ -447,7 +457,7 @@ and open the template in the editor.
     line-height:30px;
 }
 
-#add_student input[type='submit'], #add_marker input[type='submit']{
+#add_student input[type='submit'], #add_marker input[type='submit'], #shadow_cohort_select input[type='submit']{
     position:absolute;
     bottom:10px;
     right:10px;

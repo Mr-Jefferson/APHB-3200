@@ -7,7 +7,9 @@ CREATE DATABASE seminar_marks;
 CREATE TABLE IF NOT EXISTS seminar_marks.users (
     id_user INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(45) NOT NULL UNIQUE,
-    password VARCHAR(45) NOT NULL
+    password VARCHAR(45) NOT NULL,
+    cohort INT NOT NULL,
+    semester TINYINT NOT NULL
 );
 -- -----------------------------------------------------
 -- Markers Relation

@@ -9,10 +9,12 @@ if (strpos(php_uname(), 'NICK') !== false) {
 class Table_Generation {
 
     protected $Database_connection; // required to interact with the database and obtain important table information 
+    protected $current_cohort;
     protected $Master_String;
 
-    public function __construct() {
+    public function __construct($cohort) {
         $this->Database_connection = new Database_Connection();
+        $this->current_cohort = $cohort;
     }
 
     private function print_Marker_Individual(mysqli_result $query_outcome) {
@@ -225,7 +227,7 @@ class Table_Generation {
      * Description: A mysql query to made to collect all Students from a cohort and display their marks for their proposal and/or final seminar 
      */
     public function generate_Student_Overall() {
-        $query = "select * from students_overall";
+        $query = "select * from students_overall where cohort =".$this->current_cohort['cohort']." and semester = ". $this->current_cohort['semester'];
         $queryResult = $this->Database_connection->query_Database($query);
         $return_string = "<div id=\"Table_wrapper\">" .
                 "<table>" .

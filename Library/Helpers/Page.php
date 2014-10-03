@@ -13,16 +13,29 @@ class Page {
     protected $page_name;
     protected $Database_connection;
     protected $Table_generator;
+    protected $current_cohort;
     protected $Master_String;   // all functions will concationate to the end of this string. once all calls have been made, will return the master string to the PHP page
 
     // calling it at which point it will be echo'ed to the browser
 
     public function __construct($page_title) {
-        $this->page_name = $page_title;
-        $this->Table_generator = new Table_Generation();
+        $this->page_name = $page_title;       
         $this->Database_connection = new Database_Connection();
+        $this->current_cohort = $this->get_current_cohort();
+        $this->Table_generator = new Table_Generation($this->current_cohort);
+        
+        
+                    
     }
 
+    private function get_current_cohort(){
+        $query = "select cohort,semester from users";
+        $result = $this->Database_connection->query_Database($query);
+        if($result!=false){
+            return $result->fetch_assoc();
+        }
+    }
+    
     /**
      * Will append to the Master_String the usual <header></header> contents
      */
@@ -42,10 +55,25 @@ class Page {
      * if $Page_type == 1 then it is indented to be used on the marker_home page.
      * if $Page_type == 2 then it is indented to be used for the Student_home.page
      */
-    public function load_shadow($Page_type) {
+    public function load_shadow() {
         $this->Master_String .=
                 "<div id=\"hidden_form\">
                     <div id=\"shadow\" onclick = \"Hide()\"> </div>
+                        <div id =\"shadow_cohort_select\">
+                            <h2>Select Cohort</h2>
+                            <form>
+                                <div id =\"select_cohort\">
+                                    Year: <select>
+                                            <option>".$this->current_cohort['cohort']  . "</option>
+                                          </select> 
+                                   Semester: <select>
+                                                <option selected=selected>".$this->current_cohort['semester']."</option>
+                                                <option>2</option>
+                                             </select>           
+                                </div>
+                                <input type=\"submit\" value=\"Update\"></input>
+                            </form>
+                        </div>
                         <div class=\"shadow\" id=\"shadow_add_student\">
                             <h2>Add Student</h2>
                             <form>
@@ -96,14 +124,15 @@ class Page {
     public function load_login_page() {
         $this->Master_String .=
                 "<div id=\"Login_outer_wrapper\">" .
-                "<div id=\"Login_inner_wrapper\">" .
-                "<h3 id=\"User_name_title\">Username:</h3>" .
-                "<form method=\"post\" action=\"#\">" .
-                "<input type=\"text\" id = \"username_form_input\" name =\"username\"></input>" .
-                "<h3 id=\"password_title\">Password:</h3>" .
-                "<input type=\"password\" id =\"password_form_input\" name =\"password\"></input>" .
-                "<input type=\"submit\" id=\"user_login_submit\" value=\"Login\"></input>" .
-                "</div>" .
+                    "<div id=\"Login_inner_wrapper\">" .
+                            "<h3 id=\"User_name_title\">Username:</h3>" .
+                        "<form method=\"post\" action=\"#\">" .
+                                "<input type=\"text\" id = \"username_form_input\" name =\"username\"></input>" .
+                            "<h3 id=\"password_title\">Password:</h3>" .
+                                "<input type=\"password\" id =\"password_form_input\" name =\"password\"></input>" .
+                            "<input type=\"submit\" id=\"user_login_submit\" value=\"Login\"></input>" .
+                        "</form>".
+                    "</div>" .
                 "</div>";
 
         /**
@@ -196,7 +225,7 @@ class Page {
                             
 
                             "<li id =\"middle_nav\"><a href=\"/CITS3200_Group_H/Library/Pages/Marker.php\">Markers</a></li>".
-                            "<li id =\"middle_nav\" style = \"border-right:2px solid black\">Set Cohort</li>".
+                            "<li id =\"middle_nav\" style = \"border-right:2px solid black\" onclick=\"display('cohort_select')\">Set Cohort</li>".
                             "<li id =\"data_import_menu\" ><a href=\"/CITS3200_Group_H/Library/Pages/dEntry.php\">Data Management</a>".
                             
                                 "<ul>".
@@ -207,7 +236,7 @@ class Page {
                             
                         "</ul>". 
                 "</div>";
-        $this->load_shadow(1);
+        $this->load_shadow();
 
     }
 
@@ -300,7 +329,7 @@ class Page {
                 "<input type=\"submit\" value = \"search\"></input>" .
                 "</div>" .
                 "</form>" .
-                "<button onclick=\"display('marker')\">Add</button>";
+                "<button onclick=\"display('add_marker')\">Add</button>";
     }
 
     /**
@@ -316,18 +345,11 @@ class Page {
                 "<div id=\"Student_Search\">" .
                 "Student Number:  " .
                 "<input type=\"text\"></input>" .
-                "  Cohort:  " .
-                "<select>
-                                  <option value=\"2014\">2014</option>
-                                </select>" .
-                "<select>
-                                  <option value=\"1\">Semester 1</option>
-                                  <option value=\"2\">Semester 2</option>
-                                </select>" .
+                "  Cohort: " . $this->current_cohort['cohort']. " Semester ".$this->current_cohort['semester'].
                 "<input type=\"submit\" value = \"search\"></input>" .
                 "</div>" .
                 "</form>" .
-                "<button onclick=\"display('student')\">Add</button>";
+                "<button onclick=\"display('add_student')\">Add</button>";
     }
 
     /**
