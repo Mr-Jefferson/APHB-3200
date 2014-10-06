@@ -2,9 +2,11 @@
 
 if (strpos(php_uname(), 'NICK') !== false) {
     include_once "C:/xampp/htdocs/CITS3200_Group_H/Library/Helpers/Table_Generation.php";
+    include_once "C:/xampp/htdocs/CITS3200_Group_H/Library/Helpers/CSV_Handler.php";
     include_once "C:/xampp/htdocs/CITS3200_Group_H/Library/DB/Database_Connection.php";
 } else {
     include_once "/var/www/html/CITS3200_Group_H/Library/Helpers/Table_Generation.php";
+    include_once "/var/www/html/CITS3200_Group_H/Library/Helpers/CSV_Handler.php";
     include_once "/var/www/html/CITS3200_Group_H/Library/DB/Database_Connection.php";
 }
 
@@ -13,6 +15,7 @@ class Page {
     protected $page_name;
     protected $Database_connection;
     protected $Table_generator;
+    protected $CSV_handler;
     protected $current_cohort;
     protected $mysql_result_holder;
     protected $Master_String;   // all functions will concationate to the end of this string. once all calls have been made, will return the master string to the PHP page
@@ -141,18 +144,16 @@ class Page {
                                     <input type=\"submit\" value=\"create\"></input>
                                 </div>
                             </form>
-                        </div>";
-                    
-        $this->Master_String .=
-                        "<div id = \"shadow_import\">".
-                            "<div id=\data_import_wrapper\">".
-                                "<h2>Import Data</h2>".
-                                "<form action=\"../Helpers/csvHandler.php\" method=\"post\" enctype=\"multipart/form-data\">".
-                                    "<input type=\"file\"></input>".
-                                "</form>".
-                            "</div>".
-                        "</div>";
-        $this->Master_String .="</div></div>";
+                        </div>
+                        <div class=\"shadow\" id = \"shadow_import\">
+                            <h2>Import Data</h2>
+                            <form action=\"../Pages/Student.php?\" method=\"post\" enctype=\"multipart/form-data\">
+                                <input type=\"file\" name=\"file\" id=\"file\">
+                                <input type=\"submit\" name=\"submit\" value=\"submit\">
+                            </form>
+                        </div>
+                    </div>
+                </div>";
     }
 
     /**
@@ -190,6 +191,8 @@ class Page {
 
     public function load_main_body_wrapper() {
         $this->Master_String .= "<div id=\"Main_content_wrapper\">";
+        $this->CSV_handler = new CSV_Handler();
+        $this->Master_String .= $this->CSV_handler->file_import();
     }
 
     /**
