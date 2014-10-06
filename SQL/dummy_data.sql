@@ -5,7 +5,7 @@ DELETE FROM students;
 DELETE FROM marks;
 
 INSERT INTO users VALUES
-    (1, "admin", "password");
+    (1, "admin", "password", 2014, 2);
 
 INSERT INTO markers VALUES
     (1, "Tim", "Tam"),
