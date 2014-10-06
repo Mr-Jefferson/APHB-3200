@@ -12,4 +12,4 @@ SELECT	CONCAT(marker_first_name, ' ', marker_last_name) AS marker_name,
 		marks.id_mark
 FROM	marks INNER JOIN
 		markers ON marks.id_marker = markers.id_marker
-ORDER BY students.student_number;
+ORDER BY marker_name;

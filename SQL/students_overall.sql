@@ -16,9 +16,8 @@ SELECT 	CONCAT(student_first_name, ' ', student_last_name) AS student_name,
         students.cohort,
         students.semester,
         students.id_student
-FROM	students INNER JOIN
-		marks AS proposal_marks ON students.id_student = proposal_marks.id_student INNER JOIN
-		marks AS final_marks ON students.id_student = final_marks.id_student
-WHERE proposal_marks.seminar = 1 AND final_marks.seminar = 2
+FROM	students
+LEFT JOIN marks proposal_marks ON students.id_student = proposal_marks.id_student AND proposal_marks.seminar=1
+LEFT JOIN marks final_marks ON students.id_student = final_marks.id_student AND final_marks.seminar=2
 GROUP BY students.id_student
 ORDER BY student_number;
