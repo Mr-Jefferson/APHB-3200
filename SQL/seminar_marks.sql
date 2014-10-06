@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS seminar_marks.students (
     id_student INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     student_first_name VARCHAR(45) NOT NULL,
     student_last_name VARCHAR(45) NOT NULL,
-    student_number VARCHAR(45) NULL,
+    student_number INT NULL,
     cohort INT NOT NULL,
     semester TINYINT NOT NULL
 );
