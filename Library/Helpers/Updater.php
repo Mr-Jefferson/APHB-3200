@@ -47,8 +47,19 @@ else {
         
     }
     
+    if(isset($_GET['Mark_ID'])){
+        $new_query = "delete from marks where id_mark=".$_GET['Mark_ID'];
+        //$database_connection->query_Database($new_query);
+        
+    }
+    
     if(isset($_GET['url'])){
         $redirect_URL = "location:".$_GET['url'];
+        if(isset($_GET['Mark_ID'])){
+            $pos = strpos($redirect_URL,"?");
+            $redirect_URL = substr($redirect_URL,0,$pos);
+        }
+        
         header($redirect_URL);
     }
     else{
