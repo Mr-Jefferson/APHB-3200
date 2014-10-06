@@ -1,12 +1,4 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/* 
-    Created on : 13/08/2014, 1:15:36 PM
-    Author     : arun
-*/
+
 
 #Login_outer_wrapper{
     width:400px;
@@ -376,7 +368,7 @@ and open the template in the editor.
     border:2px solid #0A489B;
 }
 
-#shadow_add_student, #shadow_add_marker,#shadow_cohort_select{
+#shadow_add_student, #shadow_add_marker,#shadow_cohort_select,#shadow_import{
     position:relative;
     margin:200px auto 0 auto;
     width:400px;
@@ -388,6 +380,10 @@ and open the template in the editor.
     display:none;
 }
 
+#shadow_import{
+    height:180px;
+}
+
 #shadow_cohort_select{
      height:130px;
 }
@@ -396,7 +392,7 @@ and open the template in the editor.
     height:210px;
 }
 
-#shadow_add_marker h2,#shadow_add_student h2,#shadow_cohort_select h2{
+#shadow_add_marker h2,#shadow_add_student h2,#shadow_cohort_select h2,#shadow_import h2 {
     position:absolute;
     left:20px;
 }
@@ -467,6 +463,8 @@ and open the template in the editor.
     border:1px solid #000066;
     color:white;
 }
+
+
 
 /*
 ================================================================

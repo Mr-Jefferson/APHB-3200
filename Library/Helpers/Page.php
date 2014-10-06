@@ -142,6 +142,16 @@ class Page {
                                 </div>
                             </form>
                         </div>";
+                    
+        $this->Master_String .=
+                        "<div id = \"shadow_import\">".
+                            "<div id=\data_import_wrapper\">".
+                                "<h2>Import Data</h2>".
+                                "<form action=\"../Helpers/csvHandler.php\" method=\"post\" enctype=\"multipart/form-data\">".
+                                    "<input type=\"file\"></input>".
+                                "</form>".
+                            "</div>".
+                        "</div>";
         $this->Master_String .="</div></div>";
     }
 
@@ -266,8 +276,8 @@ class Page {
                             "<li id =\"data_import_menu\" ><a href=\"/CITS3200_Group_H/Library/Pages/dEntry.php\">Data Management</a>".
                             
                                 "<ul>".
-                                    "<li id = \"#\">Import</li>".
-                                    "<li id = \"#\" >Export</li>".
+                                    "<li onclick=\"display('import')\">Import</li>".
+                                    "<li>Export</li>".
                                 "</ul></li>".
                             "<li id = \"nav_bar_log_out\" style = \"border-left:2px solid black\"><a href=\"#\">Log Out</a></li>".
                             
@@ -284,23 +294,37 @@ class Page {
         $this->Master_String .= "<body>";
     }
 
+    private function return_student_option($row,$identifier){
+        $return_string ="";
+        if($identifer == "S_ID"){
+            if($_GET['S_ID'] === $row['id_student']){
+                $return_string .= "<option selected=selected value=". $row['id_student']. ">".$row['student_first_name']." ".$row['student_last_name']."(".$row['student_number'].")</option>";
+            }
+            else{
+                $return_string .= "<option value=". $row['id_student'].">".$row['student_first_name']." ".$row['student_last_name']."(".$row['student_number'].")</option>";
+            }
+        }
+        if($identifier == "Mark_ID"){
+            if($row['id_student'] == $this->mysql_result_holder['id_student']){
+                $return_string .= "<option selected=selected value=". $row['id_student']. ">".$row['student_first_name']." ".$row['student_last_name']."(".$row['student_number'].")</option>";
+            }
+            else{
+                $return_string .= "<option value=". $row['id_student'].">".$row['student_first_name']." ".$row['student_last_name']."(".$row['student_number'].")</option>";
+            }
+        }
+        return $return_string;
+    }
+    
     private function populate_student_d_entry(){
         $return_string = "";
         $query = "select student_first_name,student_last_name,student_number,id_student from students where cohort=".$this->current_cohort['cohort']." and semester=".$this->current_cohort['semester'];
         $result = $this->Database_connection->query_Database($query);
         if($result !=false){
             while($row = $result->fetch_assoc()){
-                if(isset($_GET['Mark_ID']) || isset($_GET['S_ID'])){
-                    if(($row['id_student'] == $this->mysql_result_holder['id_student']) || ($_GET['S_ID'] === $row['id_student'])){
-                        $return_string .= "<option selected=selected value=". $row['id_student']. ">".$row['student_first_name']." ".$row['student_last_name']."(".$row['student_number'].")</option>";
-                    }
-                    else{
-                        $return_string .= "<option value=". $row['id_student'].">".$row['student_first_name']." ".$row['student_last_name']."(".$row['student_number'].")</option>";
-                    }
-                }
-                else{
+                
+                
                     $return_string .= "<option value=". $row['id_student'].">".$row['student_first_name']." ".$row['student_last_name']."(".$row['student_number'].")</option>";
-                }
+                
                         
             }            
         }

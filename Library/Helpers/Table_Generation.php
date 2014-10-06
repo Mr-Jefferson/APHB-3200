@@ -16,6 +16,15 @@ class Table_Generation {
         $this->Database_connection = new Database_Connection();
         $this->current_cohort = $cohort;
     }
+    
+    private function check_for_null($row){
+        foreach ($row as $key => $value) {
+            if($row[$key] == null){
+                $row[$key] = "n/a";
+            }
+        }
+        return $row;
+    }
 
     private function print_Marker_Individual(mysqli_result $query_outcome) {
         $return_string = "";
@@ -71,6 +80,7 @@ class Table_Generation {
     private function print_Student_Overall(mysqli_result $query_outcome) {
         $return_string = "";
         while ($row = $query_outcome->fetch_assoc()) {
+            $row = $this->check_for_null($row);
             $return_string .=
                     "<tr>" .
                     "<td>" . $row["student_name"] . "</td>" .
