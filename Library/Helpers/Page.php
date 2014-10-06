@@ -345,6 +345,9 @@ class Page {
                if(isset($_GET['Mark_ID'])){
                    $return_string .= $this->return_student_option($row, "Mark_ID");
                }
+               if(!isset($_GET['Mark_ID']) &&!isset($_GET['S_ID'])){
+                   $return_string .= "<option value=".$row['id_student'].">".$row['student_first_name']." ".$row['student_last_name']."(".$row['student_number'].")"."</option>";
+               }
             }            
         }
         return $return_string;
@@ -364,6 +367,9 @@ class Page {
                 }
                 if(isset($_GET['S_ID'])){
                     $return_string .= $this->return_marker_option($row,"S_ID");
+                }
+                if(!isset($_GET['Mark_ID']) &&! isset($_GET['M_ID'])&&!isset($_GET['S_ID'])){
+                    $return_string .= "<option value=".$row['id_marker']."> ".$row['marker_first_name']. " " . $row['marker_last_name']."</option>"; 
                 }
                 
                 
@@ -466,7 +472,14 @@ class Page {
                             "</div>";
                         }
         $this->Master_String.=                    
-                        "</div>" .
+                        "</div>";
+                if(isset($_GET['Mark_ID'])){
+                    $this->Master_String.=
+                        "<div id=\"delete_button\">".
+                            "<a href=\"#\">Delete</a>".
+                        "</div>";
+                }
+                $this->Master_String.=  
                         "<input type=\"submit\" value=\"Add Marks\">" .
                     "</form>" .
                 "</div>";
@@ -501,14 +514,10 @@ class Page {
      */
     private function generate_marker_home_navigation_bar() {
         return
-                "<form method=\"post\" action=\"\">" .
+                
                 "<div id=\"Cohort_Search\">" .
-                "Marker Name:  " .
-                "<input type=\"text\"></input>" .
-                "<input type=\"submit\" value = \"search\"></input>" .
-                "</div>" .
-                "</form>" .
-                "<button onclick=\"display('add_marker')\">Add</button>";
+                    "  Cohort: " . $this->current_cohort['cohort']. " Semester ".$this->current_cohort['semester'].
+                "</div>";
     }
 
     /**

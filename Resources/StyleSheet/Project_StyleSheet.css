@@ -597,3 +597,23 @@
     right:5px;
     bottom:5px;
 }
+
+
+#delete_button{
+    bottom:10px;
+    right:140px;
+    position:absolute;
+    background-color: 	#585858 ;
+    width:100px;
+    height:23px;
+    border:1px solid  	#282828 ;
+    color:white;
+    line-height:25px;
+}
+
+#delete_button a{
+    position:absolute;
+    left:25px;
+    text-decoration: none;
+    color:white;
+}
