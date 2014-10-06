@@ -294,25 +294,43 @@ class Page {
         $this->Master_String .= "<body>";
     }
 
-    private function return_student_option($row,$identifier){
-        $return_string ="";
-        if($identifer == "S_ID"){
-            if($_GET['S_ID'] === $row['id_student']){
-                $return_string .= "<option selected=selected value=". $row['id_student']. ">".$row['student_first_name']." ".$row['student_last_name']."(".$row['student_number'].")</option>";
-            }
-            else{
-                $return_string .= "<option value=". $row['id_student'].">".$row['student_first_name']." ".$row['student_last_name']."(".$row['student_number'].")</option>";
-            }
+    private function compare_ID($id1,$id2){
+        if($id1 == $id2){
+            return "selected=selected";
         }
+        else{
+            return "";
+        }
+    }
+    
+    private function return_marker_option($row,$identifier){
+        $selected =" ";
         if($identifier == "Mark_ID"){
-            if($row['id_student'] == $this->mysql_result_holder['id_student']){
-                $return_string .= "<option selected=selected value=". $row['id_student']. ">".$row['student_first_name']." ".$row['student_last_name']."(".$row['student_number'].")</option>";
-            }
-            else{
-                $return_string .= "<option value=". $row['id_student'].">".$row['student_first_name']." ".$row['student_last_name']."(".$row['student_number'].")</option>";
-            }
+            $selected = $this->compare_ID($row['id_marker'], $this->mysql_result_holder['id_marker']);
         }
-        return $return_string;
+        if($identifier == "M_ID"){      
+            $selected = $this->compare_ID($_GET['M_ID'], $row['id_marker']); 
+        }
+        if($identifier == "S_ID"){
+            $selected = " ";
+        }
+        
+        $value = $row['id_marker'];
+        $name = $row['marker_first_name']. " " . $row['marker_last_name'];
+        return "<option ".$selected." value=".$value.">".$name."</option>";
+    }
+    
+    private function return_student_option($row,$identifier){
+        $selected =" ";
+        if($identifier == "Mark_ID"){
+            $selected = $this->compare_ID($row['id_student'], $this->mysql_result_holder['id_student']);
+        }
+        if($identifier == "S_ID"){      
+            $selected = $this->compare_ID($_GET['S_ID'], $row['id_student']); 
+        }   
+        $value = $row['id_student'];
+        $name = $row['student_first_name']." ".$row['student_last_name']."(".$row['student_number'].")";
+        return "<option ".$selected." value=".$value.">". $name."</option>";
     }
     
     private function populate_student_d_entry(){
@@ -321,11 +339,12 @@ class Page {
         $result = $this->Database_connection->query_Database($query);
         if($result !=false){
             while($row = $result->fetch_assoc()){
-                
-                
-                    $return_string .= "<option value=". $row['id_student'].">".$row['student_first_name']." ".$row['student_last_name']."(".$row['student_number'].")</option>";
-                
-                        
+               if(isset($_GET['S_ID'])){
+                    $return_string .= $this->return_student_option($row, "S_ID");
+               }
+               if(isset($_GET['Mark_ID'])){
+                   $return_string .= $this->return_student_option($row, "Mark_ID");
+               }
             }            
         }
         return $return_string;
@@ -337,17 +356,18 @@ class Page {
         $result = $this->Database_connection->query_Database($query);
         if($result!=false){
             while($row = $result->fetch_assoc()){
-                if(isset($_GET['Mark_ID'])|| isset($_GET['M_ID'])){
-                    if(($row['id_marker'] == $this->mysql_result_holder['id_marker'])|| ($_GET['M_ID'] === $row['id_marker'])){
-                        $return_string.= "<option selected=selected value=".$row['id_marker'] .">".$row['marker_first_name']. " " . $row['marker_last_name']."</option>";
-                    }
-                    else{
-                        $return_string.= "<option value=".$row['id_marker'] .">".$row['marker_first_name']. " " . $row['marker_last_name']."</option>";
-                    }
+                if(isset($_GET['Mark_ID'])){
+                    $return_string .= $this->return_marker_option($row,"Mark_ID");
                 }
-                else{
-                    $return_string.= "<option value=".$row['id_marker'] .">".$row['marker_first_name']. " " . $row['marker_last_name']."</option>";
+                if(isset($_GET['M_ID'])){
+                    $return_string .= $this->return_marker_option($row,"M_ID");
                 }
+                if(isset($_GET['S_ID'])){
+                    $return_string .= $this->return_marker_option($row,"S_ID");
+                }
+                
+                
+                    
                 
             }
         }
@@ -398,7 +418,7 @@ class Page {
                             if(isset($_GET['Mark_ID']) || isset($_GET['S_ID']) || isset($_GET['M_ID'])){
                                 if(isset($_GET['seminar'])){
                                     if(($this->mysql_result_holder['seminar'] == 1) || ( $_GET['seminar'] == 1)){
-                                        $this->Master_String.="<option selected=selected value=1>Proposal</option> <optionalue=2>Final</option>";
+                                        $this->Master_String.="<option selected=selected value=1>Proposal</option> <option value=2>Final</option>";
                                     }
                                     else{
                                         $this->Master_String.="<option value=1>Proposal</option><option selected=selected value=2>Final</option>";
@@ -406,7 +426,7 @@ class Page {
                                 }
                                 else{
                                     if($this->mysql_result_holder['seminar'] == 1){
-                                        $this->Master_String.="<option selected=selected value=1>Proposal</option> <optionalue=2>Final</option>";
+                                        $this->Master_String.="<option selected=selected value=1>Proposal</option> <option value=2>Final</option>";
                                     }
                                     else{
                                         $this->Master_String.="<option value=1>Proposal</option><option selected=selected value=2>Final</option>";
