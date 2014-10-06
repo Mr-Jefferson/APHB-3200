@@ -290,8 +290,8 @@ class Page {
         $result = $this->Database_connection->query_Database($query);
         if($result !=false){
             while($row = $result->fetch_assoc()){
-                if(isset($_GET['Mark_ID'])){
-                    if($row['id_student'] == $this->mysql_result_holder['id_student']){
+                if(isset($_GET['Mark_ID']) || isset($_GET['S_ID'])){
+                    if(($row['id_student'] == $this->mysql_result_holder['id_student']) || ($_GET['S_ID'] === $row['id_student'])){
                         $return_string .= "<option selected=selected value=". $row['id_student']. ">".$row['student_first_name']." ".$row['student_last_name']."(".$row['student_number'].")</option>";
                     }
                     else{
@@ -313,8 +313,8 @@ class Page {
         $result = $this->Database_connection->query_Database($query);
         if($result!=false){
             while($row = $result->fetch_assoc()){
-                if(isset($_GET['Mark_ID'])){
-                    if($row['id_marker'] == $this->mysql_result_holder['id_marker']){
+                if(isset($_GET['Mark_ID'])|| isset($_GET['M_ID'])){
+                    if(($row['id_marker'] == $this->mysql_result_holder['id_marker'])|| ($_GET['M_ID'] === $row['id_marker'])){
                         $return_string.= "<option selected=selected value=".$row['id_marker'] .">".$row['marker_first_name']. " " . $row['marker_last_name']."</option>";
                     }
                     else{
@@ -371,12 +371,22 @@ class Page {
                             "<div id=\"seminar_type\">".
                                 "Seminar Type: ".
                                 "<select name=\"marks_sem_type\">";
-                            if(isset($_GET['Mark_ID'])){
-                                if($this->mysql_result_holder['seminar'] == 1){
-                                    $this->Master_String.="<option selected=selected value=1>Proposal</option> <optionalue=2>Final</option>";
+                            if(isset($_GET['Mark_ID']) || isset($_GET['S_ID']) || isset($_GET['M_ID'])){
+                                if(isset($_GET['seminar'])){
+                                    if(($this->mysql_result_holder['seminar'] == 1) || ( $_GET['seminar'] == 1)){
+                                        $this->Master_String.="<option selected=selected value=1>Proposal</option> <optionalue=2>Final</option>";
+                                    }
+                                    else{
+                                        $this->Master_String.="<option value=1>Proposal</option><option selected=selected value=2>Final</option>";
+                                    }
                                 }
                                 else{
-                                    $this->Master_String.="<option value=1>Proposal</option><option selected=selected value=2>Final</option>";
+                                    if($this->mysql_result_holder['seminar'] == 1){
+                                        $this->Master_String.="<option selected=selected value=1>Proposal</option> <optionalue=2>Final</option>";
+                                    }
+                                    else{
+                                        $this->Master_String.="<option value=1>Proposal</option><option selected=selected value=2>Final</option>";
+                                    }
                                 }
                             }
                             else{
