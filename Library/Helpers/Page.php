@@ -479,11 +479,16 @@ class Page {
                 if(isset($_GET['Mark_ID'])){
                     $this->Master_String.=
                         "<div id=\"delete_button\">".
-                            "<a href=\"#\">Delete</a>".
+                            "<a href=\"../Helpers/Updater.php?url=".$_SERVER['REQUEST_URI'] . "&Mark_ID=".$_GET['Mark_ID'] . "\">Delete</a>".
                         "</div>";
                 }
-                $this->Master_String.=  
-                        "<input type=\"submit\" value=\"Add Marks\">" .
+                
+                        if(isset($_GET['Mark_ID'])){
+                           $this->Master_String.= "<input type=\"submit\" value=\"Update\">";
+                        }
+                        else{
+                            $this->Master_String.= "<input type=\"submit\" value=\"Add Marks\">";
+                        }
                     "</form>" .
                 "</div>";
     }
