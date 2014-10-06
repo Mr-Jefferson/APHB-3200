@@ -213,7 +213,7 @@ class Table_Generation {
                 "<th class=\"subheading\">Mark 2</th>" .
                 "<th class=\"subheading\">Mark 3</th>" .
                 "<th class=\"subheading\">Total</th>" .
-                "<th><a href=\"dEntry.php\">Add</a></th>" .
+                "<th><a href=\"dEntry.php?S_ID=".$student_ID."&seminar=".$seminar."\">Add</a></th>" .
                 "</tr>";
         if ($queryResult != false) {
             $return_string .= $this->print_Student_Individual_Marks($queryResult);
@@ -309,7 +309,7 @@ class Table_Generation {
                 "<th class=\"subheading\">Mark 2</th>" .
                 "<th class=\"subheading\">Mark 3</th>" .
                 "<th class=\"subheading\">Total</th>" .
-                "<th><a href=\"dEntry.php\">Add</a></th>" .
+                "<th><a href=\"dEntry.php?M_ID=".$marker_ID."&seminar=".$seminar."\"\">Add</a></th>" .
                 "</tr>";
         if ($queryResult != false) {
             $return_string .= $this->print_Marker_Individual_Marks($queryResult);

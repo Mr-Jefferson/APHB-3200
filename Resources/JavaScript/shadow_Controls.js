@@ -10,3 +10,19 @@ function display() {
 function Hide() {
      document.getElementById('hidden_form').style.display = "none";
 }
+
+function isInt_float(n){
+    return n.toString().indexOf('.') != -1 || n == parseInt(n);
+}
+
+function check_int(ID){
+    
+    var value = document.getElementById(ID).value;
+   
+    if(value >10 || value < 0 || isInt(value) === false){
+      document.getElementById(ID).style.border="1px solid red";
+    }
+    alert(ID + " is not a int/float");
+    
+    
+}

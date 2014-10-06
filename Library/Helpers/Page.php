@@ -14,6 +14,7 @@ class Page {
     protected $Database_connection;
     protected $Table_generator;
     protected $current_cohort;
+    protected $mysql_result_holder;
     protected $Master_String;   // all functions will concationate to the end of this string. once all calls have been made, will return the master string to the PHP page
 
     // calling it at which point it will be echo'ed to the browser
@@ -24,6 +25,12 @@ class Page {
         $this->current_cohort = $this->get_current_cohort();
         $this->Table_generator = new Table_Generation($this->current_cohort);
         
+        if(isset($_GET['Mark_ID'])){
+            $result = $this->Database_connection->query_Database("select * from marks where id_mark =".$_GET['Mark_ID']);
+            if($result!=false){
+                $this->mysql_result_holder = $result->fetch_assoc();
+            }
+        }
         
                     
     }
@@ -49,6 +56,37 @@ class Page {
                 "</head>";
     }
 
+    
+     private function populate_cohort_year_dropdown(){
+         $return_string = "";
+         $result = $this->Database_connection->query_Database("select distinct cohort from students order by cohort ASC");
+         if($result != false){
+             while($row = $result->fetch_assoc()){
+                 if($this->current_cohort['cohort'] == $row['cohort']){
+                     $return_string .= "<option selected = selected value=".$row['cohort'].">".$row['cohort'] . "</option>";
+                 }
+                 else{
+                     $return_string .= "<option value=".$row['cohort'].">".$row['cohort'] . "</option>";
+                 }
+                 
+             }
+             
+         }         
+         return $return_string;            
+     }
+     
+   private function populate_cohort_semester_dropdown(){
+        $return_string = "";
+            for($i = 1; $i<=2; $i++){
+                 if($this->current_cohort['semester'] == $i){
+                     $return_string .= "<option selected = selected value=".$i.">".$i."</option>";
+                 }
+                 else{
+                     $return_string .= "<option value=".$i.">".$i. "</option>";
+                 }
+            }         
+         return $return_string; 
+   }
     /**
      * 
      * @param int $Page_type, Identifies what the shadow will be used for 
@@ -61,31 +99,30 @@ class Page {
                     <div id=\"shadow\" onclick = \"Hide()\"> </div>
                         <div id =\"shadow_cohort_select\">
                             <h2>Select Cohort</h2>
-                            <form>
+                            <form method=\"post\" action=\"../Helpers/Updater.php?url=".$_SERVER['REQUEST_URI']. "\">
                                 <div id =\"select_cohort\">
-                                    Year: <select>
-                                            <option>".$this->current_cohort['cohort']  . "</option>
-                                          </select> 
-                                   Semester: <select>
-                                                <option selected=selected>".$this->current_cohort['semester']."</option>
-                                                <option>2</option>
-                                             </select>           
+                                    Year: <select name =\"year\">";
+                    $this->Master_String .= $this->populate_cohort_year_dropdown();                        
+                    $this->Master_String .=  "</select> 
+                                   Semester: <select name =\"sem\">";
+                    $this->Master_String .= $this->populate_cohort_semester_dropdown();                           
+                    $this->Master_String .=  "</select>           
                                 </div>
                                 <input type=\"submit\" value=\"Update\"></input>
                             </form>
                         </div>
                         <div class=\"shadow\" id=\"shadow_add_student\">
                             <h2>Add Student</h2>
-                            <form>
+                            <form action=\"../Helpers/Updater.php?url=".$_SERVER['REQUEST_URI']."\" method=\"post\">
                                 <div id =\"add_student\">
                                     <div id=\"SID\">
-                                        Student Number: <input type=\"text\">
+                                        Student Number: <input type=\"text\" name = \"S_SD\">
                                     </div>
                                     <div id=\"first_name\">
-                                        First Name: <input type=\"text\">
+                                        First Name: <input type=\"text\" name = \"S_FN\">
                                     </div>
                                     <div id=\"last_name\">
-                                        Last Name: <input type=\"text\">
+                                        Last Name: <input type=\"text\" name =\"S_LN\">
                                     </div>
                                     <input type=\"submit\" value=\"create\">
                                 </div>
@@ -93,13 +130,13 @@ class Page {
                         </div>
                         <div class=\"shadow\" id=\"shadow_add_marker\">
                             <h2>Add Marker</h2>
-                            <form>
+                            <form action=\"../Helpers/Updater.php?url=".$_SERVER['REQUEST_URI']."\" method=\"post\">
                                 <div id= \"add_marker\">
                                     <div id= \"first_name\">
-                                        First name:  <input type =\"text\"></input>
+                                        First name:  <input type =\"text\" name= \"M_FN\"></input>
                                     </div>
                                     <div id =\"last_name\">
-                                        Last name:  <input type =\"text\"></input>
+                                        Last name:  <input type =\"text\" name=\"M_LN\"></input>
                                     </div>
                                     <input type=\"submit\" value=\"create\"></input>
                                 </div>
@@ -247,6 +284,52 @@ class Page {
         $this->Master_String .= "<body>";
     }
 
+    private function populate_student_d_entry(){
+        $return_string = "";
+        $query = "select student_first_name,student_last_name,student_number,id_student from students where cohort=".$this->current_cohort['cohort']." and semester=".$this->current_cohort['semester'];
+        $result = $this->Database_connection->query_Database($query);
+        if($result !=false){
+            while($row = $result->fetch_assoc()){
+                if(isset($_GET['Mark_ID']) || isset($_GET['S_ID'])){
+                    if(($row['id_student'] == $this->mysql_result_holder['id_student']) || ($_GET['S_ID'] === $row['id_student'])){
+                        $return_string .= "<option selected=selected value=". $row['id_student']. ">".$row['student_first_name']." ".$row['student_last_name']."(".$row['student_number'].")</option>";
+                    }
+                    else{
+                        $return_string .= "<option value=". $row['id_student'].">".$row['student_first_name']." ".$row['student_last_name']."(".$row['student_number'].")</option>";
+                    }
+                }
+                else{
+                    $return_string .= "<option value=". $row['id_student'].">".$row['student_first_name']." ".$row['student_last_name']."(".$row['student_number'].")</option>";
+                }
+                        
+            }            
+        }
+        return $return_string;
+    }
+    
+    private function populate_marker_d_entry(){
+        $return_string = "";
+        $query = "select marker_first_name,marker_last_name,id_marker from markers";
+        $result = $this->Database_connection->query_Database($query);
+        if($result!=false){
+            while($row = $result->fetch_assoc()){
+                if(isset($_GET['Mark_ID'])|| isset($_GET['M_ID'])){
+                    if(($row['id_marker'] == $this->mysql_result_holder['id_marker'])|| ($_GET['M_ID'] === $row['id_marker'])){
+                        $return_string.= "<option selected=selected value=".$row['id_marker'] .">".$row['marker_first_name']. " " . $row['marker_last_name']."</option>";
+                    }
+                    else{
+                        $return_string.= "<option value=".$row['id_marker'] .">".$row['marker_first_name']. " " . $row['marker_last_name']."</option>";
+                    }
+                }
+                else{
+                    $return_string.= "<option value=".$row['id_marker'] .">".$row['marker_first_name']. " " . $row['marker_last_name']."</option>";
+                }
+                
+            }
+        }
+        return $return_string;
+    }
+    
     /**
      * Load_data_entry_page():
      * Description: Similar to the Login page, the data entry page is a unique page and as such its 
@@ -254,42 +337,94 @@ class Page {
      * to produce the Data entry page.
      */
     public function load_data_entry_page() {
-        $this->Master_String.= "<div id=\"data_entry_wrapper\">" .
-                "<form>" .
-                "<div id =\"student_entry\">" .
-                "<h4>Student:</h4>" .
-                "<div id=\"Cohort_year_sem\">" .
-                "Cohort: <select></select>" .
-                "</div>" .
-                "<div id=\"Student_name\">" .
-                "Student Number: <select><option value = 1>Student name/number</option></select>" .
-                "</div>" .
-                "<button>add</button>" .
-                "</div>" .
-                "<div id=\"marker_entry\">" .
-                "<h4>Marker:</h4>" .
-                "<div id=\"marker_name\">" .
-                "Marker Name: <Select><option>marker name</option><select>" .
-                "</div>" .
-                "<button>add</button>" .
-                "</div>" .
-                "<div id =\"mark_entry\">" .
-                "<h4>Marks:</h4>" .
-                "<div id=\"seminar_type\">" .
-                "Seminar Type: <select><option value = 1>Proposal</option><option value = 2>Final</option></select>" .
-                "</div>" .
-                "<div id=\"mark1\">" .
-                "Quality of Oral Delivery: <Select><option value=1>1</option></select><br>" .
-                "</div>" .
-                "<div id=\"mark2\">" .
-                "Quality of Slides:  <Select><option value=1>1</option></select><br>" .
-                "</div>" .
-                "<div id=\"mark3\">" .
-                "Content: <Select><option value=1>1</option></select><br>" .
-                "</div>" .
-                "</div>" .
-                "<input type=\"submit\" value=\"Add Marks\">" .
-                "</form>" .
+        $this->Master_String.= 
+                "<div id=\"data_entry_wrapper\" >" .
+                    "<form method=\"post\" action=\"../Helpers/Updater.php?url=".$_SERVER['REQUEST_URI']. "\">" .
+                        "<div id =\"student_entry\">" .
+                            "<h4>Student:</h4>" .
+                            "<div id=\"Cohort_year_sem\">" .
+                                "Cohort: <div id=\"cohort_text\"> Year: ".$this->current_cohort['cohort']." Semester: ".$this->current_cohort['semester'] ."</div>".
+                            "</div>" .
+                            "<div id=\"Student_name\">" .
+                                "Student Number: ".
+                                "<select name=\"marks_student\">";
+        
+            $this->Master_String.= $this->populate_student_d_entry();
+        
+                
+        $this->Master_String.=  "</select>" .
+                            "</div>" .
+                            //"<button>add</button>" .
+                        "</div>" .
+                        "<div id=\"marker_entry\">" .
+                            "<h4>Marker:</h4>" .
+                            "<div id=\"marker_name\">" .
+                                "Marker Name: ".
+                                "<Select name =\"marks_marker\">";
+                $this->Master_String.= $this->populate_marker_d_entry();
+        $this->Master_String.=  "<select>" .
+                            "</div>" .
+                            //"<button>add</button>" .
+                        "</div>" .
+                        "<div id =\"mark_entry\">" .
+                            "<h4>Marks:</h4>" .
+                            "<div id=\"seminar_type\">".
+                                "Seminar Type: ".
+                                "<select name=\"marks_sem_type\">";
+                            if(isset($_GET['Mark_ID']) || isset($_GET['S_ID']) || isset($_GET['M_ID'])){
+                                if(isset($_GET['seminar'])){
+                                    if(($this->mysql_result_holder['seminar'] == 1) || ( $_GET['seminar'] == 1)){
+                                        $this->Master_String.="<option selected=selected value=1>Proposal</option> <optionalue=2>Final</option>";
+                                    }
+                                    else{
+                                        $this->Master_String.="<option value=1>Proposal</option><option selected=selected value=2>Final</option>";
+                                    }
+                                }
+                                else{
+                                    if($this->mysql_result_holder['seminar'] == 1){
+                                        $this->Master_String.="<option selected=selected value=1>Proposal</option> <optionalue=2>Final</option>";
+                                    }
+                                    else{
+                                        $this->Master_String.="<option value=1>Proposal</option><option selected=selected value=2>Final</option>";
+                                    }
+                                }
+                            }
+                            else{
+                                $this->Master_String.="<option value = 1>Proposal</option> <option value = 2>Final</option>";
+                                
+                            }
+                                
+        $this->Master_String.=  "</select>" .
+                            "</div>";
+        
+                        if(isset($_GET['Mark_ID'])){
+        $this->Master_String.=
+                            "<div id=\"mark1\">" .
+                                "Quality of Oral Delivery: <input type=\"text\" name =\"mark_1\" value=\"". $this->mysql_result_holder['mark_1']. "\"></input><br>" .
+                            "</div>" .
+                            "<div id=\"mark2\">" .
+                                "Quality of Slides:  <input type=\"text\" name =\"mark_2\"  value=\"". $this->mysql_result_holder['mark_2']. "\"></input><br>" .
+                            "</div>" .
+                            "<div id=\"mark3\">" .
+                                "Content: <input type=\"text\" name =\"mark_3\" value=\"". $this->mysql_result_holder['mark_3']. "\"></input><br>" .
+                            "</div>";
+                        }
+                        else{
+        $this->Master_String.=    
+                            "<div id=\"mark1\">" .
+                                "Quality of Oral Delivery: <input type=\"text\" name =\"mark_1\"></input><br>" .
+                            "</div>" .
+                            "<div id=\"mark2\">" .
+                                "Quality of Slides:  <input type=\"text\" name =\"mark_2\" ></input><br>" .
+                            "</div>" .
+                            "<div id=\"mark3\">" .
+                                "Content: <input type=\"text\" name =\"mark_3\"></input><br>" .
+                            "</div>";
+                        }
+        $this->Master_String.=                    
+                        "</div>" .
+                        "<input type=\"submit\" value=\"Add Marks\">" .
+                    "</form>" .
                 "</div>";
     }
 
@@ -341,14 +476,11 @@ class Page {
     private function generate_student_home_navigation_bar() {
         return
 
-                "<form method=\"Post\" action =\"#\">" .
+                
                 "<div id=\"Student_Search\">" .
-                "Student Number:  " .
-                "<input type=\"text\"></input>" .
+                
                 "  Cohort: " . $this->current_cohort['cohort']. " Semester ".$this->current_cohort['semester'].
-                "<input type=\"submit\" value = \"search\"></input>" .
                 "</div>" .
-                "</form>" .
                 "<button onclick=\"display('add_student')\">Add</button>";
     }
 

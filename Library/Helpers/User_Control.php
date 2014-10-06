@@ -38,7 +38,7 @@ Class User_Control {
         }
         return false;
     }
-
+    
     /**
      * Method/function name: generate_Session()
      * Description: Upon confirmation that the username/password provided by the user is valid, the session must initialize $_SESSION['user_ID']
@@ -46,6 +46,7 @@ Class User_Control {
     public function generate_Session($user) {
         session_start();
         $_SESSION['username'] = $user;
+     
     }
 
     /**
@@ -71,7 +72,7 @@ Class User_Control {
     }
 
     public function set_Cohort(){
-        $query = "select max(cohort) as cohort,max(semester) as semester from students";
+        $query = "select cohort,semester from students order by cohort desc, semester desc limit 1";
         $result = $this->DB_connection->query_Database($query);
         if($result != false){
             $row = $result->fetch_assoc();

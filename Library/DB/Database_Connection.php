@@ -25,5 +25,25 @@ class Database_Connection {
     public function query_Database($query_string) {
         return $this->database_object->query($query_string);
     }
+    
+    public function return_new_id($type){
+        if($type == "student"){
+            $new_ID_query = $this->query_Database("select max(id_student) as ID from students");
+        }
+        if($type=="marker"){
+            $new_ID_query = $this->query_Database("select max(id_marker) as ID from markers");
+        }
+        if($type=="marks"){
+            $new_ID_query = $this->query_Database("select max(id_mark) as ID from marks");
+        }
+        
+        if($new_ID_query == false){
+            $new_id = 1;
+        }
+        else{
+            $outcome = $new_ID_query->fetch_assoc();
+            return $outcome['ID'] + 1;
+        }
+    }
 
 }
