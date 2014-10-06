@@ -1,5 +1,0 @@
-LOAD DATA LOCAL INFILE 'C:\\xampp\\mysql\\data\\test.csv'
-INTO TABLE students
-FIELDS TERMINATED BY ','
-OPTIONALLY ENCLOSED BY '\"'
-LINES TERMINATED BY '\n';
