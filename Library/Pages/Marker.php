@@ -28,7 +28,6 @@ if ($User_Check_Outcome == false) {
         $new_page->load_page_title("Markers");
         $new_page->load_table_nav_bar("Marker_home");
         $new_page->load_table_body("Marker_home");
-        $new_page->load_table_body("Marker_home");
     }
     $new_page->close_main_body_wrapper();
     $new_page->close_body_wrapper();    // might have to rename to something other than body wrapper, could change to body tag?

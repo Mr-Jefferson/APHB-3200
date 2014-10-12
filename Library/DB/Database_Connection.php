@@ -11,9 +11,8 @@ class Database_Connection {
      * The mysqli() paramaters will be hard coded into the class as it removes the need to constantly restate the same parameters 
      */
     public function __construct() {
-        $this->database_object = new mysqli("128.199.218.6", "sqluser", "D34thByWater", "seminar_marks");
-        //$this->database_object = new mysqli("localhost", "root", "", "seminar_marks");
-        //$host, $user, $password, $database, $port, $socket
+        require(dirname(__FILE__)."./config.php");
+        $this->database_object = new mysqli($host, $user, $password, $database);
     }
 
     /**

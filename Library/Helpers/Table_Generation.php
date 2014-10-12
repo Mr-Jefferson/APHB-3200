@@ -162,10 +162,10 @@ class Table_Generation {
                 "<table>" .
                 "<tr>" .
                 "<th class=\"subheading\">Name</th>" .
-                "<th class=\"subheading\">AVG M1 /10</th>" .
-                "<th class=\"subheading\">AVG M2 /10</th>" .
-                "<th class=\"subheading\">AVG M3 /10</th>" .
-                "<th class=\"subheading\">AVG Overall</th>" .
+                "<th class=\"subheading\">AVG M1 (10%)</th>" .
+                "<th class=\"subheading\">AVG M2 (10%)</th>" .
+                "<th class=\"subheading\">AVG M3 (80%)</th>" .
+                "<th class=\"subheading\">AVG Overall (100%)</th>" .
                 "<th class=\"subheading\">Count</th>" .
                 "<th class=\"subheading\">Min</th>" .
                 "<th class=\"subheading\">Max</th>" .
@@ -195,14 +195,14 @@ class Table_Generation {
                 "<th colspan=\"4\" class=\"seminar_table_headings\">Final</th>" .
                 "</tr>" .
                 "<tr>" .
-                "<th class=\"subheading\" style=\"border-left:1px solid black;\">Mark 1 /10</th>" .
-                "<th class=\"subheading\">Mark 2 /10</th>" .
-                "<th class=\"subheading\">Mark 3 /10</th>" .
-                "<th class=\"subheading\" style=\"border-right:1px solid black;\">Total</th>" .
-                "<th class=\"subheading\">Mark 1 /10</th>" .
-                "<th class=\"subheading\">Mark 2 /10</th>" .
-                "<th class=\"subheading\">Mark 3 /10</th>" .
-                "<th class=\"subheading\"style=\"border-right:1px solid black;\">Total</th>" .
+                "<th class=\"subheading\" style=\"border-left:1px solid black;\">Mark 1 (10%)</th>" .
+                "<th class=\"subheading\">Mark 2 (10%)</th>" .
+                "<th class=\"subheading\">Mark 3 (80%)</th>" .
+                "<th class=\"subheading\" style=\"border-right:1px solid black;\">Total (100%)</th>" .
+                "<th class=\"subheading\">Mark 1 (10%)</th>" .
+                "<th class=\"subheading\">Mark 2 (10%)</th>" .
+                "<th class=\"subheading\">Mark 3 (80%)</th>" .
+                "<th class=\"subheading\"style=\"border-right:1px solid black;\">Total (100%)</th>" .
                 
                 "</tr>";
         if ($queryResult != false) {
@@ -231,10 +231,10 @@ class Table_Generation {
                 "<table>" .
                 "<tr>" .
                 "<th class=\"subheading\">Marker Name</th>" .
-                "<th class=\"subheading\">Mark 1 /10</th>" .
-                "<th class=\"subheading\">Mark 2 /10</th>" .
-                "<th class=\"subheading\">Mark 3 /10</th>" .
-                "<th class=\"subheading\">Total</th>" .
+                "<th class=\"subheading\">Mark 1 (10%)</th>" .
+                "<th class=\"subheading\">Mark 2 (10%)</th>" .
+                "<th class=\"subheading\">Mark 3 (80%)</th>" .
+                "<th class=\"subheading\">Total (100%)</th>" .
                 "<th><a href=\"dEntry.php?S_ID=".$student_ID."&seminar=".$seminar."\">Add</a></th>" .
                 "</tr>";
         if ($queryResult != false) {
@@ -262,14 +262,14 @@ class Table_Generation {
                 "<tr>" .
                 "<th class=\"subheading\">Student Name</th>" .
                 "<th class=\"subheading\">Student Number</th>" .
-                "<th class=\"subheading\" style=\"border-left:1px solid black;\">Mark 1 /10</th>" .
-                "<th class=\"subheading\">Mark 2 /10</th>" .
-                "<th class=\"subheading\">Mark 3 /10</th>" .
-                "<th class=\"subheading\" style=\"border-right:1px solid black;\">Total</th>" .
-                "<th class=\"subheading\">Mark 1 /10</th>" .
-                "<th class=\"subheading\">Mark 2 /10</th>" .
-                "<th class=\"subheading\">Mark 3 /10</th>" .
-                "<th class=\"subheading\"style=\"border-right:1px solid black;\">Total</th>" .
+                "<th class=\"subheading\" style=\"border-left:1px solid black;\">Mark 1 (10%)</th>" .
+                "<th class=\"subheading\">Mark 2 (10%)</th>" .
+                "<th class=\"subheading\">Mark 3 (80%)</th>" .
+                "<th class=\"subheading\" style=\"border-right:1px solid black;\">Total (100%)</th>" .
+                "<th class=\"subheading\">Mark 1 (10%)</th>" .
+                "<th class=\"subheading\">Mark 2 (10%)</th>" .
+                "<th class=\"subheading\">Mark 3 (80%)</th>" .
+                "<th class=\"subheading\"style=\"border-right:1px solid black;\">Total (100%)</th>" .
                 "<th class=\"subheading\"></th>" .
                 "</tr>";
         if ($queryResult != false) {
@@ -295,14 +295,14 @@ class Table_Generation {
                 "<th colspan=\"4\" class=\"seminar_table_headings\">Final</th>" .
                 "</tr>" .
                 "<tr>" .
-                "<th class=\"subheading\" style=\"border-left:1px solid black;\">Mark 1</th>" .
-                "<th class=\"subheading\">Mark 2</th>" .
-                "<th class=\"subheading\">Mark 3</th>" .
-                "<th class=\"subheading\" style=\"border-right:1px solid black;\">Total</th>" .
-                "<th class=\"subheading\" style=\"border-left:1px solid black;\">Mark 1</th>" .
-                "<th class=\"subheading\">Mark 2 /10</th>" .
-                "<th class=\"subheading\">Mark 3 /10/th>" .
-                "<th class=\"subheading\" style=\"border-right:1px solid black;\">Total</th>" .
+                "<th class=\"subheading\" style=\"border-left:1px solid black;\">Mark 1 (10%)</th>" .
+                "<th class=\"subheading\">Mark 2 (10%)</th>" .
+                "<th class=\"subheading\">Mark 3 (80%)</th>" .
+                "<th class=\"subheading\" style=\"border-right:1px solid black;\">Total (100%)</th>" .
+                "<th class=\"subheading\" style=\"border-left:1px solid black;\">Mark 1  (10%)</th>" .
+                "<th class=\"subheading\">Mark 2 (10%)</th>" .
+                "<th class=\"subheading\">Mark 3 (80%)</th>" .
+                "<th class=\"subheading\" style=\"border-right:1px solid black;\">Total (100%)</th>" .
                 "</tr>";
         if ($queryResult != false) {
             $return_string .= $this->print_Marker_Individual($queryResult);
@@ -331,10 +331,10 @@ class Table_Generation {
                 "<tr>" .
                 "<th class=\"subheading\">Student Name</th>" .
                 "<th class=\"subheading\">Student Number</th>" .
-                "<th class=\"subheading\">Mark 1 /10</th>" .
-                "<th class=\"subheading\">Mark 2 /10</th>" .
-                "<th class=\"subheading\">Mark 3 /10</th>" .
-                "<th class=\"subheading\">Total</th>" .
+                "<th class=\"subheading\">Mark 1 (10%)</th>" .
+                "<th class=\"subheading\">Mark 2 (10%)</th>" .
+                "<th class=\"subheading\">Mark 3 (80%)</th>" .
+                "<th class=\"subheading\">Total (100%)</th>" .
                 "<th><a href=\"dEntry.php?M_ID=".$marker_ID."&seminar=".$seminar."\"\">Add</a></th>" .
                 "</tr>";
         if ($queryResult != false) {
