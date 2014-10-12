@@ -34,6 +34,12 @@ class Page {
                 $this->mysql_result_holder = $result->fetch_assoc();
             }
         }
+        if(isset($_GET['S_ID'])){
+            $result = $this->Database_connection->query_Database("select * from students where id_student =".$_GET['S_ID']);
+            if($result!=false){
+                $this->mysql_result_holder = $result->fetch_assoc();
+            }
+        }
         
                     
     }
@@ -66,7 +72,7 @@ class Page {
                 "<head>
                             <title>" . $this->page_name . "</title>" .
                 "<link rel=\"stylesheet\" type=\"text/css\" href=\"/CITS3200_Group_H/Resources/StyleSheet/Project_StyleSheet.css\">" .
-                "<script type=\"text/javascript\" src=\"/CITS3200_Group_H/Resources/JavaScript/shadow_Controls.js\"></script>" .
+                "<script type=\"text/javascript\" src=\"/CITS3200_Group_H/Resources/JavaScript/utilities.js\"></script>" .
                 "</head>";
     }
 
@@ -163,8 +169,35 @@ class Page {
                                 <input type=\"submit\" name=\"submit\" value=\"submit\">
                             </form>
                         </div>
-                        <div id=\"shadow_update_student\">
                         
+
+                        <div id=\"shadow_update_student\">
+                            <h2>Update Student</h2>
+                            <form action=\"../Helpers/Updater.php\" method=\"post\">
+                                <div id =\"add_student\">
+                                    <div id=\"SID\">
+                                        Student Number: <input type=\"text\" name = \"S_SD\">
+                                    </div>
+                                    <div id=\"first_name\">
+                                        First Name: <input type=\"text\" name = \"S_FN\">
+                                    </div>
+                                    <div id=\"last_name\">
+                                        Last Name: <input type=\"text\" name =\"S_LN\">
+                                    </div>
+                                
+                                <div id =\"select_cohort\">
+                                <h4>Cohort:</h4>
+                                    Year: <select name =\"year\">";
+                    $this->Master_String .= $this->populate_cohort_year_dropdown();                        
+                $this->Master_String .=  "</select> 
+                                   Semester: <select name =\"sem\">";
+                    $this->Master_String .= $this->populate_cohort_semester_dropdown();                           
+                $this->Master_String .=  "</select>           
+                                </div>
+                                    
+                                    <input type=\"submit\" value=\"Update\">
+                                </div>
+                            </form>
                         </div>
                         <div id=\"shadow_update_marker\">
                         
