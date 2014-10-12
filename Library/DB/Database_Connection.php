@@ -12,6 +12,7 @@ class Database_Connection {
      */
     public function __construct() {
         $this->database_object = new mysqli("128.199.218.6", "sqluser", "D34thByWater", "seminar_marks");
+        //$this->database_object = new mysqli("localhost", "root", "", "seminar_marks");
         //$host, $user, $password, $database, $port, $socket
     }
 
