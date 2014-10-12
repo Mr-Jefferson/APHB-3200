@@ -37,7 +37,18 @@ class Page {
         
                     
     }
-
+    
+    public function load_update_button($type){
+        $this->Master_String.= "<div id=\"update_individual_button\">";
+                    if($type == "student"){
+            $this->Master_String.=  "<button onclick=\"display('update_student')\">Update Student </button>";
+                    }
+                    if($type == "marker"){
+            $this->Master_String.=  "<button onclick=\"display('update_marker')\"> Update Marker</button>";            
+                    }
+        $this->Master_String.= "</div>";
+    }
+    
     private function get_current_cohort(){
         $query = "select cohort,semester from users";
         $result = $this->Database_connection->query_Database($query);
@@ -151,6 +162,12 @@ class Page {
                                 <input type=\"file\" name=\"file\" id=\"file\">
                                 <input type=\"submit\" name=\"submit\" value=\"submit\">
                             </form>
+                        </div>
+                        <div id=\"shadow_update_student\">
+                        
+                        </div>
+                        <div id=\"shadow_update_marker\">
+                        
                         </div>
                     </div>
                 </div>";
@@ -382,6 +399,7 @@ class Page {
         }
         return $return_string;
     }
+
     
     /**
      * Load_data_entry_page():
@@ -476,19 +494,17 @@ class Page {
                         }
         $this->Master_String.=                    
                         "</div>";
-                if(isset($_GET['Mark_ID'])){
-                    $this->Master_String.=
-                        "<div id=\"delete_button\">".
-                            "<a href=\"../Helpers/Updater.php?url=".$_SERVER['REQUEST_URI'] . "&Mark_ID=".$_GET['Mark_ID'] . "\">Delete</a>".
-                        "</div>";
-                }
                 
-                        if(isset($_GET['Mark_ID'])){
-                           $this->Master_String.= "<input type=\"submit\" value=\"Update\">";
-                        }
-                        else{
-                            $this->Master_String.= "<input type=\"submit\" value=\"Add Marks\">";
-                        }
+                if(isset($_GET['Mark_ID'])){
+                    $this->Master_String.=  "<div id=\"delete_button\">".
+                                                "<a href=\"../Helpers/Updater.php?url=".$_SERVER['REQUEST_URI'] . "&Mark_ID=".$_GET['Mark_ID'] ."&delete=1". "\">Delete</a>".
+                                            "</div>";
+                    $this->Master_String.= "<input type=\"submit\" value=\"Update\">";
+                }
+                else{
+                    $this->Master_String.= "<input type=\"submit\" value=\"Add Marks\">";
+                }
+                $this->Master_String.=
                     "</form>" .
                 "</div>";
     }
@@ -525,7 +541,8 @@ class Page {
                 
                 "<div id=\"Cohort_Search\">" .
                     "  Cohort: " . $this->current_cohort['cohort']. " Semester ".$this->current_cohort['semester'].
-                "</div>";
+                "</div>".
+                "<button onclick=\"display('add_marker')\">Add Marker</button>";
     }
 
     /**
@@ -542,7 +559,7 @@ class Page {
                 
                 "  Cohort: " . $this->current_cohort['cohort']. " Semester ".$this->current_cohort['semester'].
                 "</div>" .
-                "<button onclick=\"display('add_student')\">Add</button>";
+                "<button onclick=\"display('add_student')\">Add Student</button>";
     }
 
     /**
