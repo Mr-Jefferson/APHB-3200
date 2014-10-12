@@ -3,6 +3,8 @@ DROP VIEW IF EXISTS markers_individual_marks;
 
 CREATE VIEW markers_individual_marks AS
 SELECT  CONCAT(student_first_name, ' ', student_last_name) AS student_name,
+		student_last_name,
+		student_first_name,
 		students.student_number,
         mark_1,
         mark_2,
@@ -14,4 +16,4 @@ SELECT  CONCAT(student_first_name, ' ', student_last_name) AS student_name,
 FROM	marks INNER JOIN
 		markers ON markers.id_marker = marks.id_marker INNER JOIN
 		students ON marks.id_student = students.id_student
-ORDER BY student_number;
+ORDER BY student_last_name, student_first_name, student_number;

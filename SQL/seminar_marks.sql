@@ -5,7 +5,7 @@ CREATE DATABASE seminar_marks;
 -- Users Relation
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS seminar_marks.users (
-    id_user INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id_user INT NOT NULL PRIMARY KEY,
     username VARCHAR(45) NOT NULL UNIQUE,
     password VARCHAR(45) NOT NULL,
     cohort INT NOT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS seminar_marks.users (
 -- Markers Relation
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS seminar_marks.markers (
-    id_marker INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id_marker INT NOT NULL PRIMARY KEY,
     marker_first_name VARCHAR(45) NOT NULL,
     marker_last_name VARCHAR(45) NOT NULL
 );
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS seminar_marks.markers (
 -- Students Relation
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS seminar_marks.students (
-    id_student INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id_student INT NOT NULL PRIMARY KEY,
     student_first_name VARCHAR(45) NOT NULL,
     student_last_name VARCHAR(45) NOT NULL,
     student_number INT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS seminar_marks.students (
 -- Marks Relation
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS seminar_marks.marks (
-    id_mark INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id_mark INT NOT NULL PRIMARY KEY,
     mark_1 INT NOT NULL,
     mark_2 INT NOT NULL,
     mark_3 INT NOT NULL,

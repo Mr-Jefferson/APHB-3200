@@ -31,10 +31,14 @@ class Table_Generation {
         while ($row = $query_outcome->fetch_assoc()) {
             $return_string .=
                     "<tr>" .
-                    "<td>" . $row['mark_1_average'] . "</td>" .
-                    "<td>" . $row['mark_2_average'] . "</td>" .
-                    "<td>" . $row['mark_3_average'] . "</td>" .
-                    "<td>" . $row['overall_average'] . "</td>" .
+                    "<td>" . $row['proposal_mark_1_average'] . "</td>" .
+                    "<td>" . $row['proposal_mark_2_average'] . "</td>" .
+                    "<td>" . $row['proposal_mark_3_average'] . "</td>" .
+                    "<td>" . $row['proposal_overall_average'] . "</td>" .
+                    "<td>" . $row['final_mark_1_average'] . "</td>" .
+                    "<td>" . $row['final_mark_2_average'] . "</td>" .
+                    "<td>" . $row['final_mark_3_average'] . "</td>" .
+                    "<td>" . $row['final_overall_average'] . "</td>" .
                     "</tr>";
         }
         return $return_string;
@@ -93,7 +97,6 @@ class Table_Generation {
                     "<td>" . $row["final_mark_2"] . "</td>" .
                     "<td>" . $row["final_mark_3"] . "</td>" .
                     "<td>" . $row["final_total"] . "</td>" .
-                    "<td>" . $row["total"] . "</td>" .
                     "<td><a href=\"Student.php?S_ID=" . $row['id_student'] . "\">Inspect</a></td>" .
                     "</tr>";
         }
@@ -143,10 +146,15 @@ class Table_Generation {
      * Completed on: 24/9/2014, 5:19
      * Comment: added print_Marker_Overall 
      */
-    public function generate_Marker_Overall() {
-        $query = "select * from markers_overall";
+    public function generate_Marker_Overall($seminar) {
+        $query = "";
+        if($seminar==1) $query .= "select * from markers_overall_proposal";
+        if($seminar==2) $query .= "select * from markers_overall_final";
         $queryResult = $this->Database_connection->query_Database($query);
-        $return_string = "<div id=\"Table_wrapper\">" .
+        $return_string = "<div id=\"inner_table_wrapper\">";
+        if($seminar==1) $return_string .= "<h4>Proposal Seminar Marks:</h4>";
+        if($seminar==2) $return_string .= "<h4>Final Seminar Marks:</h4>";
+        $return_string .=
                 "<table>" .
                 "<tr>" .
                 "<th class=\"subheading\">Name</th>" .
@@ -175,7 +183,7 @@ class Table_Generation {
     public function generate_Student_Individual($student_ID) {
         $query = "select * from students_overall where id_student=" . $student_ID;
         $queryResult = $this->Database_connection->query_Database($query);
-        $return_string = "<div id= \"student_overall_table_wrapper\">" .
+        $return_string = "<div id= \"inner_table_wrapper\">" .
                 "<h4>Overall Seminar Marks:</h4>" .
                 "<table>" .
                 "<tr>" .
@@ -210,10 +218,10 @@ class Table_Generation {
         $queryResult = $this->Database_connection->query_Database($query);
         $return_string = "";
         if ($seminar == 1) {
-            $return_string .= "<div id=\"student_proposal_table_wrapper\">" . "<h4>Proposal Seminar Marks:</h4>";
+            $return_string .= "<div id=\"inner_table_wrapper\">" . "<h4>Proposal Seminar Marks:</h4>";
         }
         if ($seminar == 2) {
-            $return_string .= "<div id=\"student_final_table_wrapper\">" . "<h4>Final Seminar Marks:</h4>";
+            $return_string .= "<div id=\"inner_table_wrapper\">" . "<h4>Final Seminar Marks:</h4>";
         }
         $return_string .=
                 "<table>" .
@@ -239,7 +247,7 @@ class Table_Generation {
     public function generate_Student_Overall() {
         $query = "select * from students_overall where cohort =".$this->current_cohort['cohort']." and semester = ". $this->current_cohort['semester'];
         $queryResult = $this->Database_connection->query_Database($query);
-        $return_string = "<div id=\"Table_wrapper\">" .
+        $return_string = "<div id=\"inner_table_wrapper\">" .
                 "<table>" .
                 "<tr>" .
                 "<th colspan=\"1\"></th>" .
@@ -258,7 +266,6 @@ class Table_Generation {
                 "<th class=\"subheading\">Mark 2</th>" .
                 "<th class=\"subheading\">Mark 3</th>" .
                 "<th class=\"subheading\"style=\"border-right:1px solid black;\">Total</th>" .
-                "<th class=\"subheading\"style=\"border-right:1px solid black;\"> Total</th>" .
                 "<th class=\"subheading\"></th>" .
                 "</tr>";
         if ($queryResult != false) {
@@ -274,15 +281,20 @@ class Table_Generation {
      * @return string, the overall string to produce the table
      */
     public function generate_Marker_Individual($marker_ID) {
-        $query = "select * from markers_overall where id_marker = " . $marker_ID;
+        $query = "select * from markers_individual where id_marker = " . $marker_ID;
         $queryResult = $this->Database_connection->query_Database($query);
-        $return_string = "<div id= \"student_overall_table_wrapper\">" .
+        $return_string = "<div id= \"inner_table_wrapper\">" .
                 "<h4>Marker Average Marks:</h4>" .
                 "<table>" .
                 "<tr>" .
-                "<th colspan=\"4\" class=\"seminar_table_headings\">Averages</th>" .
+                "<th colspan=\"4\" class=\"seminar_table_headings\">Proposal</th>" .
+                "<th colspan=\"4\" class=\"seminar_table_headings\">Final</th>" .
                 "</tr>" .
                 "<tr>" .
+                "<th class=\"subheading\" style=\"border-left:1px solid black;\">Mark 1</th>" .
+                "<th class=\"subheading\">Mark 2</th>" .
+                "<th class=\"subheading\">Mark 3</th>" .
+                "<th class=\"subheading\" style=\"border-right:1px solid black;\">Total</th>" .
                 "<th class=\"subheading\" style=\"border-left:1px solid black;\">Mark 1</th>" .
                 "<th class=\"subheading\">Mark 2</th>" .
                 "<th class=\"subheading\">Mark 3</th>" .
@@ -305,10 +317,10 @@ class Table_Generation {
         $queryResult = $this->Database_connection->query_Database($query);
         $return_string = "";
         if ($seminar == 1) {
-            $return_string .="<div id=\"student_proposal_table_wrapper\"><h4>Proposal Seminar Marks:</h4>";
+            $return_string .="<div id=\"inner_table_wrapper\"><h4>Proposal Seminar Marks:</h4>";
         }
         if ($seminar == 2) {
-            $return_string .="<div id=\"student_proposal_table_wrapper\"><h4>Final Seminar Marks:</h4>";
+            $return_string .="<div id=\"inner_table_wrapper\"><h4>Final Seminar Marks:</h4>";
         }
         $return_string .=
                 "<table>" .

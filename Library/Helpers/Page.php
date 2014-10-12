@@ -246,7 +246,8 @@ class Page {
             $this->Master_String .= $this->Table_generator->generate_Student_Overall();
         }
         if ($table_type == "Marker_home") {
-            $this->Master_String .= $this->Table_generator->generate_Marker_Overall();
+            $this->Master_String .= $this->Table_generator->generate_Marker_Overall(1);
+            $this->Master_String .= $this->Table_generator->generate_Marker_Overall(2);
         }
     }
 

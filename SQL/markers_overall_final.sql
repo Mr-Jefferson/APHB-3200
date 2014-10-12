@@ -1,8 +1,10 @@
 USE seminar_marks;
-DROP VIEW IF EXISTS markers_overall;
+DROP VIEW IF EXISTS markers_overall_final;
 
-CREATE VIEW markers_overall AS
+CREATE VIEW markers_overall_final AS
 SELECT  CONCAT(marker_first_name, ' ', marker_last_name) AS marker_name,
+		marker_last_name,
+		marker_first_name,
         TRUNCATE(AVG(mark_1),2) AS mark_1_average,
         TRUNCATE(AVG(mark_2),2) AS mark_2_average,
         TRUNCATE(AVG(mark_3),2) AS mark_3_average,
@@ -14,5 +16,8 @@ SELECT  CONCAT(marker_first_name, ' ', marker_last_name) AS marker_name,
 		marks.id_marker
 FROM 	marks INNER JOIN
 		markers ON markers.id_marker = marks.id_marker
+WHERE   marks.seminar = 2 AND
+		(SELECT cohort, semester FROM students WHERE marks.id_student = id_student) = 
+		(SELECT cohort, semester FROM users LIMIT 1)
 GROUP BY marks.id_marker
-ORDER BY marker_name;
+ORDER BY marker_last_name, marker_first_name;
