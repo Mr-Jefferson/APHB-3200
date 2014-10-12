@@ -29,6 +29,7 @@ class Table_Generation {
     private function print_Marker_Individual(mysqli_result $query_outcome) {
         $return_string = "";
         while ($row = $query_outcome->fetch_assoc()) {
+            $row = $this->check_for_null($row);
             $return_string .=
                     "<tr>" .
                     "<td>" . $row['proposal_mark_1_average'] . "</td>" .
@@ -47,6 +48,7 @@ class Table_Generation {
     private function print_Marker_Individual_Marks(mysqli_result $query_outcome) {
         $return_string = "";
         while ($row = $query_outcome->fetch_assoc()) {
+            $row = $this->check_for_null($row);
             $return_string .=
                     "<tr>" .
                     "<td>" . $row['student_name'] . "</td>" .
@@ -64,6 +66,7 @@ class Table_Generation {
     private function print_Marker_Overall(mysqli_result $query_outcome) {
         $return_string = "";
         while ($row = $query_outcome->fetch_assoc()) {
+            $row = $this->check_for_null($row);
             $return_string .=
                     "<tr>" .
                     "<td>" . $row["marker_name"] . "</td>" .
@@ -106,6 +109,7 @@ class Table_Generation {
     private function print_Student_Individual(mysqli_result $query_outcome) {
         $return_string = "";
         while ($row = $query_outcome->fetch_assoc()) {
+            $row = $this->check_for_null($row);
             $return_string .=
                     "<tr>" .
                     "<td>" . $row["proposal_mark_1"] . "</td>" .
@@ -116,7 +120,6 @@ class Table_Generation {
                     "<td>" . $row["final_mark_2"] . "</td>" .
                     "<td>" . $row["final_mark_3"] . "</td>" .
                     "<td>" . $row["final_total"] . "</td>" .
-                    "<td>" . $row["total"] . "</td>" .
                     "</tr>";
         }
         return $return_string;
@@ -125,6 +128,7 @@ class Table_Generation {
     private function print_Student_Individual_Marks(mysqli_result $query_outcome) {
         $return_string = "";
         while ($row = $query_outcome->fetch_assoc()) {
+            $row = $this->check_for_null($row);
             $return_string .=
                     "<tr>" .
                     "<td>" . $row["marker_name"] . "</td>" .
@@ -158,9 +162,9 @@ class Table_Generation {
                 "<table>" .
                 "<tr>" .
                 "<th class=\"subheading\">Name</th>" .
-                "<th class=\"subheading\">AVG M1</th>" .
-                "<th class=\"subheading\">AVG M2</th>" .
-                "<th class=\"subheading\">AVG M3</th>" .
+                "<th class=\"subheading\">AVG M1 /10</th>" .
+                "<th class=\"subheading\">AVG M2 /10</th>" .
+                "<th class=\"subheading\">AVG M3 /10</th>" .
                 "<th class=\"subheading\">AVG Overall</th>" .
                 "<th class=\"subheading\">Count</th>" .
                 "<th class=\"subheading\">Min</th>" .
@@ -193,13 +197,13 @@ class Table_Generation {
                 "<tr>" .
                 "<th class=\"subheading\" style=\"border-left:1px solid black;\">Mark 1 /10</th>" .
                 "<th class=\"subheading\">Mark 2 /10</th>" .
-                "<th class=\"subheading\">Mark 3 /80</th>" .
+                "<th class=\"subheading\">Mark 3 /10</th>" .
                 "<th class=\"subheading\" style=\"border-right:1px solid black;\">Total</th>" .
                 "<th class=\"subheading\">Mark 1 /10</th>" .
                 "<th class=\"subheading\">Mark 2 /10</th>" .
-                "<th class=\"subheading\">Mark 3/80</th>" .
+                "<th class=\"subheading\">Mark 3 /10</th>" .
                 "<th class=\"subheading\"style=\"border-right:1px solid black;\">Total</th>" .
-                "<th class=\"subheading\"style=\"border:1px solid black;\"> Total</th>" .
+                
                 "</tr>";
         if ($queryResult != false) {
             $return_string .= $this->print_Student_Individual($queryResult);
@@ -227,9 +231,9 @@ class Table_Generation {
                 "<table>" .
                 "<tr>" .
                 "<th class=\"subheading\">Marker Name</th>" .
-                "<th class=\"subheading\">Mark 1</th>" .
-                "<th class=\"subheading\">Mark 2</th>" .
-                "<th class=\"subheading\">Mark 3</th>" .
+                "<th class=\"subheading\">Mark 1 /10</th>" .
+                "<th class=\"subheading\">Mark 2 /10</th>" .
+                "<th class=\"subheading\">Mark 3 /10</th>" .
                 "<th class=\"subheading\">Total</th>" .
                 "<th><a href=\"dEntry.php?S_ID=".$student_ID."&seminar=".$seminar."\">Add</a></th>" .
                 "</tr>";
@@ -258,13 +262,13 @@ class Table_Generation {
                 "<tr>" .
                 "<th class=\"subheading\">Student Name</th>" .
                 "<th class=\"subheading\">Student Number</th>" .
-                "<th class=\"subheading\" style=\"border-left:1px solid black;\">Mark 1</th>" .
-                "<th class=\"subheading\">Mark 2</th>" .
-                "<th class=\"subheading\">Mark 3</th>" .
+                "<th class=\"subheading\" style=\"border-left:1px solid black;\">Mark 1 /10</th>" .
+                "<th class=\"subheading\">Mark 2 /10</th>" .
+                "<th class=\"subheading\">Mark 3 /10</th>" .
                 "<th class=\"subheading\" style=\"border-right:1px solid black;\">Total</th>" .
-                "<th class=\"subheading\">Mark 1</th>" .
-                "<th class=\"subheading\">Mark 2</th>" .
-                "<th class=\"subheading\">Mark 3</th>" .
+                "<th class=\"subheading\">Mark 1 /10</th>" .
+                "<th class=\"subheading\">Mark 2 /10</th>" .
+                "<th class=\"subheading\">Mark 3 /10</th>" .
                 "<th class=\"subheading\"style=\"border-right:1px solid black;\">Total</th>" .
                 "<th class=\"subheading\"></th>" .
                 "</tr>";
@@ -296,8 +300,8 @@ class Table_Generation {
                 "<th class=\"subheading\">Mark 3</th>" .
                 "<th class=\"subheading\" style=\"border-right:1px solid black;\">Total</th>" .
                 "<th class=\"subheading\" style=\"border-left:1px solid black;\">Mark 1</th>" .
-                "<th class=\"subheading\">Mark 2</th>" .
-                "<th class=\"subheading\">Mark 3</th>" .
+                "<th class=\"subheading\">Mark 2 /10</th>" .
+                "<th class=\"subheading\">Mark 3 /10/th>" .
                 "<th class=\"subheading\" style=\"border-right:1px solid black;\">Total</th>" .
                 "</tr>";
         if ($queryResult != false) {
@@ -327,9 +331,9 @@ class Table_Generation {
                 "<tr>" .
                 "<th class=\"subheading\">Student Name</th>" .
                 "<th class=\"subheading\">Student Number</th>" .
-                "<th class=\"subheading\">Mark 1</th>" .
-                "<th class=\"subheading\">Mark 2</th>" .
-                "<th class=\"subheading\">Mark 3</th>" .
+                "<th class=\"subheading\">Mark 1 /10</th>" .
+                "<th class=\"subheading\">Mark 2 /10</th>" .
+                "<th class=\"subheading\">Mark 3 /10</th>" .
                 "<th class=\"subheading\">Total</th>" .
                 "<th><a href=\"dEntry.php?M_ID=".$marker_ID."&seminar=".$seminar."\"\">Add</a></th>" .
                 "</tr>";

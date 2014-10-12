@@ -34,10 +34,27 @@ class Page {
                 $this->mysql_result_holder = $result->fetch_assoc();
             }
         }
+        if(isset($_GET['S_ID'])){
+            $result = $this->Database_connection->query_Database("select * from students where id_student =".$_GET['S_ID']);
+            if($result!=false){
+                $this->mysql_result_holder = $result->fetch_assoc();
+            }
+        }
         
                     
     }
-
+    
+    public function load_update_button($type){
+        $this->Master_String.= "<div id=\"update_individual_button\">";
+                    if($type == "student"){
+            $this->Master_String.=  "<button onclick=\"display('update_student')\">Update Student </button>";
+                    }
+                    if($type == "marker"){
+            $this->Master_String.=  "<button onclick=\"display('update_marker')\"> Update Marker</button>";            
+                    }
+        $this->Master_String.= "</div>";
+    }
+    
     private function get_current_cohort(){
         $query = "select cohort,semester from users";
         $result = $this->Database_connection->query_Database($query);
@@ -55,7 +72,7 @@ class Page {
                 "<head>
                             <title>" . $this->page_name . "</title>" .
                 "<link rel=\"stylesheet\" type=\"text/css\" href=\"/CITS3200_Group_H/Resources/StyleSheet/Project_StyleSheet.css\">" .
-                "<script type=\"text/javascript\" src=\"/CITS3200_Group_H/Resources/JavaScript/shadow_Controls.js\"></script>" .
+                "<script type=\"text/javascript\" src=\"/CITS3200_Group_H/Resources/JavaScript/utilities.js\"></script>" .
                 "</head>";
     }
 
@@ -151,6 +168,39 @@ class Page {
                                 <input type=\"file\" name=\"file\" id=\"file\">
                                 <input type=\"submit\" name=\"submit\" value=\"submit\">
                             </form>
+                        </div>
+                        
+
+                        <div id=\"shadow_update_student\">
+                            <h2>Update Student</h2>
+                            <form action=\"../Helpers/Updater.php\" method=\"post\">
+                                <div id =\"add_student\">
+                                    <div id=\"SID\">
+                                        Student Number: <input type=\"text\" name = \"S_SD\">
+                                    </div>
+                                    <div id=\"first_name\">
+                                        First Name: <input type=\"text\" name = \"S_FN\">
+                                    </div>
+                                    <div id=\"last_name\">
+                                        Last Name: <input type=\"text\" name =\"S_LN\">
+                                    </div>
+                                
+                                <div id =\"select_cohort\">
+                                <h4>Cohort:</h4>
+                                    Year: <select name =\"year\">";
+                    $this->Master_String .= $this->populate_cohort_year_dropdown();                        
+                $this->Master_String .=  "</select> 
+                                   Semester: <select name =\"sem\">";
+                    $this->Master_String .= $this->populate_cohort_semester_dropdown();                           
+                $this->Master_String .=  "</select>           
+                                </div>
+                                    
+                                    <input type=\"submit\" value=\"Update\">
+                                </div>
+                            </form>
+                        </div>
+                        <div id=\"shadow_update_marker\">
+                        
                         </div>
                     </div>
                 </div>";
@@ -349,6 +399,9 @@ class Page {
                if(isset($_GET['Mark_ID'])){
                    $return_string .= $this->return_student_option($row, "Mark_ID");
                }
+               if(!isset($_GET['Mark_ID']) &&!isset($_GET['S_ID'])){
+                   $return_string .= "<option value=".$row['id_student'].">".$row['student_first_name']." ".$row['student_last_name']."(".$row['student_number'].")"."</option>";
+               }
             }            
         }
         return $return_string;
@@ -369,6 +422,9 @@ class Page {
                 if(isset($_GET['S_ID'])){
                     $return_string .= $this->return_marker_option($row,"S_ID");
                 }
+                if(!isset($_GET['Mark_ID']) &&! isset($_GET['M_ID'])&&!isset($_GET['S_ID'])){
+                    $return_string .= "<option value=".$row['id_marker']."> ".$row['marker_first_name']. " " . $row['marker_last_name']."</option>"; 
+                }
                 
                 
                     
@@ -377,6 +433,7 @@ class Page {
         }
         return $return_string;
     }
+
     
     /**
      * Load_data_entry_page():
@@ -470,8 +527,18 @@ class Page {
                             "</div>";
                         }
         $this->Master_String.=                    
-                        "</div>" .
-                        "<input type=\"submit\" value=\"Add Marks\">" .
+                        "</div>";
+                
+                if(isset($_GET['Mark_ID'])){
+                    $this->Master_String.=  "<div id=\"delete_button\">".
+                                                "<a href=\"../Helpers/Updater.php?url=".$_SERVER['REQUEST_URI'] . "&Mark_ID=".$_GET['Mark_ID'] ."&delete=1". "\">Delete</a>".
+                                            "</div>";
+                    $this->Master_String.= "<input type=\"submit\" value=\"Update\">";
+                }
+                else{
+                    $this->Master_String.= "<input type=\"submit\" value=\"Add Marks\">";
+                }
+                $this->Master_String.=
                     "</form>" .
                 "</div>";
     }
@@ -505,14 +572,11 @@ class Page {
      */
     private function generate_marker_home_navigation_bar() {
         return
-                "<form method=\"post\" action=\"\">" .
+                
                 "<div id=\"Cohort_Search\">" .
-                "Marker Name:  " .
-                "<input type=\"text\"></input>" .
-                "<input type=\"submit\" value = \"search\"></input>" .
-                "</div>" .
-                "</form>" .
-                "<button onclick=\"display('add_marker')\">Add</button>";
+                    "  Cohort: " . $this->current_cohort['cohort']. " Semester ".$this->current_cohort['semester'].
+                "</div>".
+                "<button onclick=\"display('add_marker')\">Add Marker</button>";
     }
 
     /**
@@ -529,7 +593,7 @@ class Page {
                 
                 "  Cohort: " . $this->current_cohort['cohort']. " Semester ".$this->current_cohort['semester'].
                 "</div>" .
-                "<button onclick=\"display('add_student')\">Add</button>";
+                "<button onclick=\"display('add_student')\">Add Student</button>";
     }
 
     /**

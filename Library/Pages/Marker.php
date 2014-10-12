@@ -23,9 +23,11 @@ if ($User_Check_Outcome == false) {
     if (isset($_GET['M_ID'])) {
         $new_page->load_page_title_name(1, $_GET['M_ID']);
         $new_page->load_marker_tables($_GET['M_ID']);
+        
     } else {
         $new_page->load_page_title("Markers");
         $new_page->load_table_nav_bar("Marker_home");
+        $new_page->load_table_body("Marker_home");
         $new_page->load_table_body("Marker_home");
     }
     $new_page->close_main_body_wrapper();

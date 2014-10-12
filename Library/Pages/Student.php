@@ -27,6 +27,7 @@ if ($User_Check_Outcome == false) {
     $new_page->load_main_body_wrapper();
     if (isset($_GET['S_ID'])) {   // could include a check to confirm the student ID is set and valid
         $new_page->load_page_title_name(2, $_GET['S_ID']);
+        $new_page->load_update_button("student");
         $new_page->load_student_tables($_GET['S_ID']);
     } else {
         $new_page->load_page_title("Students");

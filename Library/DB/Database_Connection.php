@@ -23,8 +23,26 @@ class Database_Connection {
      * @param String $query_string
      * @return mysql_result object or if an object couldn't be created, false is returned
      */
-    public function query_Database($query_string) {
-        return $this->database_object->query($query_string);
+    public function query_Database($query){
+        return $this->database_object->query($query);
+    }
+    
+    
+    public function Prepared_query_Database($query, $parameters, $types) {
+        $prepared_statement = $this->database_object->prepare($query);
+        if(count($parameters) == count($types)){
+            for($i = 0; $i < count($parameters); $i++){
+                $prepared_statement->bind_param($types[$i], $parameters[$i]);
+            }
+            $prepared_statement->execute();
+        }
+        else{
+            return false;
+        }
+        
+        
+            
+        
     }
     
     public function return_new_id($type){

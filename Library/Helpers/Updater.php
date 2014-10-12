@@ -40,15 +40,33 @@ else {
         
     }
     
-    if(isset($_POST['marks_student']) && isset($_POST['marks_marker']) && isset($_POST['marks_sem_type']) && isset($_POST['mark_1']) && isset($_POST['mark_1']) && isset($_POST['mark_2']) && isset($_POST['mark_3'])){
+    if(isset($_POST['marks_student']) && isset($_POST['marks_marker']) && isset($_POST['marks_sem_type']) && isset($_POST['mark_1']) && isset($_POST['mark_2']) && isset($_POST['mark_3'])){
         $new_id = $database_connection->return_new_id("marks");
         $query = "insert into marks values (".$new_id.",".$_POST['mark_1'] .",".$_POST['mark_2'].",".$_POST['mark_3'].",".$_POST['marks_sem_type'].",".$_POST['marks_student'].",".$_POST['marks_marker']." )";
         $database_connection->query_Database($query);
         
     }
     
+    if(isset($_GET['Mark_ID'])){
+        if(isset($_GET['delete'])){
+            $new_query = "delete from marks where id_mark=?";
+            $database_connection->Prepared_query_Database($new_query, array($_GET['Mark_ID']), array("s"));    
+        }
+
+        if(isset($_GET['update'])){
+            $new_query = "Update marks set mark_1=?, mark_2 =?, mark_3=?,seminar=?,id_student=?,id_marker=? where id_mark =?";
+            $param_array = array($_POST['mark_1'],$_POST['mark_2'],$_POST['mark_3'],$_POST['seminar'],$_POST['id_student'],$_POST['id_marker'], $_POST['id_mark']);
+            $type_array = array("d","d","d","i","i","i"."i");
+        }
+    }
+    
     if(isset($_GET['url'])){
         $redirect_URL = "location:".$_GET['url'];
+        if(isset($_GET['Mark_ID'])){
+            $pos = strpos($redirect_URL,"?");
+            $redirect_URL = substr($redirect_URL,0,$pos);
+        }
+        
         header($redirect_URL);
     }
     else{
