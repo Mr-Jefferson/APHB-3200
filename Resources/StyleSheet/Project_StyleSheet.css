@@ -349,6 +349,18 @@ h4{
     left:20px;
 }
 
+#radio_buttons{
+    position:relative;
+    top:50px;
+    margin:20px;
+    
+}
+
+#radio_buttons input[type='submit']{
+    position:absolute;
+    right:0px;
+}
+
 #select_cohort h4{
     padding:0px;
     margin:0px;
@@ -368,7 +380,7 @@ h4{
 }
 
 #shadow_import{
-    height:180px;
+    height:250px;
 }
 
 #shadow_cohort_select{
