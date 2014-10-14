@@ -49,16 +49,13 @@ class CSV_Handler {
             $relation = $_GET["import"];
             
             $return_string .= "<br>";
-            $return_string .= "Upload: " . $_FILES["file"]["name"] . "<br>";
-            
-            $return_string .= "Temporary file location: " . $temp . "<br>";
             
             $query = "LOAD DATA LOCAL INFILE " . 
-                    "\"/home/nick/Desktop/temp.csv\" " .
+                    "\"$temp\" " .
                     "INTO TABLE " . $relation . " " .
                     "FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"' " .
                     "LINES TERMINATED BY '\n' ";
-            
+            //$return_string .=$query;
             if($relation == "marks") {
                 $this->editMarks($temp);
                 $query .= "(mark_1, mark_2, mark_3, seminar, id_student, id_marker)";
@@ -74,9 +71,9 @@ class CSV_Handler {
             $relation = $_GET["export"];
             $template = "/var/www/html/APHB-3200/Temp/template.xls";
             $output = "/var/www/html/APHB-3200/Temp/marks.xls";
+            $send = "/APHB-3200/Temp/marks.xls";
             
             if($relation == "marks") {
-                $return_string .= getcwd();
                 $objPHPExcel = PHPExcel_IOFactory::load($template);
                 
                 $query = "SELECT * FROM students_overall_output";
@@ -97,7 +94,7 @@ class CSV_Handler {
                 }
                 $objWriter = new PHPExcel_Writer_Excel5($objPHPExcel);
                 $objWriter->save($output);
-                $return_string .= "<br><a href=\"$output\" download>Click to download marks file!</a>";
+                $return_string .= "<br><a href=\"$send\" download>Click to download marks file!</a>";
             }
         }
         return $return_string;
