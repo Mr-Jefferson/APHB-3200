@@ -33,10 +33,16 @@ class Page {
                 $this->mysql_result_holder = $result->fetch_assoc();
             }
         }
+        if(isset($_GET['M_ID'])){
+            $result = $this->Database_connection->query_Database("select * from markers where id_marker =".$_GET['M_ID']);
+            if($result!=false){
+                $this->mysql_result_holder = $result->fetch_assoc();
+            }
+        }
         
                     
     }
-    
+   
     public function load_update_button($type){
         $this->Master_String.= "<div id=\"update_individual_button\">";
                     if($type == "student"){
@@ -80,10 +86,8 @@ class Page {
                  }
                  else{
                      $return_string .= "<option value=".$row['cohort'].">".$row['cohort'] . "</option>";
-                 }
-                 
-             }
-             
+                 }                 
+             }             
          }         
          return $return_string;            
      }
@@ -100,17 +104,36 @@ class Page {
             }         
          return $return_string; 
    }
+   
+   public function set_url(){
+       $_SESSION['url'] = $_SERVER['REQUEST_URI'];
+   }
+   
+   public function set_error_url(){
+       $_SESSION['ERROR_URL'] = $_SERVER['REQUEST_URI'];
+   }
     /**
      * 
      * @param int $Page_type, Identifies what the shadow will be used for 
      * if $Page_type == 1 then it is indented to be used on the marker_home page.
      * if $Page_type == 2 then it is indented to be used for the Student_home.page
      */
-    public function load_shadow() {
-        $this->Master_String .=
+    public function load_shadow($required_shadows) {
+        if(isset($_SESSION['ERROR'])){
+            $this->Master_String .=
+                "<div id=\"hidden_form\" style=\"display:block;\">
+                    <div id=\"shadow\" onclick = \"Hide()\"> </div>";
+        }
+        else{
+            $this->Master_String .=
                 "<div id=\"hidden_form\">
-                    <div id=\"shadow\" onclick = \"Hide()\"> </div>
-                        <div id =\"shadow_cohort_select\">
+                    <div id=\"shadow\" onclick = \"Hide()\"> </div>";
+        }
+        
+        
+        if(in_array("cohort_select", $required_shadows)){
+            $this->Master_String .=
+                        "<div id =\"shadow_cohort_select\">
                             <h2>Select Cohort</h2>
                             <form method=\"post\" action=\"../Helpers/Updater.php?url=".$_SERVER['REQUEST_URI']. "\">
                                 <div id =\"select_cohort\">
@@ -123,10 +146,13 @@ class Page {
                                 </div>
                                 <input type=\"submit\" value=\"Update\"></input>
                             </form>
-                        </div>
-                        <div class=\"shadow\" id=\"shadow_add_student\">
+                        </div>";
+        }
+        if(in_array("add_student", $required_shadows)){
+            $this->Master_String .=
+                    "<div class=\"shadow\" id=\"shadow_add_student\">
                             <h2>Add Student</h2>
-                            <form action=\"../Helpers/Updater.php?url=".$_SERVER['REQUEST_URI']."\" method=\"post\">
+                            <form action=\"../Helpers/Updater.php?insert=1\" method=\"post\">
                                 <div id =\"add_student\">
                                     <div id=\"SID\">
                                         Student Number: <input type=\"text\" name = \"S_SD\">
@@ -140,10 +166,13 @@ class Page {
                                     <input type=\"submit\" value=\"create\">
                                 </div>
                             </form>
-                        </div>
-                        <div class=\"shadow\" id=\"shadow_add_marker\">
+                    </div>";
+        }
+        if(in_array("add_marker", $required_shadows)){
+            $this->Master_String .=
+                    "<div class=\"shadow\" id=\"shadow_add_marker\">
                             <h2>Add Marker</h2>
-                            <form action=\"../Helpers/Updater.php?url=".$_SERVER['REQUEST_URI']."\" method=\"post\">
+                            <form action=\"../Helpers/Updater.php?insert=1\" method=\"post\">
                                 <div id= \"add_marker\">
                                     <div id= \"first_name\">
                                         First name:  <input type =\"text\" name= \"M_FN\"></input>
@@ -154,8 +183,11 @@ class Page {
                                     <input type=\"submit\" value=\"create\"></input>
                                 </div>
                             </form>
-                        </div>
-                        <div class=\"shadow\" id = \"shadow_import\">
+                    </div>";
+        }
+        if(in_array("import", $required_shadows)){     
+            $this->Master_String .=
+                        "<div class=\"shadow\" id = \"shadow_import\">
                             <h2>Import Data</h2><br>
                             <div id = \"radio_buttons\">
                                 Import markers:
@@ -174,41 +206,86 @@ class Page {
                                     <input type=\"submit\" name=\"submit\" value=\"submit\">
                                 </form>
                             </div>
-                        </div>
-                        
-
-                        <div class=\"shadow\" id=\"shadow_update_student\">
-                            <h2>Update Student</h2>
-                            <form action=\"../Helpers/Updater.php\" method=\"post\">
+                        </div>";
+        }           
+        if(in_array("update_marker", $required_shadows)){     
+            $this->Master_String .=
+                        "<div id=\"shadow_update_marker\">
+                            <h2>Update Markers</h2>";
+                            if(isset($_GET['M_ID'])){
+                            $this->Master_String .=    
+                            "<form action=\"../Helpers/Updater.php?M_ID=".$_GET['M_ID']."&update=1\" method=\"post\">
+                                    <div id= \"add_marker\">
+                                        <div id= \"first_name\">
+                                            First name:  <input type =\"text\" name= \"M_FN\" value=\"".$this->mysql_result_holder['marker_first_name'] ."\"></input>
+                                        </div>
+                                        <div id =\"last_name\">
+                                            Last name:  <input type =\"text\" name=\"M_LN\" value=\"".$this->mysql_result_holder['marker_last_name'] ."\"></input>
+                                        </div>
+                                        <div id=\"delete_button\">
+                                            <a href=\"../Helpers/Updater.php?M_ID=".$_GET['M_ID'] ."&delete=1". "\">Delete</a>
+                                        </div>
+                                        <input type=\"submit\" value=\"Update\"></input>
+                                    </div>
+                            </form>";
+                            }
+                 $this->Master_String .=             
+                        "</div>";
+        }
+        if(in_array("update_student", $required_shadows)){  
+            $this->Master_String .=
+                        "<div id=\"shadow_update_student\">
+                            <h2>Update Student</h2>";
+                    
+                    if(isset($_GET['S_ID'])){
+                        $this->Master_String .= 
+                            "<form action=\"../Helpers/Updater.php?S_ID=".$_GET['S_ID'] ."&update=1 \" method=\"post\">
                                 <div id =\"add_student\">
                                     <div id=\"SID\">
-                                        Student Number: <input type=\"text\" name = \"S_SD\">
+                                        Student Number: <input type=\"text\" name = \"S_SD\" value=".$this->mysql_result_holder['student_number'] .">
                                     </div>
                                     <div id=\"first_name\">
-                                        First Name: <input type=\"text\" name = \"S_FN\">
+                                        First Name: <input type=\"text\" name = \"S_FN\" value=\"".$this->mysql_result_holder['student_first_name'] ."\">
                                     </div>
                                     <div id=\"last_name\">
-                                        Last Name: <input type=\"text\" name =\"S_LN\">
+                                        Last Name: <input type=\"text\" name =\"S_LN\" value=\"".$this->mysql_result_holder['student_last_name'] ."\">
                                     </div>
                                 
                                 <div id =\"select_cohort\">
                                 <h4>Cohort:</h4>
                                     Year: <select name =\"year\">";
-                    $this->Master_String .= $this->populate_cohort_year_dropdown();                        
+                    $this->Master_String .= $this->populate_cohort_year_dropdown($this->mysql_result_holder['cohort']);                        
                 $this->Master_String .=  "</select> 
                                    Semester: <select name =\"sem\">";
-                    $this->Master_String .= $this->populate_cohort_semester_dropdown();                           
+                    $this->Master_String .= $this->populate_cohort_semester_dropdown($this->mysql_result_holder['semester']);                           
                 $this->Master_String .=  "</select>           
                                 </div>
-                                    
+                                    <div id=\"delete_button\">
+                                                <a href=\"../Helpers/Updater.php?S_ID=".$_GET['S_ID'] ."&delete=1". "\">Delete</a>".
+                                            "</div>
                                     <input type=\"submit\" value=\"Update\">
                                 </div>
-                            </form>
-                        </div>
-                        <div id=\"shadow_update_marker\">
-                        
-                        </div>
-                    </div>
+                            </form>";
+                    } 
+                $this->Master_String .= 
+                       "</div>";
+        }
+        
+        if(in_array("error",$required_shadows)){
+            if(isset($_SESSION['ERROR'])){
+            $this->Master_String .= 
+                    "<div id=\"shadow_error\">".
+                        "<h2> Error Report: </h2>".
+            
+                        "<div id=\"error_report\">".
+                                $_SESSION['ERROR'].
+                        "</div>".        
+                    "</div>";
+                        unset($_SESSION['ERROR']);
+            }
+        }
+        $this->Master_String .=                   
+                    "</div>
                 </div>";
     }
 
@@ -343,7 +420,7 @@ class Page {
                             
                         "</ul>". 
                 "</div>";
-        $this->load_shadow();
+        
 
     }
 
@@ -373,8 +450,7 @@ class Page {
         }
         if($identifier == "S_ID"){
             $selected = " ";
-        }
-        
+        }  
         $value = $row['id_marker'];
         $name = $row['marker_first_name']. " " . $row['marker_last_name'];
         return "<option ".$selected." value=".$value.">".$name."</option>";
@@ -449,8 +525,18 @@ class Page {
      */
     public function load_data_entry_page() {
         $this->Master_String.= 
-                "<div id=\"data_entry_wrapper\" >" .
-                    "<form method=\"post\" action=\"../Helpers/Updater.php?url=".$_SERVER['REQUEST_URI']. "\">" .
+                "<div id=\"data_entry_wrapper\" >";
+        if(isset($_GET['Mark_ID'])){
+            $this->Master_String.= "<form method=\"post\" action=\"../Helpers/Updater.php?update=1&Mark_ID=".$_GET['Mark_ID']. "\">";
+        }
+        
+        if(isset($_GET['S_ID'])){
+            $this->Master_String.= "<form method=\"post\" action=\"../Helpers/Updater.php?insert=1&S_ID=".$_GET['S_ID']. "\">";
+        }
+        else{
+            $this->Master_String.= "<form method=\"post\" action=\"../Helpers/Updater.php?insert=1\">";
+        }
+        $this->Master_String.=             
                         "<div id =\"student_entry\">" .
                             "<h4>Student:</h4>" .
                             "<div id=\"Cohort_year_sem\">" .
@@ -483,8 +569,8 @@ class Page {
                                 "Seminar Type: ".
                                 "<select name=\"marks_sem_type\">";
                             if(isset($_GET['Mark_ID']) || isset($_GET['S_ID']) || isset($_GET['M_ID'])){
-                                if(isset($_GET['seminar'])){
-                                    if(($this->mysql_result_holder['seminar'] == 1) || ( $_GET['seminar'] == 1)){
+                                if(isset($_GET['seminar'])){//($this->mysql_result_holder['seminar'] == 1) || 
+                                    if(( $_GET['seminar'] == 1)){
                                         $this->Master_String.="<option selected=selected value=1>Proposal</option> <option value=2>Final</option>";
                                     }
                                     else{
@@ -537,7 +623,7 @@ class Page {
                 
                 if(isset($_GET['Mark_ID'])){
                     $this->Master_String.=  "<div id=\"delete_button\">".
-                                                "<a href=\"../Helpers/Updater.php?url=".$_SERVER['REQUEST_URI'] . "&Mark_ID=".$_GET['Mark_ID'] ."&delete=1". "\">Delete</a>".
+                                                "<a href=\"../Helpers/Updater.php?Mark_ID=".$_GET['Mark_ID'] ."&delete=1". "\">Delete</a>".
                                             "</div>";
                     $this->Master_String.= "<input type=\"submit\" value=\"Update\">";
                 }

@@ -2,10 +2,13 @@
 include_once "/var/www/html/APHB-3200/Library/DB/Database_Connection.php";
 
 class Table_Generation {
-    protected $Database_connection;
+
+    protected $Database_connection; // required to interact with the database and obtain important table information 
+    protected $current_cohort;
 
     public function __construct($cohort) {
         $this->Database_connection = new Database_Connection();
+        $this->current_cohort = $cohort;
     }
     
     private function check_Row_Null($row){

@@ -30,17 +30,26 @@ class Database_Connection {
     public function Prepared_query_Database($query, $parameters, $types) {
         $prepared_statement = $this->database_object->prepare($query);
         if(count($parameters) == count($types)){
-            for($i = 0; $i < count($parameters); $i++){
-                $prepared_statement->bind_param($types[$i], $parameters[$i]);
+            $ref_param = array();
+            $types_string = "";
+            for($i = 0; $i < count($types); $i++) {
+              $types_string .= $types[$i];
             }
+            
+            $ref_param[] = & $types_string;
+            
+            for($i = 0; $i<count($types); $i++){
+                $ref_param[] = & $parameters[$i];
+            }
+            
+            call_user_func_array(array($prepared_statement, 'bind_param'), $ref_param);
             $prepared_statement->execute();
+            
+            echo $prepared_statement->error;
         }
         else{
             return false;
-        }
-        
-        
-            
+        }  
         
     }
     

@@ -367,7 +367,7 @@ h4{
     margin-bottom:10px;
 }
 
-#shadow_add_student, #shadow_add_marker,#shadow_cohort_select,#shadow_import, #shadow_update_student,#shadow_update_marker{
+#shadow_add_student, #shadow_add_marker,#shadow_cohort_select,#shadow_import, #shadow_update_student,#shadow_update_marker,#shadow_error{
     position:relative;
     margin:200px auto 0 auto;
     width:400px;
@@ -375,6 +375,26 @@ h4{
     z-index:10;
     color:black;
     border-radius:10px;
+    
+    
+}
+#shadow_error{
+    border:1px solid red;
+    
+    display:block;
+}
+
+#shadow_error #error_report{
+    width:360px;
+    position:relative;
+    margin:60px auto 20px auto;
+    background-color:white;
+    border:1px solid 	#C8C8C8;
+    z-index:11;
+    padding:10px;
+}
+
+#shadow_add_student, #shadow_add_marker,#shadow_cohort_select,#shadow_import, #shadow_update_student,#shadow_update_marker{
     border:2px solid #0A489B;
     display:none;
 }
@@ -395,7 +415,7 @@ h4{
     height:210px;
 }
 
-#shadow_add_marker h2,#shadow_add_student h2,#shadow_cohort_select h2,#shadow_import h2,#shadow_update_student h2,#shadow_update_marker h2{
+#shadow_add_marker h2,#shadow_add_student h2,#shadow_cohort_select h2,#shadow_import h2,#shadow_update_student h2,#shadow_update_marker h2, #shadow_error h2{
     position:absolute;
     left:20px;
 }
