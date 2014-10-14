@@ -3,21 +3,15 @@
 /*
  * Page is dedicated to displaying the student/marker table
  */
-if (strpos(php_uname(), 'NICK') !== false) {
-    include_once "C:/xampp/htdocs/CITS3200_Group_H/Library/Helpers/Page.php";
-    include_once "C:/xampp/htdocs/CITS3200_Group_H/Library/Helpers/User_Control.php";
-    include_once "C:/xampp/htdocs/CITS3200_Group_H/Library/Helpers/Table_Generation.php";
-} else {
-    include_once "/var/www/html/CITS3200_Group_H/Library/Helpers/Page.php";
-    include_once "/var/www/html/CITS3200_Group_H/Library/Helpers/User_Control.php";
-    include_once "/var/www/html/CITS3200_Group_H/Library/Helpers/Table_Generation.php";
-}
+include_once "/var/www/html/APHB-3200/Library/Helpers/Page.php";
+include_once "/var/www/html/APHB-3200/Library/Helpers/User_Control.php";
+include_once "/var/www/html/APHB-3200/Library/Helpers/Table_Generation.php";
 
 session_start();
 $User_Check = new User_Control();
 $User_Check_Outcome = $User_Check->is_Session_Active();
 if ($User_Check_Outcome == false) {
-    header('location:/CITS3200_Group_H/Library/Pages/Login.php');
+    header('location:/APHB-3200/Library/Pages/Login.php');
 } else {
 
     $new_page = new Page("Students");

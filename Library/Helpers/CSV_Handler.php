@@ -1,16 +1,8 @@
 <?php
-if (strpos(php_uname(), 'NICK') !== false) {
-    include_once "C:/xampp/htdocs/CITS3200_Group_H/Library/DB/Database_Connection.php";
-    include_once "C:/xampp/htdocs/CITS3200_Group_H/Library/Helpers/User_Control.php";
-    include_once "C:/xampp/htdocs/CITS3200_Group_H/Include/PHPExcel.php";
-    include_once "C:/xampp/htdocs/CITS3200_Group_H/Include/PHPExcel/IOFactory.php";
-
-} else {
-    include_once "/var/www/html/CITS3200_Group_H/Library/DB/Database_Connection.php";
-    include_once "/var/www/html/CITS3200_Group_H/Library/Helpers/User_Control.php";
-    include_once "/var/www/html/CITS3200_Group_H/Library/Include/PHPExcel.php";
-    include_once "/var/www/html/CITS3200_Group_H/Library/Include/PHPExcel/IOFactory.php";
-}
+include_once "/var/www/html/APHB-3200/Library/DB/Database_Connection.php";
+include_once "/var/www/html/APHB-3200/Library/Helpers/User_Control.php";
+include_once "/var/www/html/APHB-3200/Library/Include/PHPExcel.php";
+include_once "/var/www/html/APHB-3200/Library/Include/PHPExcel/IOFactory.php";
 
 class CSV_Handler {
     protected $Database_connection;
@@ -51,8 +43,7 @@ class CSV_Handler {
     public function file_manager() {
         $return_string = "";
         if(isset($_FILES["file"])){
-            $temp = "/var/www/html/APHB-3200/temp.csv";
-            //$temp = "C:\\xampp\\mysql\\data\\temp.csv";
+            $temp = "/var/www/html/APHB-3200/Temp/temp.csv";
             move_uploaded_file($_FILES["file"]["tmp_name"],$temp);
             $this->delete_first_line($temp);
             $relation = $_GET["import"];
@@ -63,7 +54,7 @@ class CSV_Handler {
             $return_string .= "Temporary file location: " . $temp . "<br>";
             
             $query = "LOAD DATA LOCAL INFILE " . 
-                    "\"C:\\\\xampp\\\\mysql\\\\data\\\\temp.csv\" " .
+                    "\"/home/nick/Desktop/temp.csv\" " .
                     "INTO TABLE " . $relation . " " .
                     "FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"' " .
                     "LINES TERMINATED BY '\n' ";
@@ -81,12 +72,11 @@ class CSV_Handler {
         }
         if(isset($_GET["export"])) {
             $relation = $_GET["export"];
-            $template = "/var/www/html/APHB-3200/template.xls";
-            //$template = "C:/xampp/htdocs/CITS3200_Group_H/Template.xls";
+            $template = "/var/www/html/APHB-3200/Temp/template.xls";
+            $output = "/var/www/html/APHB-3200/Temp/marks.xls";
             
             if($relation == "marks") {
-                $output = "/var/www/html/APHB-3200/marks.xls";
-                //$output = "C:/xampp/htdocs/CITS3200_Group_H/marks.xls";
+                $return_string .= getcwd();
                 $objPHPExcel = PHPExcel_IOFactory::load($template);
                 
                 $query = "SELECT * FROM students_overall_output";
@@ -105,15 +95,12 @@ class CSV_Handler {
                     $objPHPExcel->getActiveSheet()->SetCellValue('I'.$rowCount, $row['final_mark_1_2_3_weighted']);
                     $rowCount++;
                 }
-                $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+                $objWriter = new PHPExcel_Writer_Excel5($objPHPExcel);
                 $objWriter->save($output);
                 $return_string .= "<br><a href=\"$output\" download>Click to download marks file!</a>";
             }
         }
         return $return_string;
-    }
-    public function file_Export() {
-        
     }
 }
 

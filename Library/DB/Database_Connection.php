@@ -11,7 +11,7 @@ class Database_Connection {
      * The mysqli() paramaters will be hard coded into the class as it removes the need to constantly restate the same parameters 
      */
     public function __construct() {
-        require(dirname(__FILE__)."./config.php");
+        require(dirname(__FILE__)."/config.php");
         $this->database_object = new mysqli($host, $user, $password, $database);
     }
 

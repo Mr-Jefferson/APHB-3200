@@ -1,14 +1,7 @@
 <?php
-
-if (strpos(php_uname(), 'NICK') !== false) {
-    include_once "C:/xampp/htdocs/CITS3200_Group_H/Library/Helpers/Table_Generation.php";
-    include_once "C:/xampp/htdocs/CITS3200_Group_H/Library/Helpers/CSV_Handler.php";
-    include_once "C:/xampp/htdocs/CITS3200_Group_H/Library/DB/Database_Connection.php";
-} else {
-    include_once "/var/www/html/CITS3200_Group_H/Library/Helpers/Table_Generation.php";
-    include_once "/var/www/html/CITS3200_Group_H/Library/Helpers/CSV_Handler.php";
-    include_once "/var/www/html/CITS3200_Group_H/Library/DB/Database_Connection.php";
-}
+include_once "/var/www/html/APHB-3200/Library/Helpers/Table_Generation.php";
+include_once "/var/www/html/APHB-3200/Library/Helpers/CSV_Handler.php";
+include_once "/var/www/html/APHB-3200/Library/DB/Database_Connection.php";
 
 class Page {
 
@@ -71,8 +64,8 @@ class Page {
                 "<html>" .
                 "<head>
                             <title>" . $this->page_name . "</title>" .
-                "<link rel=\"stylesheet\" type=\"text/css\" href=\"/CITS3200_Group_H/Resources/StyleSheet/Project_StyleSheet.css\">" .
-                "<script type=\"text/javascript\" src=\"/CITS3200_Group_H/Resources/JavaScript/utilities.js\"></script>" .
+                "<link rel=\"stylesheet\" type=\"text/css\" href=\"/APHB-3200/Resources/StyleSheet/Project_StyleSheet.css\">" .
+                "<script type=\"text/javascript\" src=\"/APHB-3200/Resources/JavaScript/utilities.js\"></script>" .
                 "</head>";
     }
 
@@ -335,16 +328,16 @@ class Page {
         $this->Master_String .=
                 "<div id = \"nav\">
                         <ul>
-                            <li id =\"left_nav\"><a href=\"/CITS3200_Group_H/Library/Pages/Student.php\">Students</a></li>" .
+                            <li id =\"left_nav\"><a href=\"/APHB-3200/Library/Pages/Student.php\">Students</a></li>" .
                             
 
-                            "<li id =\"middle_nav\"><a href=\"/CITS3200_Group_H/Library/Pages/Marker.php\">Markers</a></li>".
+                            "<li id =\"middle_nav\"><a href=\"/APHB-3200/Library/Pages/Marker.php\">Markers</a></li>".
                             "<li id =\"middle_nav\" style = \"border-right:2px solid black\" onclick=\"display('cohort_select')\">Set Cohort</li>".
-                            "<li id =\"data_import_menu\" ><a href=\"/CITS3200_Group_H/Library/Pages/dEntry.php\">Data Management</a>".
+                            "<li id =\"data_import_menu\" ><a href=\"/APHB-3200/Library/Pages/dEntry.php\">Data Management</a>".
                             
                                 "<ul>".
                                     "<li onclick=\"display('import')\">Import</li>".
-                                    "<li><a href=\"/CITS3200_Group_H/Library/Pages/Student.php?export=marks\">Export</a></li>".
+                                    "<li><a href=\"/APHB-3200/Library/Pages/Student.php?export=marks\">Export</a></li>".
                                 "</ul></li>".
                             "<li id = \"nav_bar_log_out\" style = \"border-left:2px solid black\"><a href=\"#\">Log Out</a></li>".
                             
