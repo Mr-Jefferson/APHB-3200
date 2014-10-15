@@ -1,7 +1,7 @@
 <?php
 include_once "/var/www/html/APHB-3200/Library/DB/Database_Connection.php";
 include_once "/var/www/html/APHB-3200/Library/Helpers/User_Control.php";
-include_once "/var/www/html/APHB-3200/Helpers/error_Handler.php";
+include_once "/var/www/html/APHB-3200/Library/Helpers/error_Handler.php";
 
 
 session_start();
@@ -16,30 +16,39 @@ else {
     $result = $database_connection->query_Database("select cohort,semester from users");
     $current_cohort = $result->fetch_assoc();
     
-    $boolean_flag = true;
     
+    $boolean_flag = true;
+    $delete_url_codition = false;
+    $type_array = array();
+    $param_array = array();
+    $query = "";
     //echo $_SESSION['url'];
     if(isset($_GET['delete'])){
         $type_array = array("i");
         //delete student
         if(isset($_GET['S_ID'])){
-            $query = "delete from students where id_student=?";
-            $param_array = array($_GET['S_ID']);
+            $query = "delete from students where id_student=? and cohort=? and semester=?";
+            $param_array = array($_GET['S_ID'],$current_cohort['cohort'], $current_cohort['semester']);
+            $type_array = array("i","i","i");
             echo "1";
+            $delete_url_codition = true;
         }
         //delete marker
         if(isset($_GET['M_ID'])){
             $query = "delete from markers where id_marker=?";
             $param_array = array($_GET['M_ID']);
+            $type_array = array("i");
             echo "2";
+            $delete_url_codition = true;
         }
         //delete marks
         if(isset($_GET['Mark_ID'])){
             $query = "delete from marks where id_mark=?";
             $param_array = array($_GET['Mark_ID']);
+            $type_array = array("i");
             echo "3";
         }
-        //$database_connection->Prepared_query_Database($query,$param_array,$type_array);
+        
     }
     if(isset($_GET['update'])){
         // update marks
@@ -57,7 +66,7 @@ else {
         //update marker
         if(isset($_GET['M_ID'])){
             $query = "update markers set marker_first_name=?,marker_last_name=? where id_marker=?";
-            $outcome = $error->new_marker_check($_POST['M_FN'],$_POST['M_LN']);
+            $outcome = $error->new_marker_check($_POST['M_FN'],$_POST['M_LN'],$_GET['M_ID']);
             if($outcome == false){
                 $boolean_flag = false;
                 
@@ -83,14 +92,14 @@ else {
             
            //Update Current cohort
             if(isset($_POST['year']) && isset($_POST['sem']) ){
-                $query = "update users set cohort=?,semester=?";
+                $query = "update users set cohort=?,semester=? where id_user=1 ";
                 $param_array = array($_POST['year'],$_POST['sem']);
                 $type_array = array("i","i");
                 echo "7";
             } 
         }
         
-        //$database_connection->Prepared_query_Database($query,$param_array,$type_array);
+       
     }
     if(isset($_GET['insert'])){
         //add student
@@ -110,7 +119,7 @@ else {
         //add marker
         if(isset($_POST['M_FN']) && isset($_POST['M_LN']) ){
             $new_id = $database_connection->return_new_id("marker");
-            $outcome = $error->new_marker_check($_POST['M_FN'],$_POST['M_LN']);
+            $outcome = $error->new_marker_check($_POST['M_FN'],$_POST['M_LN'],-1);
             if($outcome == false){
                 $boolean_flag = false;
                
@@ -133,26 +142,26 @@ else {
             $param_array = array($new_id,$_POST['mark_1'],$_POST['mark_2'],$_POST['mark_3'],$_POST['marks_sem_type'],$_POST['marks_student'], $_POST['marks_marker']);
             $type_array = array("i","i","i","i","i","i","i"); 
            
-            echo "10 <br>";
+            
         }
-        //$database_connection->Prepared_query_Database($query,$param_array,$type_array);
     }
+    
     if($boolean_flag == false){
         $redirect_URL = "location:".$_SESSION['ERROR_URL'];
         $_SESSION['ERROR'] = $error->return_error_string();
-        echo $redirect_URL;
-        //header($redirect_URL);
+        header($redirect_URL);
     }
     else{
+        $database_connection->Prepared_query_Database($query,$param_array,$type_array);
         if(isset($_SESSION['url'])){
             $redirect_URL = "location:".$_SESSION['url'];
             unset($_SESSION['url']);
         
-            if(isset($_GET['delete'])){
+            if($delete_url_codition == true){
                 $new_url = explode("?",$redirect_URL);
                 $redirect_URL = $new_url[0];
             }
-        
+            
             header($redirect_URL);
         }
         else{

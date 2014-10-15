@@ -135,7 +135,7 @@ class Page {
             $this->Master_String .=
                         "<div id =\"shadow_cohort_select\">
                             <h2>Select Cohort</h2>
-                            <form method=\"post\" action=\"../Helpers/Updater.php?url=".$_SERVER['REQUEST_URI']. "\">
+                            <form method=\"post\" action=\"../Helpers/Updater.php?update=1\">
                                 <div id =\"select_cohort\">
                                     Year: <select name =\"year\">";
                     $this->Master_String .= $this->populate_cohort_year_dropdown();                        

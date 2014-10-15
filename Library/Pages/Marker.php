@@ -29,6 +29,7 @@ if ($User_Check_Outcome == false) {
         $new_page->load_marker_tables($_GET['M_ID']);
         $new_page->set_url();
     } else {
+        $new_page->set_url();
         $new_page->load_page_title("Markers");
         $new_page->load_table_nav_bar("Marker_home");
         $new_page->load_table_body("Marker_home");

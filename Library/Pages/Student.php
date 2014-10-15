@@ -34,6 +34,7 @@ if ($User_Check_Outcome == false) {
         $new_page->load_student_tables($_GET['S_ID']);
         $new_page->set_url();
     } else {
+        $new_page->set_url();
         $new_page->load_page_title("Students");
         $new_page->load_table_nav_bar("Students_home");
         $new_page->load_table_body("Students_home");
