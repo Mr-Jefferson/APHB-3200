@@ -63,7 +63,6 @@ class CSV_Handler {
 
         if($relation == "marks") {
             $template = "/var/www/html/APHB-3200/Temp/template.xls";
-            $temporary = "/tmp/marks.xls";
             $output = "/var/www/html/APHB-3200/Temp/marks.xls";
             $send = "/APHB-3200/Temp/marks.xls";
             $objPHPExcel = PHPExcel_IOFactory::load($template);
@@ -85,8 +84,7 @@ class CSV_Handler {
                 $rowCount++;
             }
             $objWriter = new PHPExcel_Writer_Excel5($objPHPExcel);
-            $objWriter->save($temporary);
-            rename($output,$temporary);
+            $objWriter->save($output);
             $return_string .= "<br><a href=\"$send\" download>Click to download marks file!</a>";
         } else {
             $return_string = "<br>Only marks export is available.";
