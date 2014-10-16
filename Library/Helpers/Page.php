@@ -563,7 +563,7 @@ class Page {
                                 "Marker Name: ".
                                 "<select name =\"marks_marker\">";
                 $this->Master_String.= $this->populate_marker_d_entry();
-        $this->Master_String.=  "<select>" .
+        $this->Master_String.=  "</select>" .
                             "</div>" .
                             //"<button>add</button>" .
                         "</div>" .
