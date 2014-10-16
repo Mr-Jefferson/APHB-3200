@@ -249,7 +249,7 @@ Class error_handler{
     
     /**
      * Method: return the error string so it can be displayed in the shadow_error div.
-     * @return type
+     * @return string
      */
     public function return_error_string(){
         return $this->error_string;
