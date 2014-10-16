@@ -191,7 +191,7 @@ class CSV_Handler {
             $row = $objPHPExcel->getActiveSheet()->rangeToArray("A$i:E$i");
             if($this->Error_Handler->new_student_check($row[0][2], $row[0][3],  $row[0][4], $row[0][0], $row[0][1])) {
                 $new_id = $this->Database_connection->return_new_id('student');
-                $query = "INSERT INTO seminar_marks.students VALUES (".$new_id.",".$row[0][3].",".$row[0][4].",".$row[0][2].",".$row[0][0].",".$row[0][1].")";
+                $query = "INSERT INTO seminar_marks.students VALUES (".$new_id.",\"".$row[0][3]."\",\"".$row[0][4]."\",".$row[0][2].",".$row[0][0].",".$row[0][1].")";
                 $this->Database_connection->query_Database($query);
                 if($new_id != $this->Database_connection->return_new_id('student')) {
                     $return_string .= "Student ".$row[0][3]." ".$row[0][4].", SN: ".$row[0][2]." added successfully!<br>";
