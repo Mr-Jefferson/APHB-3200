@@ -138,7 +138,7 @@ Class error_handler{
      */
     private function check_mark_values(array $marks){
         $boolean_flag = true;
-        for($i = 0; $i < count(marks);$i++){
+        for($i = 0; $i < count($marks);$i++){
             if(!is_numeric($marks[$i])){
                 $this->error_string .= "Invalid value for Mark $i, please provide an integer or float value <br>";
                 $boolean_flag = false;

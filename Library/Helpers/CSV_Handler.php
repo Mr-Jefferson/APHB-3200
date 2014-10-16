@@ -151,8 +151,9 @@ class CSV_Handler {
             $new_id = $this->Database_connection->return_new_id('marks');
             if($this->Error_Handler->validate_mark(array($row[0][3],$row[0][4],$row[0][5]),$id_marker,$id_student,$row[0][6],$new_id)) {
                 $query = "INSERT INTO seminar_marks.marks VALUES (".$new_id.",".$row[0][3].",".$row[0][4].",".$row[0][5].",".$row[0][6].",".$id_student.",".$id_marker;
+                $return_string .= $query;
                 $this->Database_connection->query_Database($query);
-                if($new_id != $this->Database_connection->return_new_id('student')) {
+                if($new_id != $this->Database_connection->return_new_id('marks')) {
                     $return_string .= "Mark by ".$row[0][7]." ".$row[0][8]." on student ".$row[0][2]." added successfully!<br>";
                 } else {
                     $return_string .= "Mark by ".$row[0][7]." ".$row[0][8]." on student ".$row[0][2]." failed to be added to the database.<br>";
