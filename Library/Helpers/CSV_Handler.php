@@ -196,7 +196,8 @@ class CSV_Handler {
         $lastRow = $objPHPExcel->getActiveSheet()->getHighestRow();
         $string = "";
         for($i = 0; $i<$lastRow; $i++) {
-            $array = $objPHPExcel->rangeToArray();
+            $array = $objPHPExcel->getActiveSheet()->ToArray();
+            
             $string .= $array;
         }
         return $string."HELLO";
