@@ -11,13 +11,20 @@ class CSV_Handler {
     protected $Database_connection; //Connection to MySQL database
     protected $current_cohort; //Current cohort variable
     
+    /*
+     * Initialize variables
+     * 
+     * @param array $cohort Current cohort variable
+     */
     public function __construct($cohort) {
         $this->Database_connection = new Database_Connection();
         $this->current_cohort = $cohort;
     }
     
     /*
-     * Deletes first line of file $filename
+     * Deletes first line of a file
+     * 
+     * @param string $filename File path to file that first line is deleted from
      */
     private function delete_First_Line($filename) {
         $file = file($filename);
@@ -27,6 +34,9 @@ class CSV_Handler {
     
     /*
      * Edits student csv import file for data import into MySQL
+     * 
+     * @param string $filename File path to csv import file
+     * @return integer $i Number of rows in csv import file
      */
     private function edit_Students($filename) {
         $file = file($filename);
@@ -42,6 +52,9 @@ class CSV_Handler {
     
     /*
      * Edits markers csv import file for data import into MySQL
+     * 
+     * @param string $filename File path to csv import file
+     * @return integer $i Number of rows in csv import file
      */
     private function edit_Markers($filename) {
         $file = file($filename);
@@ -57,6 +70,9 @@ class CSV_Handler {
     
     /*
      * Edits marks csv import file for data import into MySQL
+     * 
+     * @param string $filename File path to csv import file
+     * @return integer $i Number of rows in csv import file
      */
     private function edit_Marks($filename) {
         $file = file($filename);
@@ -82,6 +98,8 @@ class CSV_Handler {
      * Edits marks xls export file
      * Exports from MySQL into the xls file
      * Saves marks.xls in a downloadable location, appending download link to served page
+     * 
+     * @return string $return_string HTML href to download export file
      */
     private function edit_Export() {
         $return_string = "";
@@ -124,6 +142,8 @@ class CSV_Handler {
      * Returns the number of entries in an imported file
      * Returns the number of entries that MySQL accepted from the imported file
      * 
+     * @return string $return_string Import: Returns HTML for reporting errors, query success and query failure
+     *                               Export: HTML href to download export file
      */
     public function file_manager() {
         $return_string = "";

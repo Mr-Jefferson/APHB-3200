@@ -11,6 +11,11 @@ class Table_Generation {
     protected $Database_connection; //Connection to MySQL database
     protected $current_cohort; //Current cohort variable
 
+    /*
+     * Initialize variables
+     * 
+     * @param array $cohort Current cohort variable
+     */
     public function __construct($cohort) {
         $this->Database_connection = new Database_Connection();
         $this->current_cohort = $cohort;
@@ -19,6 +24,9 @@ class Table_Generation {
     /*
      * Checks if any mark fields are empty (either no mark for proposal or no mark for final)
      * Changes fields to "n/a" to avoid confusion
+     * 
+     * @param array $row Row of data to be edited
+     * @return array $row Row of data after editing
      */
     private function check_Row_Null($row){
         foreach ($row as $key => $value) {
@@ -30,7 +38,10 @@ class Table_Generation {
     }
     
     /*
-     * Prints marker statistics on individual marker page
+     * Prints marker statistics table rows on individual marker page
+     * 
+     * @param mysqli_result $query_outcome MySQL query from which the tables data is loaded
+     * @return string $return_string Returns HTML formatting of table
      */
     private function print_Marker_Individual(mysqli_result $query_outcome) {
         $return_string = "";
@@ -50,7 +61,10 @@ class Table_Generation {
     }
 
     /*
-     * Prints marker marks on individual marker page
+     * Prints marker marks table rows on individual marker page
+     * 
+     * @param mysqli_result $query_outcome MySQL query from which the tables data is loaded
+     * @return string $return_string Returns HTML formatting of table
      */
     private function print_Marker_Individual_Marks(mysqli_result $query_outcome) {
         $return_string = "";
@@ -69,7 +83,10 @@ class Table_Generation {
     }
 
     /*
-     * Prints marker stats on markers page
+     * Prints marker stats table rows on markers page
+     * 
+     * @param mysqli_result $query_outcome MySQL query from which the tables data is loaded
+     * @return string $return_string Returns HTML formatting of table
      */
     private function print_Marker_Overall(mysqli_result $query_outcome) {
         $return_string = "";
@@ -90,7 +107,10 @@ class Table_Generation {
     }
 
     /*
-     * Prints student marks on students page
+     * Prints student marks table rows on students page
+     * 
+     * @param mysqli_result $query_outcome MySQL query from which the tables data is loaded
+     * @return string $return_string Returns HTML formatting of table
      */
     private function print_Student_Overall(mysqli_result $query_outcome) {
         $return_string = "";
@@ -110,7 +130,10 @@ class Table_Generation {
     }
     
     /*
-     * Prints student marks on individual student page
+     * Prints student marks table rows on individual student page
+     * 
+     * @param mysqli_result $query_outcome MySQL query from which the tables data is loaded
+     * @return string $return_string Returns HTML formatting of table
      */
     private function print_Student_Individual(mysqli_result $query_outcome) {
         $return_string = "";
@@ -130,7 +153,11 @@ class Table_Generation {
     }
 
     /*
-     * Prints student statistics on students page
+     * Prints student statistics table rows on students page
+     * 
+     * @param mysqli_result $query_outcome MySQL query from which the tables data is loaded
+     * @param mysqli_result $query_outcome2 MySQL query from which only student count is obtained (not joinable with $query_outcome)
+     * @return string $return_string Returns HTML formatting of table
      */
     private function print_Student_Overall_Stats(mysqli_result $query_outcome, mysqli_result $query_outcome2) {
         $return_string = "";
@@ -155,7 +182,10 @@ class Table_Generation {
     }
 
     /*
-     * Prints individual student marks on individual student page
+     * Prints individual student marks table rows on individual student page
+     * 
+     * @param mysqli_result $query_outcome MySQL query from which the tables data is loaded
+     * @return string $return_string Returns HTML formatting of table
      */
     private function print_Student_Individual_Marks(mysqli_result $query_outcome) {
         $return_string = "";
@@ -175,6 +205,9 @@ class Table_Generation {
 
     /*
      * Generates query and table for marker stats on markers page
+     * 
+     * @param integer $seminar Decides whether the table is for seminar 1 or seminar 2
+     * @return string $return_string Returns HTML formatting of table
      */
     public function generate_Marker_Overall($seminar) {
         $query = "";
@@ -201,6 +234,9 @@ class Table_Generation {
 
     /*
      * Generates query and table for student marks on individual student page
+     * 
+     * @param integer $student_ID Makes the correct student shown
+     * @return string $return_string Returns HTML formatting of table
      */
     public function generate_Student_Individual($student_ID) {
         $query = "SELECT * FROM students_overall WHERE id_student=$student_ID AND cohort=".$this->current_cohort['cohort'] ." and semester=".$this->current_cohort['semester'];
@@ -222,6 +258,10 @@ class Table_Generation {
 
     /*
      * Generates query and table for individual student marks on individual student page
+     * 
+     * @param integer $seminar Decides whether the table is for seminar 1 or seminar 2
+     * @param integer $student_ID Makes the correct student shown
+     * @return string $return_string Returns HTML formatting of table
      */
     public function generate_Student_Individual_Marks($seminar, $student_ID) {
         $query = "SELECT * FROM students_individual_marks WHERE id_student = $student_ID AND seminar = $seminar";
@@ -242,6 +282,8 @@ class Table_Generation {
 
     /*
      * Generates query and table for student marks on students page
+     *
+     * @return string $return_string Returns HTML formatting of table
      */
     public function generate_Student_Overall() {
         $query = "SELECT * FROM students_overall where cohort=".$this->current_cohort['cohort'] ." and semester=".$this->current_cohort['semester'];
