@@ -22,7 +22,6 @@ else {
     $type_array = array();
     $param_array = array();
     $query = "";
-    //echo $_SESSION['url'];
     if(isset($_GET['delete'])){
         $type_array = array("i");
         //delete student
@@ -30,7 +29,6 @@ else {
             $query = "delete from students where id_student=? and cohort=? and semester=?";
             $param_array = array($_GET['S_ID'],$current_cohort['cohort'], $current_cohort['semester']);
             $type_array = array("i","i","i");
-            echo "1";
             $delete_url_codition = true;
         }
         //delete marker
@@ -38,7 +36,6 @@ else {
             $query = "delete from markers where id_marker=?";
             $param_array = array($_GET['M_ID']);
             $type_array = array("i");
-            echo "2";
             $delete_url_codition = true;
         }
         //delete marks
@@ -46,7 +43,6 @@ else {
             $query = "delete from marks where id_mark=?";
             $param_array = array($_GET['Mark_ID']);
             $type_array = array("i");
-            echo "3";
         }
         else{
             $boolean_flag = false;
@@ -65,7 +61,6 @@ else {
             }
             $param_array = array($_POST['mark_1'],$_POST['mark_2'],$_POST['mark_3'],$_POST['marks_sem_type'],$_POST['marks_student'],$_POST['marks_marker'], $_GET['Mark_ID']);
             $type_array = array("d","d","d","i","i","i","i");
-            echo "4";
         }
         //update marker
         if(isset($_GET['M_ID'])){
@@ -82,7 +77,6 @@ else {
                 }
                 $param_array= array($_POST['M_FN'], $_POST['M_LN'],$_GET['M_ID']);
                 $type_array = array("s","s","i");
-                echo "5";
             }
             
         }
@@ -101,7 +95,6 @@ else {
                 }                
                 $param_array = array($_POST['S_SD'],$_POST['S_FN'],$_POST['S_LN'],$_POST['year'],$_POST['sem'], $_GET['S_ID']);
                 $type_array = array("i","s","s","i","i","i");
-                echo "6";
             }
             
         }else{
@@ -113,7 +106,6 @@ else {
                 $query = "update users set cohort=?,semester=? where id_user=1 ";
                 $param_array = array($_POST['year'],$_POST['sem']);
                 $type_array = array("i","i");
-                echo "7";
             } 
         }
         
@@ -126,19 +118,15 @@ else {
                 $boolean_flag = false;
                 $error->add_to_error("Please fill in all form fields<br>");
             }
-            else{
-            
+            else{     
                 $outcome = $error->new_student_check($_POST['S_SD'], $_POST['S_FN'], $_POST['S_LN'], $current_cohort['cohort'], $current_cohort['semester']);
                 if($outcome == false){
                     $boolean_flag = false;
-
                 }
                 $new_id = $database_connection->return_new_id("student");     
                 $query = "insert into students values (?,?,?,?,?,?);";
                 $param_array = array($new_id,$_POST["S_FN"],$_POST['S_LN'],$_POST['S_SD'],$current_cohort['cohort'],$current_cohort['semester']);
                 $type_array = array("i","s","s","i","i","i");
-
-                echo "8";
             }
         }
         //add marker
@@ -152,7 +140,6 @@ else {
                 $outcome = $error->new_marker_check($_POST['M_FN'],$_POST['M_LN'],-1);
                 if($outcome == false){
                     $boolean_flag = false;
-
                 }
                 $query = "insert into markers values (?,?,?);";
                 $param_array = array($new_id,$_POST["M_FN"],$_POST['M_LN']);
@@ -170,9 +157,7 @@ else {
             }
             $query = "insert into marks values (?,?,?,?,?,?,?);";
             $param_array = array($new_id,$_POST['mark_1'],$_POST['mark_2'],$_POST['mark_3'],$_POST['marks_sem_type'],$_POST['marks_student'], $_POST['marks_marker']);
-            $type_array = array("d","d","d","i","i","i","i"); 
-           
-            
+            $type_array = array("d","d","d","i","i","i","i");  
         }
     }
     

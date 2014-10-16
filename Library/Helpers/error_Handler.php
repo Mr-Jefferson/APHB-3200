@@ -90,7 +90,6 @@ Class error_handler{
      */
     private function search_cohort_SN( $studentNumber, $cohort, $semester, $id_student){
         $query = "select * from students where student_number=".$studentNumber." and cohort=".$cohort." and semester=".$semester;
-        echo $query;
         $result = $this->database_connection->query_Database($query);
         if($result != false){
             if($result->num_rows !== 0){

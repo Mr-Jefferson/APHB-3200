@@ -11,8 +11,8 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     
     $outcome = $new_user->validate_User($_POST['username'], $_POST['password']);
 
-    if ($outcome == true) {header('location:Student.php');} 
-    else {header('location:Login.php');}
+    //if ($outcome == true) {header('location:Student.php');} 
+   // else {header('location:Login.php');}
 }
 if(isset($_GET['logOut'])){
     $new_user->destroy_session();

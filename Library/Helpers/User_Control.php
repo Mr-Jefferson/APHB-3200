@@ -23,10 +23,13 @@ Class User_Control {
         } else {
             $User_row = $Query_result->fetch_assoc();
             require(dirname(__FILE__)."/config.php");
+            
             $hashedPassword = crypt($password, $hashString);
+            echo $hashedPassword;
             if ($User_row['password'] === $hashedPassword) {
                 $randomIntString = $this->generate_session_id(); 
-                $_SESSION['sessionHash'] =$randomIntString;
+                echo $randomIntString;
+                $_SESSION['session_hash'] =$randomIntString;
                 $this->DB_connection->Prepared_query_Database("UPDATE users SET sessionHash=?", array($randomIntString), array("s"));
                 return true;
             } else {
@@ -53,7 +56,7 @@ Class User_Control {
      * Method: destroy session and delete the sessionHash column in the users table
      */
     public function destroy_session(){
-        if(isset($_SESSION['sessionHash'])){
+        if(isset($_SESSION['session_hash'])){
             $this->DB_connection->Prepared_query_Database("UPDATE users SET sessionHash=?", array(""), array("s"));
             session_destroy();
             header('location:Login.php');
@@ -67,12 +70,12 @@ Class User_Control {
      * @return boolean Returns true if the session is active and the key: "user_ID" is set, false otherwise
      */
     public function is_Session_Active() {
-        if (isset($_SESSION['sessionHash'])) {
-            $query = "select * from users where sessionHash=\"".$_SESSION['sessionHash']."\"";
+        if (isset($_SESSION['session_hash'])) {
+            $query = "select * from users where session_hash=\"".$_SESSION['session_hash']."\"";
             $result = $this->DB_connection->query_Database($query);
             if($result!=false){
                 $row = $result->fetch_assoc();
-                if($row['sessionHash'] == $_SESSION['sessionHash']){ return true;}
+                if($row['session_hash'] == $_SESSION['sessionHash']){ return true;}
                 else{ return false;}
             }
             else{return false;}
