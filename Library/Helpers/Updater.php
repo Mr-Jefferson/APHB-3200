@@ -164,7 +164,7 @@ else {
         //add marks
         if(isset($_POST['marks_student']) && isset($_POST['marks_marker']) && isset($_POST['marks_sem_type']) && isset($_POST['mark_1']) && isset($_POST['mark_2']) && isset($_POST['mark_3'])){
             $new_id = $database_connection->return_new_id("marks");
-            $outcome = $error->validate_mark($_POST['mark_1'],$_POST['mark_2'],$_POST['mark_3'],$_POST['marks_marker'],$_POST['marks_student'],$_POST['marks_sem_type'],-1);
+            $outcome = $error->validate_mark(array($_POST['mark_1'],$_POST['mark_2'],$_POST['mark_3']),$_POST['marks_marker'],$_POST['marks_student'],$_POST['marks_sem_type'],-1);
             if($outcome == false){
                 $boolean_flag = false;
             }
