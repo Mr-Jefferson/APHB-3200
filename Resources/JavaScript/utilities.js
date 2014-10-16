@@ -1,3 +1,10 @@
+/**
+ * Method: Used to activate the "shadow" effect and bring focus to the pop up window
+ * 
+ * @param string, passed by html tag calling it
+ * @returns {undefined}
+ */
+
 function display() {
     var shadow = document.getElementById('shadow');
     shadow.style.display = "block";
@@ -7,43 +14,27 @@ function display() {
     document.getElementById('shadow_'+arguments[0]).style.display = "block";
 }
 
+/**
+ * Method: Lopps through all known shadow pop ups and check if they exist, if they do then change the display status to none
+ * @returns {undefined}
+ */
 function Hide() {
     var shadow = document.getElementById('shadow');
     shadow.style.display = "none";
     shadow.style.zIndex = 0;
-    var shadow_variable = document.getElementById('shadow_add_student');
-    if( shadow_variable !== null){
-        shadow_variable.style.display = "none";
+    var shadowPopUps = ['add_student','add_marker','cohort_select','import','update_student', 'update_marker','error'];
+    for(i =0;i <shadowPopUps.length;i++){
+        shadow_variable = document.getElementById('shadow_'+shadowPopUps[i]);
+        if( shadow_variable !== null){
+            shadow_variable.style.display = "none";
+        }
     }
-    shadow_variable = document.getElementById('shadow_add_marker');
-    if( shadow_variable !== null){
-        shadow_variable.style.display = "none";
-    }
-    shadow_variable = document.getElementById('shadow_cohort_select');
-    if( shadow_variable !== null){
-        shadow_variable.style.display = "none";
-    }
-    shadow_variable = document.getElementById('shadow_import');
-    if( shadow_variable !== null){
-        shadow_variable.style.display = "none";
-    }
-    shadow_variable = document.getElementById('shadow_update_student');
-    if( shadow_variable !== null){
-        shadow_variable.style.display = "none";
-    }
-    shadow_variable = document.getElementById('shadow_update_marker');
-    if( shadow_variable !== null){
-        shadow_variable.style.display = "none";
-    }
-    
-    shadow_variable = document.getElementById('shadow_error');
-    if(shadow_variable !== null){
-        shadow_variable.style.display = "none";
-    }
-    
-    
 }
-
+/**
+ * Method: function designed to result BUG_006, shadow div was too small when the window size became to small and the overflow attribute was activated.
+ * 
+ * @returns {undefined}
+ */
 window.onload= window.onresize = function adjust_shadow_height_width(){
     var body = document.body;
     var html = document.documentElement;
@@ -60,7 +51,6 @@ window.onload= window.onresize = function adjust_shadow_height_width(){
 
 function checkInput(textbox) {
 	var value = document.getElementById(textbox).value;
-	//alert(textbox+"  =  "+value);
 	if(textbox=="mk1"||textbox=="mk2"||textbox=="mk3"){
 		if(value>10 || value<0 || isNaN(value)){
 		  document.getElementById(textbox).style.border="1px solid red";
@@ -73,19 +63,16 @@ function checkInput(textbox) {
 	else{
 		var specialChars = "<>@!#$%^&*()_+[]{}?:;|'\"\\,./~`-= ";
 		var flag=true;
-		//alert("test1");
 		if((textbox=="ssd" || textbox=="ssd2")&& isNaN(value)){
 			document.getElementById(textbox).style.border="1px solid red";
 			alert("Must be a number.");
 			flag=false;
 		}
-		//alert("test2");
 		for(i = 0; i < specialChars.length;i++){
 			if(value.indexOf(specialChars[i]) > -1){
 			  flag=false;
 			}
 		}
-		//alert("test3");
 		if(flag){
 			document.getElementById(textbox).style.border="";
 		}
@@ -93,10 +80,6 @@ function checkInput(textbox) {
 			document.getElementById(textbox).style.border="1px solid red";
 			alert("can't contain special characters");
 		}
-		//alert("test4");
 	}
-	/*if(value==""){
-		document.getElementById(textbox).style.border="1px solid red";
-		alert("Must include value.");
-	}*/
+
 }

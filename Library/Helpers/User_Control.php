@@ -22,10 +22,15 @@ Class User_Control {
     public function validate_User($user, $password) {
         $Query_result = $this->DB_connection->query_Database("select * from users where username =\"" . $user . "\"");
         if ($Query_result == false) {
-            return false;   // there wasn't any username in the DB with the username the current user provided 
+            return false;   
         } else {
             $User_row = $Query_result->fetch_assoc();
-            if ($User_row['password'] === $password) {
+            
+            $hashedPassword = crypt($password, '$1$CKgg8CRW$');
+            if ($User_row['password'] === $hashedPassword) {
+                $randomIntString = $this->generate_session_id(); 
+                $_SESSION['sessionHash'] =$randomIntString;
+                $this->DB_connection->Prepared_query_Database("UPDATE users SET sessionHash=?", array($randomIntString), array("s"));
                 return true;
             } else {
                 return false;
@@ -34,14 +39,12 @@ Class User_Control {
         return false;
     }
     
-    /**
-     * Method/function name: generate_Session()
-     * Description: Upon confirmation that the username/password provided by the user is valid, the session must initialize $_SESSION['user_ID']
-     */
-    public function generate_Session($user) {
-        session_start();
-        $_SESSION['username'] = $user;
-     
+    private function generate_session_id(){
+        $randomIntString = "";
+        for($i=0;$i<15;$i++){
+            $randomIntString .= mt_rand(0, 9);
+        }
+        return $randomIntString;
     }
 
     /**
@@ -51,21 +54,18 @@ Class User_Control {
      * @return boolean Returns true if the session is active and the key: "user_ID" is set, false otherwise
      */
     public function is_Session_Active() {
-        if (isset($_SESSION['username'])) {
-            return true;
-        } else {
-            return false;
-        }
+        if (isset($_SESSION['sessionHash'])) {
+            $query = "select * from users where sessionHash=\"".$_SESSION['sessionHash']."\"";
+            $result = $this->DB_connection->query_Database($query);
+            if($result!=false){
+                $row = $result->fetch_assoc();
+                if($row['sessionHash'] == $_SESSION['sessionHash']){ return true;}
+                else{ return false;}
+            }
+            else{return false;}
+        } else {return false; }
     }
-
-    /**
-     * Method/function name: destroy_Session()
-     * Description: Upon user logging out, destroy_Session is called to destroy the session which in turn returns the user to the login page
-     */
-    public function destroy_Session() {
-        
-    }
-
+// come back too
     public function set_Cohort(){
         $query = "select cohort,semester from students order by cohort desc, semester desc limit 1";
         $result = $this->DB_connection->query_Database($query);

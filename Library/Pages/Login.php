@@ -10,18 +10,11 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     $new_user = new User_Control();
     $outcome = $new_user->validate_User($_POST['username'], $_POST['password']);
 
-    if ($outcome == true) {
-        $new_user->generate_Session($_POST['username']);
-        $new_user->set_Cohort();
-    
-        header('location:Student.php');
-    } else {
-        header('location:Login.php');
-    }
+    if ($outcome == true) {header('location:Student.php');} 
+    else {header('location:Login.php');}
 }
 if(isset($_GET['logOut'])){
     session_destroy();
-    echo "session should be destroyed";
      //header('location:Login.php');
 }
 
