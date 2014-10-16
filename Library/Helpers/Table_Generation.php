@@ -99,7 +99,7 @@ class Table_Generation {
             if($seminar == 0) { $return_string .= "<td class=\"student_overall_stats\">Proposal</td>"; }
             if($seminar == 1) { $return_string .= "<td class=\"student_overall_stats\">Final</td>"; }
             $row2 = $query_outcome2->fetch_assoc();
-            $return_string .= "<td>".$row["number_of_students"]."</td>";
+            $return_string .= "<td>".$row2["number_of_students"]."</td>";
             for($col=1;$col<count($array);$col++) {
                 $return_string .= "<td>".$row[$array[$col]]."</td>";
             }
