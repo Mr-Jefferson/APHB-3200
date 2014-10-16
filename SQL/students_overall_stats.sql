@@ -1,3 +1,6 @@
+/* 
+ * Cohort statistics view for table on individual student page.
+ */
 USE seminar_marks;
 DROP VIEW IF EXISTS students_overall_stats;
 

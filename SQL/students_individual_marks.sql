@@ -1,3 +1,6 @@
+/* 
+ * Individual student marks view for proposal and final marks table on individual student page.
+ */
 USE seminar_marks;
 DROP VIEW IF EXISTS students_individual_marks;
 

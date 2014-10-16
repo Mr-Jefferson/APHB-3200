@@ -1,3 +1,6 @@
+/* 
+ * Overall marker proposal marks view for table on marker page.
+ */
 USE seminar_marks;
 DROP VIEW IF EXISTS markers_overall_proposal;
 

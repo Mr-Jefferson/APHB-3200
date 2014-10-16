@@ -1,3 +1,6 @@
+/* 
+ * Individual marker page statistics view for table on individual marker page.
+ */
 USE seminar_marks;
 DROP VIEW IF EXISTS markers_individual;
 

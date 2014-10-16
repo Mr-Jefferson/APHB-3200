@@ -1,3 +1,7 @@
+/*
+ * Initialize seminar_marks database, and respective relations.
+ */
+
 DROP DATABASE IF EXISTS seminar_marks;
 
 CREATE DATABASE seminar_marks;

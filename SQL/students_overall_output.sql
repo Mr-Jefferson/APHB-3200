@@ -1,3 +1,6 @@
+/* 
+ * Overall students marks view for marks export
+ */
 USE seminar_marks;
 DROP VIEW IF EXISTS students_overall_output;
 

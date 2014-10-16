@@ -1,3 +1,6 @@
+/* 
+ * Individual marker proposal and final seminar marks view for table on individual marker page.
+ */
 USE seminar_marks;
 DROP VIEW IF EXISTS markers_individual_marks;
 

@@ -1,3 +1,6 @@
+/* 
+ * Count of students view for student count column in statistics table on students page.
+ */
 USE seminar_marks;
 DROP VIEW IF EXISTS students_overall_count;
 

@@ -1,3 +1,6 @@
+/* 
+ * Overall students marks view for table on students page.
+ */
 USE seminar_marks;
 DROP VIEW IF EXISTS students_overall;
 
