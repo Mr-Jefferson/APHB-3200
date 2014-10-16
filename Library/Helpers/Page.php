@@ -561,7 +561,7 @@ class Page {
                             "<h4>Marker:</h4>" .
                             "<div id=\"marker_name\">" .
                                 "Marker Name: ".
-                                "<Select name =\"marks_marker\">";
+                                "<select name =\"marks_marker\">";
                 $this->Master_String.= $this->populate_marker_d_entry();
         $this->Master_String.=  "<select>" .
                             "</div>" .
