@@ -51,7 +51,7 @@ class Table_Generation {
     private function print_Marker_Overall(mysqli_result $query_outcome) {
         $return_string = "";
         while ($row = $query_outcome->fetch_assoc()) {
-            $array = ["marker_name","mark_1_average","mark_2_average","overall_average","number_of_marks","minimum_mark","maximum_mark","standard_deviation"];
+            $array = ["marker_name","mark_1_average","mark_2_average","mark_3_average","overall_average","number_of_marks","minimum_mark","maximum_mark","standard_deviation"];
             $row = $this->check_Row_Null($row);
             $return_string .= "<tr>";
             for($col=0;$col<count($array);$col++) {
@@ -106,8 +106,8 @@ class Table_Generation {
 
     public function generate_Marker_Overall($seminar) {
         $query = "";
-        if($seminar==1) $query .= "SELECT * FROM markers_overall_proposal";
-        if($seminar==2) $query .= "SELECT * FROM markers_overall_final";
+        if($seminar==1) $query .= "SELECT * FROM markers_overall_proposal WHERE cohort=".$this->current_cohort['cohort'] ." and semester=".$this->current_cohort['semester'];
+        if($seminar==2) $query .= "SELECT * FROM markers_overall_final WHERE cohort=".$this->current_cohort['cohort'] ." and semester=".$this->current_cohort['semester'];
         $queryResult = $this->Database_connection->query_Database($query);
         $return_string = "<div id=\"inner_table_wrapper\">";
         if($seminar==1) $return_string .= "<h4>Proposal Seminar Marks:</h4>";
@@ -128,7 +128,7 @@ class Table_Generation {
     }
 
     public function generate_Student_Individual($student_ID) {
-        $query = "SELECT * FROM students_overall WHERE id_student=$student_ID";
+        $query = "SELECT * FROM students_overall WHERE id_student=$student_ID AND cohort=".$this->current_cohort['cohort'] ." and semester=".$this->current_cohort['semester'];
         $queryResult = $this->Database_connection->query_Database($query);
         $return_string = "<div id=\"inner_table_wrapper\"><h4>Overall Seminar Marks:</h4><table><tr>
             <th colspan=\"4\" class=\"seminar_table_headings\">Proposal</th>
@@ -186,7 +186,7 @@ class Table_Generation {
     }
 
     public function generate_Marker_Individual($marker_ID) {
-        $query = "SELECT * FROM markers_individual WHERE id_marker = $marker_ID";
+        $query = "SELECT * FROM markers_individual WHERE id_marker = $marker_ID AND cohort=".$this->current_cohort['cohort'] ." and semester=".$this->current_cohort['semester'];
         $queryResult = $this->Database_connection->query_Database($query);
         $return_string = "<div id= \"inner_table_wrapper\"><h4>Marker Average Marks:</h4><table><tr>
             <th colspan=\"4\" class=\"seminar_table_headings\">Proposal</th>
@@ -204,7 +204,7 @@ class Table_Generation {
     }
 
     public function generate_Marker_Individual_Marks($seminar, $marker_ID) {
-        $query = "SELECT * FROM markers_individual_marks WHERE id_marker = $marker_ID AND seminar = $seminar";
+        $query = "SELECT * FROM markers_individual_marks WHERE id_marker = $marker_ID AND seminar = $seminar AND cohort=".$this->current_cohort['cohort'] ." and semester=".$this->current_cohort['semester'];
         $queryResult = $this->Database_connection->query_Database($query);
         $return_string = 
             "<div id=\"inner_table_wrapper\">";

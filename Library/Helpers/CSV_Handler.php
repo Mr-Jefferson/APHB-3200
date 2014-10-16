@@ -6,6 +6,7 @@ include_once "/var/www/html/APHB-3200/Library/Include/PHPExcel/IOFactory.php";
 
 class CSV_Handler {
     protected $Database_connection;
+    protected $current_cohort;
     
     private function delete_First_Line($filename) {
         $file = file($filename);
@@ -67,7 +68,7 @@ class CSV_Handler {
             $send = "/APHB-3200/Temp/marks.xls";
             $objPHPExcel = PHPExcel_IOFactory::load($template);
 
-            $query = "SELECT * FROM students_overall_output";
+            $query = "SELECT * FROM students_overall_output WHERE cohort=".$this->current_cohort['cohort'] ." and semester=".$this->current_cohort['semester'];
             $result = $this->Database_connection->query_Database($query);
 
             $rowCount = 3;
@@ -92,8 +93,9 @@ class CSV_Handler {
         return $return_string;
     }
     
-    public function __construct() {
+    public function __construct($cohort) {
         $this->Database_connection = new Database_Connection();
+        $this->current_cohort = $cohort;
     }
     
     public function file_manager() {
@@ -109,7 +111,7 @@ class CSV_Handler {
             $before = 0;
             $after = 0;
             
-            $query = "LOAD DATA INFILE " . 
+            $query = "LOAD DATA LOCAL INFILE " . 
                     "\"$temp\" " .
                     "INTO TABLE " . $import . " " .
                     "FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"' " .
