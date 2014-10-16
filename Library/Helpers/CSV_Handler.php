@@ -161,7 +161,7 @@ class CSV_Handler {
             $return_string .= "<br>Marks in file: $return_number <br>Marks added to database: $added";
         } else **/
         if($import == "students") {
-            return $this->import_students($objPHPExcel);
+            $return_string .= $this->import_students($objPHPExcel);
             /**
             $before = $this->Database_connection->return_new_id("student");
             $return_number = $this->edit_Students($temp);
@@ -184,6 +184,7 @@ class CSV_Handler {
         }
         $objPHPExcel->disconnectWorksheets();
         unset($objPHPExcel);
+        return $return_string;
     }
     
     public function export() {
@@ -194,10 +195,10 @@ class CSV_Handler {
     public function import_students($objPHPExcel) {
         $lastRow = $objPHPExcel->getActiveSheet()->getHighestRow();
         $string = "";
-        for($i = 0; i<$lastRow; $i++) {
+        for($i = 0; $i<$lastRow; $i++) {
             $array = $objPHPExcel->rangeToArray();
             $string .= $array;
         }
-        return $string;
+        return $string."HELLO";
     }
 }
