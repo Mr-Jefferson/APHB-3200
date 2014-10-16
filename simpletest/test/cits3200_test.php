@@ -48,7 +48,7 @@ class TestOfCits3200 extends WebTestCase {
 		$this->setField('S_FN', 'testc');
 		$this->setField('S_LN', '?tsetc');
 		$this->click('create');
-		$this->assertNoText('98765433');
+		$this->assertNoText('987654323');
 		
 		echo "Test adding student. - SpecialCharacters - StudentNumber <br>";
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/Student.php');
@@ -216,7 +216,7 @@ class TestOfCits3200 extends WebTestCase {
 		echo "Test updating student - Correctly<br>";
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/Student.php?S_ID=1');
 		$this->click('Update Student');
-		$this->setFieldById('ssd2', '12345678');
+		$this->setFieldById('ssd2', '123456789');
 		$this->setFieldById('sfn2', 'Nikola');
 		$this->setFieldById('sln2', 'Tesla');
 		$this->clickSubmitById('SUpdate');
@@ -288,7 +288,7 @@ class TestOfCits3200 extends WebTestCase {
 		{
 		echo "Test updating marker - Correctly<br>";
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/Marker.php?M_ID=1');
-		$this->click('Update Marker');
+		$this->click(' Update Marker');
 		$this->setFieldById('M_FN', 'Thomas');
 		$this->setFieldById('M_LN', 'Edison');
 		$this->clickSubmitById('MUpdate');
@@ -298,7 +298,7 @@ class TestOfCits3200 extends WebTestCase {
 		
 		echo "Test updating marker - SpecialCharacters - FirstName<br>";
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/Marker.php?M_ID=1');
-		$this->click('Update Marker');
+		$this->click(' Update Marker');
 		$this->setFieldById('M_FN', '?Thomas');
 		$this->setFieldById('M_LN', 'Edison');
 		$this->clickSubmitById('MUpdate');
@@ -308,7 +308,7 @@ class TestOfCits3200 extends WebTestCase {
 		
 		echo "Test updating marker - SpecialCharacters - LastName<br>";
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/Marker.php?M_ID=1');
-		$this->click('Update Marker');
+		$this->click(' Update Marker');
 		$this->setFieldById('M_FN', 'Thomas');
 		$this->setFieldById('M_LN', '?Edison');
 		$this->clickSubmitById('MUpdate');
@@ -318,7 +318,7 @@ class TestOfCits3200 extends WebTestCase {
 		
 		echo "Test updating marker - Null - FirstName<br>";
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/Marker.php?M_ID=1');
-		$this->click('Update Marker');
+		$this->click(' Update Marker');
 		$this->setFieldById('M_FN', '');
 		$this->setFieldById('M_LN', 'Edison');
 		$this->clickSubmitById('MUpdate');
@@ -328,7 +328,7 @@ class TestOfCits3200 extends WebTestCase {
 		
 		echo "Test updating marker - Null - LastName<br>";
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/Marker.php?M_ID=1');
-		$this->click('Update Marker');
+		$this->click(' Update Marker');
 		$this->setFieldById('M_FN', 'Thomas');
 		$this->setFieldById('M_LN', '');
 		$this->clickSubmitById('MUpdate');
@@ -339,66 +339,66 @@ class TestOfCits3200 extends WebTestCase {
 		echo "----------- MARKS UPDATE TEST -----------<br><br>";
 		{
 		echo "Test updating marks - Correctly<br>";
-		$this->get('http://localhost/CITS3200_Group_H/Library/Pages/dEntry.php?Mark_ID=7');
+		$this->get('http://localhost/CITS3200_Group_H/Library/Pages/dEntry.php?Mark_ID=1');
 		$this->setField('mark_1', '9');
 		$this->setField('mark_2', '8');
 		$this->setField('mark_3', '7');
 		$this->clickSubmitById('MkUpdate');
-		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/Student.php?S_ID=2');
+		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/Student.php?S_ID=1');
 		$this->assertText('73.00');
 		
 		echo "Test updating marks - SpecialCharacters - Mark1<br>";
-		$this->get('http://localhost/CITS3200_Group_H/Library/Pages/dEntry.php?Mark_ID=7');
+		$this->get('http://localhost/CITS3200_Group_H/Library/Pages/dEntry.php?Mark_ID=1');
 		$this->setField('mark_1', '?6');
 		$this->setField('mark_2', '5');
 		$this->setField('mark_3', '4');
 		$this->clickSubmitById('MkUpdate');
-		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/Student.php?S_ID=2');
+		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/Student.php?S_ID=1');
 		$this->assertText('73.00');
 		
 		echo "Test updating marks - SpecialCharacters - Mark2<br>";
-		$this->get('http://localhost/CITS3200_Group_H/Library/Pages/dEntry.php?Mark_ID=7');
+		$this->get('http://localhost/CITS3200_Group_H/Library/Pages/dEntry.php?Mark_ID=1');
 		$this->setField('mark_1', '6');
 		$this->setField('mark_2', '?5');
 		$this->setField('mark_3', '4');
 		$this->clickSubmitById('MkUpdate');
-		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/Student.php?S_ID=2');
+		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/Student.php?S_ID=1');
 		$this->assertText('73.00');
 		
 		echo "Test updating marks - SpecialCharacters - Mark3<br>";
-		$this->get('http://localhost/CITS3200_Group_H/Library/Pages/dEntry.php?Mark_ID=7');
+		$this->get('http://localhost/CITS3200_Group_H/Library/Pages/dEntry.php?Mark_ID=1');
 		$this->setField('mark_1', '6');
 		$this->setField('mark_2', '5');
 		$this->setField('mark_3', '?4');
 		$this->clickSubmitById('MkUpdate');
-		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/Student.php?S_ID=2');
+		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/Student.php?S_ID=1');
 		$this->assertText('73.00');
 		
 		echo "Test updating marks - Null - Mark1<br>";
-		$this->get('http://localhost/CITS3200_Group_H/Library/Pages/dEntry.php?Mark_ID=7');
+		$this->get('http://localhost/CITS3200_Group_H/Library/Pages/dEntry.php?Mark_ID=1');
 		$this->setField('mark_1', '');
 		$this->setField('mark_2', '5');
 		$this->setField('mark_3', '4');
 		$this->clickSubmitById('MkUpdate');
-		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/Student.php?S_ID=2');
+		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/Student.php?S_ID=1');
 		$this->assertText('73.00');
 		
 		echo "Test updating marks - Null - Mark2<br>";
-		$this->get('http://localhost/CITS3200_Group_H/Library/Pages/dEntry.php?Mark_ID=7');
+		$this->get('http://localhost/CITS3200_Group_H/Library/Pages/dEntry.php?Mark_ID=1');
 		$this->setField('mark_1', '6');
 		$this->setField('mark_2', '');
 		$this->setField('mark_3', '4');
 		$this->clickSubmitById('MkUpdate');
-		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/Student.php?S_ID=2');
+		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/Student.php?S_ID=1');
 		$this->assertText('73.00');
 		
 		echo "Test updating marks - Null - Mark3<br>";
-		$this->get('http://localhost/CITS3200_Group_H/Library/Pages/dEntry.php?Mark_ID=7');
+		$this->get('http://localhost/CITS3200_Group_H/Library/Pages/dEntry.php?Mark_ID=1');
 		$this->setField('mark_1', '6');
 		$this->setField('mark_2', '5');
 		$this->setField('mark_3', '');
 		$this->clickSubmitById('MkUpdate');
-		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/Student.php?S_ID=2');
+		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/Student.php?S_ID=1');
 		$this->assertText('73.00');
 		}
 		
@@ -438,7 +438,7 @@ class TestOfCits3200 extends WebTestCase {
 		echo "Adding Marks<br>";
 		{
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/dEntry.php?S_ID=1&seminar=1');
-		$this->setFieldByID('marks_marker', '2'));
+		$this->setFieldByID('marks_marker', '2');
 		$this->setField('mark_1', '9');
 		$this->setField('mark_2', '3');
 		$this->setField('mark_3', '6');
@@ -446,7 +446,7 @@ class TestOfCits3200 extends WebTestCase {
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/Student.php');
 		//$this->assertText('9876543216.506.506.5065.00');
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/dEntry.php?S_ID=1&seminar=1');
-		$this->setFieldByID('marks_marker', '3'));
+		$this->setFieldByID('marks_marker', '3');
 		$this->setField('mark_1', '5');
 		$this->setField('mark_2', '5');
 		$this->setField('mark_3', '8');
@@ -455,7 +455,7 @@ class TestOfCits3200 extends WebTestCase {
 		//$this->assertText('9876543216.506.506.5065.00');
 		
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/dEntry.php?S_ID=1&seminar=2');
-		$this->setFieldByID('marks_marker', '1'));
+		$this->setFieldByID('marks_marker', '1');
 		$this->setField('mark_1', '5');
 		$this->setField('mark_2', '1');
 		$this->setField('mark_3', '2');
@@ -463,7 +463,7 @@ class TestOfCits3200 extends WebTestCase {
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/Student.php');
 		//$this->assertText('9876543216.506.506.5065.00');
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/dEntry.php?S_ID=1&seminar=2');
-		$this->setFieldByID('marks_marker', '2'));
+		$this->setFieldByID('marks_marker', '2');
 		$this->setField('mark_1', '6');
 		$this->setField('mark_2', '7');
 		$this->setField('mark_3', '4');
@@ -471,7 +471,7 @@ class TestOfCits3200 extends WebTestCase {
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/Student.php');
 		//$this->assertText('9876543216.506.506.5065.00');
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/dEntry.php?S_ID=1&seminar=2');
-		$this->setFieldByID('marks_marker', '3'));
+		$this->setFieldByID('marks_marker', '3');
 		$this->setField('mark_1', '3');
 		$this->setField('mark_2', '2');
 		$this->setField('mark_3', '6');
@@ -481,7 +481,7 @@ class TestOfCits3200 extends WebTestCase {
 		}
 		{
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/dEntry.php?S_ID=2&seminar=1');
-		$this->setFieldByID('marks_marker', '1'));
+		$this->setFieldByID('marks_marker', '1');
 		$this->setField('mark_1', '7');
 		$this->setField('mark_2', '1');
 		$this->setField('mark_3', '5');
@@ -489,7 +489,7 @@ class TestOfCits3200 extends WebTestCase {
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/Student.php');
 		//$this->assertText('9876543216.506.506.5065.00');
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/dEntry.php?S_ID=2&seminar=1');
-		$this->setFieldByID('marks_marker', '2'));
+		$this->setFieldByID('marks_marker', '2');
 		$this->setField('mark_1', '6');
 		$this->setField('mark_2', '4');
 		$this->setField('mark_3', '1');
@@ -497,7 +497,7 @@ class TestOfCits3200 extends WebTestCase {
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/Student.php');
 		//$this->assertText('9876543216.506.506.5065.00');
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/dEntry.php?S_ID=2&seminar=1');
-		$this->setFieldByID('marks_marker', '3'));
+		$this->setFieldByID('marks_marker', '3');
 		$this->setField('mark_1', '2');
 		$this->setField('mark_2', '2');
 		$this->setField('mark_3', '6');
@@ -506,7 +506,7 @@ class TestOfCits3200 extends WebTestCase {
 		//$this->assertText('9876543216.506.506.5065.00');
 		
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/dEntry.php?S_ID=2&seminar=2');
-		$this->setFieldByID('marks_marker', '1'));
+		$this->setFieldByID('marks_marker', '1');
 		$this->setField('mark_1', '3');
 		$this->setField('mark_2', '5');
 		$this->setField('mark_3', '0');
@@ -514,7 +514,7 @@ class TestOfCits3200 extends WebTestCase {
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/Student.php');
 		//$this->assertText('9876543216.506.506.5065.00');
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/dEntry.php?S_ID=2&seminar=2');
-		$this->setFieldByID('marks_marker', '2'));
+		$this->setFieldByID('marks_marker', '2');
 		$this->setField('mark_1', '1');
 		$this->setField('mark_2', '3');
 		$this->setField('mark_3', '6');
@@ -522,7 +522,7 @@ class TestOfCits3200 extends WebTestCase {
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/Student.php');
 		//$this->assertText('9876543216.506.506.5065.00');
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/dEntry.php?S_ID=2&seminar=2');
-		$this->setFieldByID('marks_marker', '3'));
+		$this->setFieldByID('marks_marker', '3');
 		$this->setField('mark_1', '9');
 		$this->setField('mark_2', '9');
 		$this->setField('mark_3', '8');
@@ -532,7 +532,7 @@ class TestOfCits3200 extends WebTestCase {
 		}
 		{
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/dEntry.php?S_ID=3&seminar=1');
-		$this->setFieldByID('marks_marker', '1'));
+		$this->setFieldByID('marks_marker', '1');
 		$this->setField('mark_1', '6');
 		$this->setField('mark_2', '1');
 		$this->setField('mark_3', '8');
@@ -540,7 +540,7 @@ class TestOfCits3200 extends WebTestCase {
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/Student.php');
 		//$this->assertText('9876543216.506.506.5065.00');
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/dEntry.php?S_ID=3&seminar=1');
-		$this->setFieldByID('marks_marker', '2'));
+		$this->setFieldByID('marks_marker', '2');
 		$this->setField('mark_1', '2');
 		$this->setField('mark_2', '4');
 		$this->setField('mark_3', '7');
@@ -548,7 +548,7 @@ class TestOfCits3200 extends WebTestCase {
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/Student.php');
 		//$this->assertText('9876543216.506.506.5065.00');
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/dEntry.php?S_ID=3&seminar=1');
-		$this->setFieldByID('marks_marker', '3'));
+		$this->setFieldByID('marks_marker', '3');
 		$this->setField('mark_1', '6');
 		$this->setField('mark_2', '7');
 		$this->setField('mark_3', '9');
@@ -557,7 +557,7 @@ class TestOfCits3200 extends WebTestCase {
 		//$this->assertText('9876543216.506.506.5065.00');
 		
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/dEntry.php?S_ID=3&seminar=2');
-		$this->setFieldByID('marks_marker', '1'));
+		$this->setFieldByID('marks_marker', '1');
 		$this->setField('mark_1', '5');
 		$this->setField('mark_2', '3');
 		$this->setField('mark_3', '7');
@@ -565,7 +565,7 @@ class TestOfCits3200 extends WebTestCase {
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/Student.php');
 		//$this->assertText('9876543216.506.506.5065.00');
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/dEntry.php?S_ID=3&seminar=2');
-		$this->setFieldByID('marks_marker', '2'));
+		$this->setFieldByID('marks_marker', '2');
 		$this->setField('mark_1', '6');
 		$this->setField('mark_2', '5');
 		$this->setField('mark_3', '6');
@@ -573,7 +573,7 @@ class TestOfCits3200 extends WebTestCase {
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/Student.php');
 		//$this->assertText('9876543216.506.506.5065.00');
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/dEntry.php?S_ID=3&seminar=2');
-		$this->setFieldByID('marks_marker', '3'));
+		$this->setFieldByID('marks_marker', '3');
 		$this->setField('mark_1', '2');
 		$this->setField('mark_2', '2');
 		$this->setField('mark_3', '4');
@@ -608,7 +608,7 @@ class TestOfCits3200 extends WebTestCase {
 		
 		echo "Test deleting marker<br>";
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/Marker.php?M_ID=1');
-		$this->click('Update Marker');
+		$this->click(' Update Marker');
 		$this->click('Delete');
 		$this->get('http://128.199.218.6/APHB-3200/Library/Pages/Marker.php');
 		$this->assertNoText('Edison');
