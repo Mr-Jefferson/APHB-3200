@@ -11,9 +11,10 @@ CREATE DATABASE seminar_marks;
 CREATE TABLE IF NOT EXISTS seminar_marks.users (
     id_user INT NOT NULL PRIMARY KEY,
     username VARCHAR(45) NOT NULL UNIQUE,
-    password VARCHAR(45) NOT NULL,
+    password VARCHAR(255) NOT NULL DEFAULT '',
     cohort INT NOT NULL,
-    semester TINYINT NOT NULL
+    semester TINYINT NOT NULL,
+    session_hash VARCHAR(255) DEFAULT ''
 );
 -- -----------------------------------------------------
 -- Markers Relation
@@ -49,3 +50,7 @@ CREATE TABLE IF NOT EXISTS seminar_marks.marks (
     FOREIGN KEY (id_student) REFERENCES students(id_student) ON DELETE CASCADE,
     FOREIGN KEY (id_marker) REFERENCES markers(id_marker) ON DELETE CASCADE
 );
+-- -----------------------------------------------------
+-- Initial User
+-- -----------------------------------------------------
+INSERT INTO seminar_marks.users VALUES (1,'admin','$1$CKgg8CRW$YoqH9eNvg3QKm7thS/vyc.',2014,1,'');
