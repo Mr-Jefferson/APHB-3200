@@ -100,7 +100,7 @@ Class error_handler{
     public function new_student_check($SN,$SFN,$SLN,$cohort,$semester){
         $boolean_flag = true;
         echo "1<br>";
-        if(preg_match("/^[0-9]*$/", $SN) == false){
+        if(preg_match("/^[0-9]*$/", $SN) == true){
             echo "2<br>";
             if($this->search_cohort_SN($SN, $cohort, $semester)==false){
                 $boolean_flag = false;
