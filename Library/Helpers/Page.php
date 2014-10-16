@@ -263,7 +263,7 @@ class Page {
                                     <div id=\"delete_button\">
                                                 <a href=\"../Helpers/Updater.php?S_ID=".$_GET['S_ID'] ."&delete=1". "\">Delete</a>".
                                             "</div>
-                                    <input type=\"submit\" value=\"Update\">
+                                    <input type=\"submit\" id=\"SUpdate\" value=\"Update\">
                                 </div>
                             </form>";
                     } 
@@ -629,7 +629,7 @@ class Page {
                     $this->Master_String.=  "<div id=\"delete_button\">".
                                                 "<a href=\"../Helpers/Updater.php?Mark_ID=".$_GET['Mark_ID'] ."&delete=1". "\">Delete</a>".
                                             "</div>";
-                    $this->Master_String.= "<input type=\"submit\" id=\"SUpdate\" value=\"Update\">";
+                    $this->Master_String.= "<input type=\"submit\" id=\"MUpdate\" value=\"Update\">";
                 }
                 else{
                     $this->Master_String.= "<input type=\"submit\" value=\"Add Marks\">";
