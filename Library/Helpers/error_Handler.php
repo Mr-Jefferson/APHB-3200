@@ -41,7 +41,7 @@ Class error_handler{
      * @return boolean
      */
     private function check_name( $name){
-        if(preg_match("/[^a-zA-Z]/",$name)){return false;}
+        if(!preg_match("/[^a-zA-Z]/",$name)){return false;}
         else{return true;}
     }
     
