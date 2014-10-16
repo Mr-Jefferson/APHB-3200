@@ -2,9 +2,9 @@ function display() {
     var shadow = document.getElementById('shadow');
     shadow.style.display = "block";
     shadow.style.zIndex = 7;
-
-    document.getElementById('shadow_'+arguments[0]).style.display = "block";
+    document.body.style.display="fixed";
     
+    document.getElementById('shadow_'+arguments[0]).style.display = "block";
 }
 
 function Hide() {
@@ -45,19 +45,18 @@ function Hide() {
 }
 
 window.onload= window.onresize = function adjust_shadow_height_width(){
-    var body = document.window;
+    var body = document.body;
     var html = document.documentElement;
-    var height;
-    
-    if(typeof document.height !== 'undefined'){
-        height = document.height;
+    var height = 0;
+
+    if (typeof document.height !== 'undefined') {
+        height = document.height 
+    } else {
+        height = Math.max( body.scrollHeight, body.offsetHeight,html.clientHeight, html.scrollHeight, html.offsetHeight );
     }
-    else{
-        height = Math.max(body.scrollheight,body.offsetHeight, html.clientHeight, html.scrillHeight);
-    }
-    
-    document.getElementById('hidden_form').style.height = height.concat("px");
-}
+        
+    document.getElementById('shadow').style.height= height + "px";
+};
 
 function checkInput(textbox) {
 	var value = document.getElementById(textbox).value;
