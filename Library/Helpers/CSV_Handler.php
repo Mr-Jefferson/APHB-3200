@@ -4,16 +4,30 @@ include_once "/var/www/html/APHB-3200/Library/Helpers/User_Control.php";
 include_once "/var/www/html/APHB-3200/Library/Include/PHPExcel.php";
 include_once "/var/www/html/APHB-3200/Library/Include/PHPExcel/IOFactory.php";
 
+/*
+ * Class for handling CSV import and XLS output
+ */
 class CSV_Handler {
-    protected $Database_connection;
-    protected $current_cohort;
+    protected $Database_connection; //Connection to MySQL database
+    protected $current_cohort; //Current cohort variable
     
+    public function __construct($cohort) {
+        $this->Database_connection = new Database_Connection();
+        $this->current_cohort = $cohort;
+    }
+    
+    /*
+     * Deletes first line of file $filename
+     */
     private function delete_First_Line($filename) {
         $file = file($filename);
         unset($file[0]);
         file_put_contents($filename, $file);
     }
     
+    /*
+     * Edits student csv import file for data import into MySQL
+     */
     private function edit_Students($filename) {
         $file = file($filename);
         $i=0;
@@ -26,6 +40,9 @@ class CSV_Handler {
         return $i;
     }
     
+    /*
+     * Edits markers csv import file for data import into MySQL
+     */
     private function edit_Markers($filename) {
         $file = file($filename);
         $i=0;
@@ -38,6 +55,9 @@ class CSV_Handler {
         return $i;
     }
     
+    /*
+     * Edits marks csv import file for data import into MySQL
+     */
     private function edit_Marks($filename) {
         $file = file($filename);
         $i=0;
@@ -58,6 +78,11 @@ class CSV_Handler {
         return $i;
     }
     
+    /*
+     * Edits marks xls export file
+     * Exports from MySQL into the xls file
+     * Saves marks.xls in a downloadable location, appending download link to served page
+     */
     private function edit_Export() {
         $return_string = "";
         $relation = $_GET["export"];
@@ -93,11 +118,13 @@ class CSV_Handler {
         return $return_string;
     }
     
-    public function __construct($cohort) {
-        $this->Database_connection = new Database_Connection();
-        $this->current_cohort = $cohort;
-    }
-    
+    /*
+     * Manages what type of importing or exporting has been requested:
+     * Students import, Markers import, Marks import, Marks export
+     * Returns the number of entries in an imported file
+     * Returns the number of entries that MySQL accepted from the imported file
+     * 
+     */
     public function file_manager() {
         $return_string = "";
         if(isset($_FILES["file"])){

@@ -8,7 +8,6 @@ include_once "/var/www/html/APHB-3200/Library/DB/Database_Connection.php";
  * print_ prints the result from the database query into table rows
  */
 class Table_Generation {
-
     protected $Database_connection; //Connection to MySQL database
     protected $current_cohort; //Current cohort variable
 
