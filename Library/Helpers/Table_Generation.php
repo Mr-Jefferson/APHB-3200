@@ -90,16 +90,20 @@ class Table_Generation {
         return $return_string;
     }
 
-    private function print_Student_Overall_Stats(mysqli_result $query_outcome) {
+    private function print_Student_Overall_Stats(mysqli_result $query_outcome, $seminar) {
         $return_string = "";
+        $seminar = 1;
         while ($row = $query_outcome->fetch_assoc()) {
-            $array = ["proposal_mark_1","proposal_mark_2","proposal_mark_3","proposal_total","final_mark_1","final_mark_2","final_mark_3","final_total"];
+            $array = ["number_of_marks","overall_average","overall_maximum","overall_minimum","overall_range","overall_stddev"];
             $row = $this->check_Row_Null($row);
             $return_string .= "<tr>";
+            if($seminar == 1) { $return_string .= "<td class=\"student_overall_stats\">Proposal</td>"; }
+            if($seminar == 2) { $return_string .= "<td class=\"student_overall_stats\">Final</td>"; }
             for($col=0;$col<count($array);$col++) {
                 $return_string .= "<td>".$row[$array[$col]]."</td>";
             }
             $return_string .= "</tr>";
+            $seminar++;
         }
         return $return_string;
     }
@@ -200,24 +204,16 @@ class Table_Generation {
     }
     
     public function generate_Student_Overall_Stats() {
-        $query = "SELECT * FROM students_overall where cohort=".$this->current_cohort['cohort'] ." and semester=".$this->current_cohort['semester'];
+        $query = "SELECT * FROM students_overall_stats where cohort=".$this->current_cohort['cohort'] ." and semester=".$this->current_cohort['semester'];
         $queryResult = $this->Database_connection->query_Database($query);
         $return_string = "<div id=\"inner_table_wrapper\"><table><tr>
-            <th colspan=\"1\"></th>
-            <th colspan=\"1\"></th>
-            <th colspan=\"4\" class=\"seminar_table_headings\">Proposal</th>
-            <th colspan=\"4\" class=\"seminar_table_headings\">Final</th></tr><tr>
-            <th class=\"subheading\">Student Name</th>
-            <th class=\"subheading\">Student Number</th>
-            <th class=\"subheading\" style=\"border-left:1px solid black;\">Mark 1 (10%)</th>
-            <th class=\"subheading\">Mark 2 (10%)</th>
-            <th class=\"subheading\">Mark 3 (80%)</th>
-            <th class=\"subheading\" style=\"border-right:1px solid black;\">Total (100%)</th>
-            <th class=\"subheading\">Mark 1 (10%)</th>
-            <th class=\"subheading\">Mark 2 (10%)</th>
-            <th class=\"subheading\">Mark 3 (80%)</th>
-            <th class=\"subheading\"style=\"border-right:1px solid black;\">Total (100%)</th>
-            <th class=\"subheading\"></th></tr>";
+            <th class=\"subheading\">Seminar</th>
+            <th class=\"subheading\">Count</th>
+            <th class=\"subheading\">Average</th>
+            <th class=\"subheading\">Maximum</th>
+            <th class=\"subheading\">Minimum</th>
+            <th class=\"subheading\">Range</th>
+            <th class=\"subheading\">SD</th></tr>";
         if ($queryResult != false) { $return_string .= $this->print_Student_Overall($queryResult); }
         return $return_string .= "</table></div>";
     }
