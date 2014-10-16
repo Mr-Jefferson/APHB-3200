@@ -41,7 +41,7 @@ Class error_handler{
      * @return boolean
      */
     private function check_name( $name){
-        if(preg_match("/[0-9!@#$%^&*();\\/|<>\"\'_\-+=,.\s]/",$name)){return false;}
+        if(preg_match("/[^a-zA-Z]/",$name)){return false;}
         else{return true;}
     }
     
@@ -65,7 +65,7 @@ Class error_handler{
             $this->error_string .= "Invalid last name <br>";
             $boolean_flag = false;
         }
-        if(preg_match("/[a-zA-Z!@#$%^&*();\\/|<>\"\'_\-+=,.\s]/", $studentNumber) == true){
+        if(preg_match("/^[0-9]*$/", $studentNumber) == false){
             $this->error_string .= "Invalid student number <br>";
             $boolean_flag = false;
         }
@@ -110,7 +110,7 @@ Class error_handler{
      */
     public function new_student_check( $studentNumber, $studentFirstName,  $studentLastName, $cohort, $semester){
         $boolean_flag = true;
-        if(preg_match("/[a-zA-Z!@#$%^&*();\\/|<>\"\'_\-+=,.\s]/", $studentNumber))
+        if(!preg_match("/^[0-9]*$/", $studentNumber))
             {$this->error_string .= "Entered an invalid value for Student Number. Please provide a valid integer.<br>"; 
             $boolean_flag = false;}
         if($this->search_cohort_SN($studentNumber, $cohort, $semester)==false){$boolean_flag = false;}
