@@ -90,7 +90,7 @@ Class error_handler{
         $result = $this->database_connection->query_Database($query);
             if($result->num_rows !== 0){
                 $row = $result->fetch_assoc();
-                if($row['id_student'] != $id_student ){
+                if($row['id_student'] != $id_student || $id_student == -1){
                    $this->error_string .= "Student Number already exists for the cohort. <br>";  
                    return false; 
                 }
