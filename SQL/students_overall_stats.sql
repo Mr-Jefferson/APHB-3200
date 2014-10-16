@@ -7,7 +7,7 @@ SELECT	COUNT(*) AS number_of_marks,
 		MAX(mark_1*0.1 + mark_2*0.1 + mark_3*0.8) AS overall_maximum,
 		MIN(mark_1*0.1 + mark_2*0.1 + mark_3*0.8) AS overall_minimum,
 		(MAX(mark_1*0.1 + mark_2*0.1 + mark_3*0.8)-MIN(mark_1*0.1 + mark_2*0.1 + mark_3*0.8)) as overall_range,
-		STDDEV(mark_1*0.1 + mark_2*0.1 + mark_3*0.8),
+		STDDEV(mark_1*0.1 + mark_2*0.1 + mark_3*0.8) as overall_stddev,
 		cohort,
 		semester
 FROM	marks INNER JOIN

@@ -200,7 +200,7 @@ class Table_Generation {
             <th class=\"subheading\">Minimum</th>
             <th class=\"subheading\">Range</th>
             <th class=\"subheading\">SD</th></tr>";
-        if ($queryResult != false) { $return_string .= $this->print_Student_Overall($queryResult); }
+        if ($queryResult != false) { $return_string .= $this->print_Student_Overall_Stats($queryResult); }
         return $return_string .= "</table></div>";
     }
 
