@@ -124,6 +124,7 @@ else {
         if(isset($_POST['S_SD']) && isset($_POST['S_FN']) && isset($_POST['S_LN'])){
             if(empty($_POST['S_SD']) || empty($_POST['S_FN']) || empty($_POST['S_LN'])){
                 $boolean_flag = false;
+                $error->add_to_error("Please fill in all form fields<br>");
             }
             else{
             

@@ -45,7 +45,7 @@ class Database_Connection {
             call_user_func_array(array($prepared_statement, 'bind_param'), $ref_param);
             $prepared_statement->execute();
             
-            echo $prepared_statement->error;
+            //return $prepared_statement->fetch_assoc();
         }
         else{
             return false;

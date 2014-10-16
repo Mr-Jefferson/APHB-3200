@@ -1,5 +1,11 @@
 
-
+html,body {
+    height:100%;
+    width:100%;
+    position:absolute;
+    margin: 0;
+    padding: 0;
+}
 #Login_outer_wrapper{
     width:400px;
     height:250px;
@@ -317,8 +323,8 @@ h4{
     position:absolute;
     left:0;
     top:0;
-    display:none;
-    z-index:7;
+    
+    
 }
 
 #shadow{
@@ -329,6 +335,7 @@ h4{
     top:0;
     background-color:black;
     opacity: 0.4;
+    display:none;
 }
 
 #add_wrapper{

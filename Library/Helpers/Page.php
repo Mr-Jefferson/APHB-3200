@@ -285,10 +285,13 @@ class Page {
             }
         }
         $this->Master_String .=                   
-                    "</div>
-                </div>";
+                    "</div>";
+                
     }
-
+    public function close_shadow(){
+        $this->Master_String .=                   
+                    "</div>";
+    }
     /**
      * description: appends the closing </html> tag to the master string
      */
@@ -428,7 +431,7 @@ class Page {
      * not a necessary function but is used to make the page more readable. its only purpose is to append to the end of the string a <div id = "#"> tag
      */
     public function load_body_wrapper() {
-        $this->Master_String .= "<body>";
+        $this->Master_String .= "<body onload=\"adjust_shadow_height_width()\">";
     }
 
     private function compare_ID($id1,$id2){
