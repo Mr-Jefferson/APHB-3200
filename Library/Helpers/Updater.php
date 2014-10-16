@@ -58,13 +58,13 @@ else {
         // update marks
         if(isset($_GET['Mark_ID'])){
             $query = "update marks set mark_1=?, mark_2 =?, mark_3=?,seminar=?,id_student=?,id_marker=? where id_mark =?";
-            $outcome = $error->validate_mark($_POST['mark_1'],$_POST['mark_2'],$_POST['mark_3'],$_POST['marks_marker'],$_POST['marks_student'],$_POST['marks_sem_type'], $_GET['Mark_ID']);
+            $outcome = $error->validate_mark(array($_POST['mark_1'],$_POST['mark_2'],$_POST['mark_3']),$_POST['marks_marker'],$_POST['marks_student'],$_POST['marks_sem_type'], $_GET['Mark_ID']);
             if($outcome == false){
                 $boolean_flag = false;
                 
             }
             $param_array = array($_POST['mark_1'],$_POST['mark_2'],$_POST['mark_3'],$_POST['marks_sem_type'],$_POST['marks_student'],$_POST['marks_marker'], $_GET['Mark_ID']);
-            $type_array = array("i","i","i","i","i","i","i");
+            $type_array = array("d","d","d","i","i","i","i");
             echo "4";
         }
         //update marker
@@ -94,7 +94,7 @@ else {
             }
             else{
                 $query = "update students set student_number=?, student_first_name=?, student_last_name=?,cohort=?, semester = ? where id_student =?";
-                $outcome = $error->update_student_check($_POST['S_SD'],$_POST['S_FN'],$_POST['S_LN'],$current_cohort['cohort'],$current_cohort['semester'],$_GET['S_ID']);
+                $outcome = $error->update_student_check($_POST['S_SD'],$_POST['S_FN'],$_POST['S_LN'],$current_cohort['cohort'],$current_cohort['semester'],(int)$_GET['S_ID']);
                 if($outcome == false){
                     $boolean_flag = false;
 
@@ -170,7 +170,7 @@ else {
             }
             $query = "insert into marks values (?,?,?,?,?,?,?);";
             $param_array = array($new_id,$_POST['mark_1'],$_POST['mark_2'],$_POST['mark_3'],$_POST['marks_sem_type'],$_POST['marks_student'], $_POST['marks_marker']);
-            $type_array = array("i","i","i","i","i","i","i"); 
+            $type_array = array("d","d","d","i","i","i","i"); 
            
             
         }

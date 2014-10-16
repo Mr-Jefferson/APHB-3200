@@ -5,7 +5,7 @@
  */
 include_once "/var/www/html/APHB-3200/Library/Helpers/Page.php";
 include_once "/var/www/html/APHB-3200/Library/Helpers/User_Control.php";
-
+session_start();
 if (isset($_POST['username']) && isset($_POST['password'])) {
     $new_user = new User_Control();
     $outcome = $new_user->validate_User($_POST['username'], $_POST['password']);
@@ -18,6 +18,11 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     } else {
         header('location:Login.php');
     }
+}
+if(isset($_GET['logOut'])){
+    session_destroy();
+    echo "session should be destroyed";
+     //header('location:Login.php');
 }
 
 $new_page = new Page("Login");

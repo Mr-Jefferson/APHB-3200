@@ -121,8 +121,8 @@ class Page {
     public function load_shadow($required_shadows) {
         if(isset($_SESSION['ERROR'])){
             $this->Master_String .=
-                "<div id=\"hidden_form\" style=\"display:block;\">
-                    <div id=\"shadow\" onclick = \"Hide()\"> </div>";
+                "<div id=\"hidden_form\" >
+                    <div id=\"shadow\" style=\"display:block;z-index:7\" onclick = \"Hide()\"> </div>";
         }
         else{
             $this->Master_String .=
@@ -420,7 +420,7 @@ class Page {
                                     "<li onclick=\"display('import')\">Import</li>".
                                     "<li><a href=\"/APHB-3200/Library/Pages/Student.php?export=marks\">Export</a></li>".
                                 "</ul></li>".
-                            "<li id = \"nav_bar_log_out\" style = \"border-left:2px solid black\"><a href=\"#\">Log Out</a></li>".
+                            "<li id = \"nav_bar_log_out\" style = \"border-left:2px solid black\"><a href=\"Login.php?logOut=1\">Log Out</a></li>".
                             
                         "</ul>". 
                 "</div>";

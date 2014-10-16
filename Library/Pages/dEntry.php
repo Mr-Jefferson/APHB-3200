@@ -29,6 +29,7 @@ if ($User_Check_Outcome == false) {
     $new_page->load_data_entry_page();
     
     $new_page->close_body_wrapper();    // might have to rename to something other than body wrapper, could change to body tag?
+    $new_page->close_shadow();
     $new_page->close_html();
 
     echo $new_page->return_Master_String();

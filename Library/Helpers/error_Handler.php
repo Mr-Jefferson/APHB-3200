@@ -3,238 +3,241 @@
 include_once "/var/www/html/APHB-3200/Library/DB/Database_Connection.php";
 
 Class error_handler{
-    
-    protected $error_string;
+    /**
+     *
+     * @var string
+     */
+    protected $error_string;    
+    /**
+     *
+     * @var Database_Connection object
+     */
     protected $database_connection; 
     
+    /**
+     *  Method: Initializes the object variables 
+     */
     public function __construct() {
         $this->error_string = "";
         $this->database_connection = new Database_Connection();
     }
     
-    // checks the name from the $table table
-    public function check_marker_name_exists($firstname, $lastname){
+    /**
+     *  Method: Looks at the marker table and checks if the supplied paramaters already exist in the table.
+     * @param string $firstname
+     * @param string $lastname
+     * @return boolean
+     */
+    public function check_marker_name_exists( $firstname,  $lastname){
         $query = "select * from markers where marker_first_name=\"".$firstname."\" and marker_last_name =\"".$lastname."\"";
         $result = $this->database_connection->query_Database($query);
-        if($result == false){
-            return false;
-        }
-        else{
-            return true;
-        }
-        
-    }
-    public function check_name($name){
-        if(preg_match("/[0-9!@#$%^&*();\\/|<>\"\'_\-+=,.\s]/",$name)){
-            return false;
-        }
-        else{
-            return true;
-        }
+        if($result == false){ return false;}
+        else{return true; }
     }
     
-    public function update_student_check($SN,$SFN,$SLN,$cohort,$semester,$id_student){
+    /**
+     * Method: runs the supplied name through a regular expression to check for illegal characters or numerical values
+     * @param string $name
+     * @return boolean
+     */
+    private function check_name( $name){
+        if(preg_match("/[0-9!@#$%^&*();\\/|<>\"\'_\-+=,.\s]/",$name)){return false;}
+        else{return true;}
+    }
+    
+    /**
+     * 
+     * @param int $studentNumber
+     * @param string $studentFirstName
+     * @param string $studentLastName
+     * @param int $cohort
+     * @param int $semester
+     * @param int $id_student
+     * @return boolean
+     */
+    public function update_student_check( $studentNumber, $studentFirstName,  $studentLastName, $cohort, $semester, $studentID){
         $boolean_flag = true;
-        if($this->check_name($SFN) == false){
+        if($this->check_name($studentFirstName) == false){
           $this->error_string .= "Invalid first name <br>";
           $boolean_flag = false;
         }
-        if($this->check_name($SLN) == false){
+        if($this->check_name($studentLastName) == false){
             $this->error_string .= "Invalid last name <br>";
             $boolean_flag = false;
         }
-        if(preg_match("/[a-zA-Z!@#$%^&*();\\/|<>\"\'_\-+=,.\s]/", $SN) == true){
+        if(preg_match("/[a-zA-Z!@#$%^&*();\\/|<>\"\'_\-+=,.\s]/", $studentNumber) == true){
             $this->error_string .= "Invalid student number <br>";
             $boolean_flag = false;
- 
         }
-         if($this->search_cohort_SN($SN, $cohort, $semester, $id_student)==false){
-             $boolean_flag = false;
-             
-         }
-        
+         if($this->search_cohort_SN($studentNumber, $cohort, $semester, $studentID)==false){
+             $boolean_flag = false; 
+         }     
         return $boolean_flag;
     }
     
-    public function search_cohort_SN($SN,$cohort,$semester,$id_student){
-        
-        $query = "select * from students where student_number=".$SN." and cohort=".$cohort." and semester=".$semester;
+    /**
+     * Method: Given the following parameters, searches all students within a given cohort and checks to see if a student number matches $studentNumber. 
+     *               if so then it is assumed that the student is already apart of the cohort.
+     * @param int $studentNumber
+     * @param int $cohort
+     * @param int $semester
+     * @param int $id_student
+     * @return boolean
+     */
+    private function search_cohort_SN( $studentNumber, $cohort, $semester, $id_student){
+        $query = "select * from students where student_number=".$studentNumber." and cohort=".$cohort." and semester=".$semester;
         echo $query;
         $result = $this->database_connection->query_Database($query);
             if($result->num_rows !== 0){
                 $row = $result->fetch_assoc();
-                if($row['id_student'] !== $id_student ){
+                if($row['id_student'] != $id_student ){
                    $this->error_string .= "Student Number already exists for the cohort. <br>";  
                    return false; 
                 }
-                else{
-                    return true;
-                }
-                
+                else{return true;} 
             }
         return true;
     }
-    
-    
-    
-    public function is_empty($param){
-        foreach($param as $input){
-            if(empty($_POST[$input])){
-                if(isset($_SESSION['ERROR']) && !empty($_SESSION['ERROR'])){
-                    $this->error_string.= "Please fill in all form fields<br>";
-                
-                }
-                else{
-                    $this->error_string = "Please fill in all form fields<br>";
-                }
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    /*
-     * SN = student number
-     * Checks if student number already exists in the database for that cohort
+   
+    /**
+     * 
+     * @param int $studentNumber
+     * @param string $studentFirstName
+     * @param string $studentLastName
+     * @param int $cohort
+     * @param int $semester
+     * @return boolean
      */
-    public function new_student_check($SN,$SFN,$SLN,$cohort,$semester){
+    public function new_student_check( $studentNumber, $studentFirstName,  $studentLastName, $cohort, $semester){
         $boolean_flag = true;
-        echo "1<br>";
-        if(preg_match("/[a-zA-Z!@#$%^&*();\\/|<>\"\'_\-+=,.\s]/", $SN) == false){
-            echo "2<br>";
-            if($this->search_cohort_SN($SN, $cohort, $semester)==false){
-                $boolean_flag = false;
-                echo "3<br>";
-            }
-        }
-        else{    
-            $this->error_string .= "Entered an invalid value for Student Number. Please provide a valid integer.<br>"; 
-            $boolean_flag = false;
-        }
-        
-        if($this->check_name($SFN) == false){
-          $this->error_string .= "Invalid first name <br>";
-          $boolean_flag = false;
-        }
-        if($this->check_name($SLN) == false){
-            $this->error_string .= "Invalid last name <br>";
-            $boolean_flag = false;
-        }
-        
-        return $boolean_flag;
-        
+        if(preg_match("/[a-zA-Z!@#$%^&*();\\/|<>\"\'_\-+=,.\s]/", $studentNumber))
+            {$this->error_string .= "Entered an invalid value for Student Number. Please provide a valid integer.<br>"; 
+            $boolean_flag = false;}
+        if($this->search_cohort_SN($studentNumber, $cohort, $semester)==false){$boolean_flag = false;}
+        if($this->check_name($studentFirstName) == false)
+          {$this->error_string .= "Invalid first name <br>";
+          $boolean_flag = false;}
+        if($this->check_name($studentLastName) == false)
+        {$this->error_string .= "Invalid last name <br>";
+            $boolean_flag = false; }
+        return $boolean_flag;  
     }
 
-    
-    public function check_mark_values($M1,$M2,$M3){
+    /**
+     * @param array $marks
+     * @return boolean
+     */
+    private function check_mark_values(array $marks){
         $boolean_flag = true;
-        if(!is_numeric($M1)){
-            $boolean_flag = false;
-            echo "failed m1<br>";
-            $this->error_string .= "Invalid value for Mark 1, please provide an integer or float value <br>";
+        for($i = 0; $i < counts(marks);$i++){
+            if(!is_numeric($marks[$i])){
+                $this->error_string .= "Invalid value for Mark $i, please provide an integer or float value <br>";
+                $boolean_flag = false;
+            }
         }
-        if(!is_numeric($M2)){
-            $boolean_flag = false;
-            echo "failed m2<br>";
-            $this->error_string .= "Invalid value for Mark 2, please provide an integer or float value <br>";
-        }
-        if(!is_numeric($M3)){
-            $boolean_flag = false;
-            echo "failed m3<br>";
-            $this->error_string .= "Invalid value for Mark 3, please provide an integer or float value <br>";
-        }
-        
         return $boolean_flag;
     }
-    
-    public function is_already_associated($marker, $student,$type,$Mark_ID){
-    
-            $query = "select * from marks where id_marker=".$marker." and id_student=".$student. " and seminar=".$type . ";";
+    /**
+     * 
+     * @param int $marker
+     * @param int $student
+     * @param int $seminarType
+     * @param int $markID
+     * @return boolean
+     */
+    private function is_already_associated( $marker,  $student, $seminarType, $markID){
+            $query = "select * from marks where id_marker=".$marker." and id_student=".$student. " and seminar=".$seminarType . ";";
             $result = $this->database_connection->query_Database($query);
             if($result->num_rows != 0){
                 $row = $result->fetch_assoc();
-                if($row['id_mark'] != $Mark_ID){
+                if($row['id_mark'] != $markID){
                     $this->error_string .= "Association between marker, student have already been made in this cohort.<br>";
                     return true;
                 }
             }
-            else{
-                return false;
-            }
+            else{return false;}
     }
-    
+    /**
+     * Method: allows pages such as Updater.php the option to add to the error_string
+     * @param type $string
+     */
     public function add_to_error($string){
         $this->error_string .= $string;
     }
-    
-    public function is_valid_mark_ID($Mark_ID){
-        $query = "select * from marks where id_mark=".$Mark_ID;
+    /**
+     * 
+     * @param int $markID
+     * @return boolean
+     */
+    private function is_valid_mark_ID( $markID){
+        $query = "select * from marks where id_mark=".$markID;
         $result = $this->database_connection->query_Database($query);
-        if($result->num_rows == 1){
-            return true;
-        }
-        else{
-            return false;
-        }
+        if($result->num_rows == 1){ return true;}
+        else{return false;}
     }
-    
-    public function validate_mark($M1,$M2,$M3,$marker, $student,$sem_type, $Mark_ID){
+    /**
+     * 
+     * @param array $marks
+     * @param int $marker
+     * @param int $student
+     * @param int $seminarType
+     * @param int $markID
+     * @return boolean
+     */
+    public function validate_mark(array $marks, $marker,  $student, $seminarType,  $markID){
         $boolean_flag = true;
-        if($this->check_mark_values($M1, $M2, $M3) == false){
-            $boolean_flag = false;
-        }
-        
-        if(isset($_GET['Mark_ID'])){ // if true, it is an existing mark which is needing to be updated
-            if($this->is_valid_mark_ID($Mark_ID)){ // mark id isn't made up
-               if($this->is_already_associated($marker, $student,$sem_type,$Mark_ID)==true){
-                $boolean_flag = false;      
-               }
+        if($this->check_mark_values($marks) == false){$boolean_flag = false;}
+        if(isset($_GET['Mark_ID'])){
+            if($this->is_valid_mark_ID($markID)){
+               if($this->is_already_associated($marker, $student,$seminarType,$markID)==true){$boolean_flag = false;}
             }
             else{
                 $this->error_string.= "Attempting to alter non existent mark, please provide valid mark identification<br>";
                 $boolean_flag = false;
             }
         }
-        else{ // hasn't been made yet
-            if($this->is_already_associated($marker, $student,$sem_type,$Mark_ID) == true){
+        else{ 
+            if($this->is_already_associated($marker, $student,$seminarType,$markID) == true){
                 $boolean_flag = false;     
             }
-        }
-        
-        /*else{
-            
-        }*/
-        
+        }     
         return $boolean_flag;
     }
-    
-    public function new_marker_check($MFN,$MLN,$M_ID){
+    /**
+     * 
+     * @param type $markerFirstName
+     * @param type $markerLastName
+     * @param type $markerID
+     * @return boolean
+     */
+    public function new_marker_check($markerFirstName,$markerLastName,$markerID){
         $boolean_flag = true;
-        // intial test to check the form information
-        if($this->check_name($MFN) == false){
+        if($this->check_name($markerFirstName) == false){
             $this->error_string .= "Invalid first name <br>";
             $boolean_flag = false;
         }
-        if($this->check_name($MLN) == false){
+        if($this->check_name($markerLastName) == false){
             $this->error_string .= "Invalid last name <br>";
             $boolean_flag = false;
         }
-        
         if($boolean_flag == true){  // passed the intial test
-            $query = "select * from markers where marker_first_name=\"".$MFN ."\" and marker_last_name=\"".$MLN ."\"";
+            $query = "select * from markers where marker_first_name=\"".$markerFirstName ."\" and marker_last_name=\"".$markerLastName ."\"";
             $result = $this->database_connection->query_Database($query);
             if($result->num_rows != 0){
                 $row = $result->fetch_assoc();
-                if($M_ID !== $row['id_marker']){
+                if($markerID !== $row['id_marker']){
                     $this->error_string.= "Marker already exists <br>";
                     $boolean_flag = false;
                 }
             }
         }
-        
         return $boolean_flag;
     }
     
+    /**
+     * 
+     * @return type
+     */
     public function return_error_string(){
         return $this->error_string;
     }
