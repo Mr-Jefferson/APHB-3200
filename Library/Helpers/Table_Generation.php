@@ -75,8 +75,22 @@ class Table_Generation {
         }
         return $return_string;
     }
+    
+    private function print_Student_Overall(mysqli_result $query_outcome) {
+        $return_string = "";
+        while ($row = $query_outcome->fetch_assoc()) {
+            $array = ["student_name","student_number","proposal_mark_1","proposal_mark_2","proposal_mark_3","proposal_total","final_mark_1","final_mark_2","final_mark_3","final_total"];
+            $row = $this->check_Row_Null($row);
+            $return_string .= "<tr>";
+            for($col=0;$col<count($array);$col++) {
+                $return_string .= "<td>".$row[$array[$col]]."</td>";
+            }
+            $return_string .= "<td><a href=\"Student.php?S_ID=$row[id_student]\">Inspect</a></td></tr>";
+        }
+        return $return_string;
+    }
 
-    private function print_Student_Individual(mysqli_result $query_outcome) {
+    private function print_Student_Overall_Stats(mysqli_result $query_outcome) {
         $return_string = "";
         while ($row = $query_outcome->fetch_assoc()) {
             $array = ["proposal_mark_1","proposal_mark_2","proposal_mark_3","proposal_total","final_mark_1","final_mark_2","final_mark_3","final_total"];
@@ -163,6 +177,29 @@ class Table_Generation {
     }
 
     public function generate_Student_Overall() {
+        $query = "SELECT * FROM students_overall where cohort=".$this->current_cohort['cohort'] ." and semester=".$this->current_cohort['semester'];
+        $queryResult = $this->Database_connection->query_Database($query);
+        $return_string = "<div id=\"inner_table_wrapper\"><table><tr>
+            <th colspan=\"1\"></th>
+            <th colspan=\"1\"></th>
+            <th colspan=\"4\" class=\"seminar_table_headings\">Proposal</th>
+            <th colspan=\"4\" class=\"seminar_table_headings\">Final</th></tr><tr>
+            <th class=\"subheading\">Student Name</th>
+            <th class=\"subheading\">Student Number</th>
+            <th class=\"subheading\" style=\"border-left:1px solid black;\">Mark 1 (10%)</th>
+            <th class=\"subheading\">Mark 2 (10%)</th>
+            <th class=\"subheading\">Mark 3 (80%)</th>
+            <th class=\"subheading\" style=\"border-right:1px solid black;\">Total (100%)</th>
+            <th class=\"subheading\">Mark 1 (10%)</th>
+            <th class=\"subheading\">Mark 2 (10%)</th>
+            <th class=\"subheading\">Mark 3 (80%)</th>
+            <th class=\"subheading\"style=\"border-right:1px solid black;\">Total (100%)</th>
+            <th class=\"subheading\"></th></tr>";
+        if ($queryResult != false) { $return_string .= $this->print_Student_Overall($queryResult); }
+        return $return_string .= "</table></div>";
+    }
+    
+    public function generate_Student_Overall_Stats() {
         $query = "SELECT * FROM students_overall where cohort=".$this->current_cohort['cohort'] ." and semester=".$this->current_cohort['semester'];
         $queryResult = $this->Database_connection->query_Database($query);
         $return_string = "<div id=\"inner_table_wrapper\"><table><tr>
