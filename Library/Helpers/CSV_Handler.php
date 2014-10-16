@@ -195,8 +195,8 @@ class CSV_Handler {
     public function import_students($objPHPExcel) {
         $lastRow = $objPHPExcel->getActiveSheet()->getHighestRow();
         $string = "";
-        for($i = 0; $i<$lastRow; $i++) {
-            $array = $objPHPExcel->getActiveSheet()->rangeToArray("B1:B2");
+        for($i = 2; $i<$lastRow; $i++) {
+            $array = $objPHPExcel->getActiveSheet()->rangeToArray("A$i:E$i");
             
             $string .= var_export($array);
         }
