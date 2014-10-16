@@ -1,10 +1,13 @@
 <?php
 include_once "/var/www/html/APHB-3200/Library/DB/Database_Connection.php";
 
+/*
+ * Class for generating all tables
+ */
 class Table_Generation {
 
-    protected $Database_connection; // required to interact with the database and obtain important table information 
-    protected $current_cohort;
+    protected $Database_connection; //Connection to MySQL database
+    protected $current_cohort; //Current cohort variable
 
     public function __construct($cohort) {
         $this->Database_connection = new Database_Connection();
@@ -28,8 +31,8 @@ class Table_Generation {
             $return_string .= "<tr>";
             for($col=0;$col<count($array);$col++) {
                 $return_string .= "<td>".$row[$array[$col]];
-                if($col==3) { $return_string .= "%"; }
-                if($col==7) { $return_string .= "%"; }
+                if($col==3 && $row[$array[$col]] != "n/a") { $return_string .= "%"; }
+                if($col==7 && $row[$array[$col]] != "n/a") { $return_string .= "%"; }
                 $return_string .= "</td>";
             }
             $return_string .= "</tr>";
@@ -45,7 +48,7 @@ class Table_Generation {
             $return_string .= "<tr>";
             for($col=0;$col<count($array);$col++) {
                 $return_string .= "<td>".$row[$array[$col]];
-                if($col==5) { $return_string .= "%"; }
+                if($col==5 && $row[$array[$col]] != "n/a") { $return_string .= "%"; }
                 $return_string .= "</td>";
             }
             $return_string .= "<td><a href=\"dEntry.php?Mark_ID=$row[id_mark]\">Alter</a></td></tr>";
@@ -61,9 +64,9 @@ class Table_Generation {
             $return_string .= "<tr>";
             for($col=0;$col<count($array);$col++) {
                 $return_string .= "<td>".$row[$array[$col]];
-                if($col==4) { $return_string .= "%"; }
-                if($col==6) { $return_string .= "%"; }
-                if($col==7) { $return_string .= "%"; }
+                if($col==4 && $row[$array[$col]] != "n/a") { $return_string .= "%"; }
+                if($col==6 && $row[$array[$col]] != "n/a") { $return_string .= "%"; }
+                if($col==7 && $row[$array[$col]] != "n/a") { $return_string .= "%"; }
                 $return_string .= "</td>";
             }
             $return_string .= "<td><a href=\"Marker.php?M_ID=$row[id_marker]\">Inspect</a></td></tr>";
@@ -79,8 +82,8 @@ class Table_Generation {
             $return_string .= "<tr>";
             for($col=0;$col<count($array);$col++) {
                 $return_string .= "<td>".$row[$array[$col]];
-                if($col==5) { $return_string .= "%"; }
-                if($col==9) { $return_string .= "%"; }
+                if($col==5 && $row[$array[$col]] != "n/a") { $return_string .= "%"; }
+                if($col==9 && $row[$array[$col]] != "n/a") { $return_string .= "%"; }
                 $return_string .= "</td>";
             }
             $return_string .= "<td><a href=\"Student.php?S_ID=$row[id_student]\">Inspect</a></td></tr>";
@@ -95,8 +98,8 @@ class Table_Generation {
             $return_string .= "<tr>";
             for($col=0;$col<count($array);$col++) {
                 $return_string .= "<td>".$row[$array[$col]];
-                if($col==3) { $return_string .= "%"; }
-                if($col==7) { $return_string .= "%"; }
+                if($col==3 && $row[$array[$col]] != "n/a") { $return_string .= "%"; }
+                if($col==7 && $row[$array[$col]] != "n/a") { $return_string .= "%"; }
                 $return_string .= "</td>";
             }
             $return_string .= "</tr>";
@@ -111,8 +114,8 @@ class Table_Generation {
             $array = ["number_of_students","overall_average","overall_maximum","overall_minimum","overall_range","overall_stddev"];
             $row = $this->check_Row_Null($row);
             $return_string .= "<tr>";
-            if($seminar == 0) { $return_string .= "<td class=\"student_overall_stats\">Proposal</td>"; }
-            if($seminar == 1) { $return_string .= "<td class=\"student_overall_stats\">Final</td>"; }
+            if($seminar == 0 && $row[$array[$col]] != "n/a") { $return_string .= "<td class=\"student_overall_stats\">Proposal</td>"; }
+            if($seminar == 1 && $row[$array[$col]] != "n/a") { $return_string .= "<td class=\"student_overall_stats\">Final</td>"; }
             $row2 = $query_outcome2->fetch_assoc();
             $return_string .= "<td>".$row2["number_of_students"]."</td>";
             for($col=1;$col<count($array);$col++) {
@@ -134,7 +137,7 @@ class Table_Generation {
             $return_string .= "<tr>";
             for($col=0;$col<count($array);$col++) {
                 $return_string .= "<td>".$row[$array[$col]];
-                if($col==4) $return_string .= "%";
+                if($col==4 && $row[$array[$col]] != "n/a") $return_string .= "%";
                 $return_string .= "</td>";
             }
             $return_string .= "<td><a href=\"dEntry.php?Mark_ID=$row[id_mark]\">Alter</a></td></tr>";

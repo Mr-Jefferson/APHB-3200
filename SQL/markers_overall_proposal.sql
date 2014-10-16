@@ -24,6 +24,6 @@ FROM 	marks INNER JOIN
         students ON marks.id_student = students.id_student
 WHERE   marks.seminar = 1 AND
 		cohort = (SELECT cohort FROM users LIMIT 1) AND
-		semester = (SELECT semester FROM users LIMIT 1)
+		semester = (SELECT semester FROM users LIMIT 1) #Suggested revision, only works for 1 user
 GROUP BY marks.id_marker
 ORDER BY marker_last_name, marker_first_name;
