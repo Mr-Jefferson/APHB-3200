@@ -324,7 +324,7 @@ class Page {
 
     public function load_main_body_wrapper() {
         $this->Master_String .= "<div id=\"Main_content_wrapper\">";
-        $this->CSV_handler = new CSV_Handler();
+        $this->CSV_handler = new CSV_Handler($this->current_cohort);
         $this->Master_String .= $this->CSV_handler->file_manager();
     }
 

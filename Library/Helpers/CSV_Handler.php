@@ -93,7 +93,7 @@ class CSV_Handler {
         return $return_string;
     }
     
-    public function __construct() {
+    public function __construct($cohort) {
         $this->Database_connection = new Database_Connection();
         $this->current_cohort = $cohort;
     }
