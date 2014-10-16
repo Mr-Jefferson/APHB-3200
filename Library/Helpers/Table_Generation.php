@@ -51,7 +51,7 @@ class Table_Generation {
     private function print_Marker_Overall(mysqli_result $query_outcome) {
         $return_string = "";
         while ($row = $query_outcome->fetch_assoc()) {
-            $array = ["marker_name","mark_1_average","mark_2_average","mark_3_average","overall_average","number_of_students","minimum_mark","maximum_mark","standard_deviation"];
+            $array = ["marker_name","mark_1_average","mark_2_average","mark_3_average","overall_average","number_of_marks","minimum_mark","maximum_mark","standard_deviation"];
             $row = $this->check_Row_Null($row);
             $return_string .= "<tr>";
             for($col=0;$col<count($array);$col++) {
@@ -99,7 +99,7 @@ class Table_Generation {
             if($seminar == 0) { $return_string .= "<td class=\"student_overall_stats\">Proposal</td>"; }
             if($seminar == 1) { $return_string .= "<td class=\"student_overall_stats\">Final</td>"; }
             $row2 = $query_outcome2->fetch_assoc();
-            $return_string .= "<td>".$row['number_of_students']."</td>";
+            $return_string .= "<td>".$row["number_of_students"]."</td>";
             for($col=1;$col<count($array);$col++) {
                 $return_string .= "<td>".$row[$array[$col]]."</td>";
             }
