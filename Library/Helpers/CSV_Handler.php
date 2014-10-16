@@ -109,7 +109,7 @@ class CSV_Handler {
             $before = 0;
             $after = 0;
             
-            $query = "LOAD DATA INFILE " . 
+            $query = "LOAD DATA LOCAL INFILE " . 
                     "\"$temp\" " .
                     "INTO TABLE " . $import . " " .
                     "FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"' " .
