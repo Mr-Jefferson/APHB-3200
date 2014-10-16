@@ -182,8 +182,8 @@ class CSV_Handler {
         } **/else {
             $return_string .= "<br>Only student, marker, and mark import is available (UNDER EDIT NICK)";
         }
-        $objXLS->disconnectWorksheets();
-        unset($objXLS);
+        $objPHPExcel->disconnectWorksheets();
+        unset($objPHPExcel);
     }
     
     public function export() {
