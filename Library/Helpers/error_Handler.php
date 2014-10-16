@@ -57,11 +57,11 @@ Class error_handler{
     
     public function search_cohort_SN($SN,$cohort,$semester){
         
-        $query = "select * from students where student_number=".$SN." and cohort=".$cohort." and semester=".$semester;
+        $query = "select * from students where student_number=$SN and cohort=$cohort and semester=$semester";
         
         $result = $this->database_connection->query_Database($query);
         $row = $result->fetch_assoc();
-            if($result != false && $row['student_number'] != $SN){
+            if(!$result){
                 $this->error_string .= "Student Number already exists for the cohort. <br>";  
                 return false;
             }
