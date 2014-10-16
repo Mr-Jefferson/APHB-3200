@@ -58,3 +58,46 @@ window.onload= window.onresize = function adjust_shadow_height_width(){
     
     document.getElementById('hidden_form').style.height = height.concat("px");
 }
+
+function checkInput(textbox) {
+	var value = document.getElementById(textbox).value;
+	//alert(textbox+"  =  "+value);
+	if(textbox=="mk1"||textbox=="mk2"||textbox=="mk3"){
+		if(value>10 || value<0 || isNaN(value)){
+		  document.getElementById(textbox).style.border="1px solid red";
+		  alert(value + " is not a number between 1 and 10.");
+		}
+		else{
+		  document.getElementById(textbox).style.border="";
+		}
+	}
+	else{
+		var specialChars = "<>@!#$%^&*()_+[]{}?:;|'\"\\,./~`-= ";
+		var flag=true;
+		//alert("test1");
+		if((textbox=="ssd" || textbox=="ssd2")&& isNaN(value)){
+			document.getElementById(textbox).style.border="1px solid red";
+			alert("Must be a number.");
+			flag=false;
+		}
+		//alert("test2");
+		for(i = 0; i < specialChars.length;i++){
+			if(value.indexOf(specialChars[i]) > -1){
+			  flag=false;
+			}
+		}
+		//alert("test3");
+		if(flag){
+			document.getElementById(textbox).style.border="";
+		}
+		else{
+			document.getElementById(textbox).style.border="1px solid red";
+			alert("can't contain special characters");
+		}
+		//alert("test4");
+	}
+	/*if(value==""){
+		document.getElementById(textbox).style.border="1px solid red";
+		alert("Must include value.");
+	}*/
+}

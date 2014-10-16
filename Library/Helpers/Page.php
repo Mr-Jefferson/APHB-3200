@@ -155,13 +155,13 @@ class Page {
                             <form action=\"../Helpers/Updater.php?insert=1\" method=\"post\">
                                 <div id =\"add_student\">
                                     <div id=\"SID\">
-                                        Student Number: <input type=\"text\" name = \"S_SD\">
+                                        Student Number: <input type=\"text\" name = \"S_SD\" id=\"ssd\" onblur=\"checkInput('ssd');\">
                                     </div>
                                     <div id=\"first_name\">
-                                        First Name: <input type=\"text\" name = \"S_FN\">
+                                        First Name: <input type=\"text\" name = \"S_FN\" id=\"sfn\" onblur=\"checkInput('sfn');\">
                                     </div>
                                     <div id=\"last_name\">
-                                        Last Name: <input type=\"text\" name =\"S_LN\">
+                                        Last Name: <input type=\"text\" name =\"S_LN\" id=\"sln\" onblur=\"checkInput('sln');\">
                                     </div>
                                     <input type=\"submit\" value=\"create\">
                                 </div>
@@ -175,10 +175,10 @@ class Page {
                             <form action=\"../Helpers/Updater.php?insert=1\" method=\"post\">
                                 <div id= \"add_marker\">
                                     <div id= \"first_name\">
-                                        First name:  <input type =\"text\" name= \"M_FN\"></input>
+                                        First name:  <input type =\"text\" name= \"M_FN\" id=\"mfn\" onblur=\"checkInput('mfn');\"></input>
                                     </div>
                                     <div id =\"last_name\">
-                                        Last name:  <input type =\"text\" name=\"M_LN\"></input>
+                                        Last name:  <input type =\"text\" name=\"M_LN\" id=\"mln\" onblur=\"checkInput('mln');\"></input>
                                     </div>
                                     <input type=\"submit\" value=\"create\"></input>
                                 </div>
@@ -217,10 +217,10 @@ class Page {
                             "<form action=\"../Helpers/Updater.php?M_ID=".$_GET['M_ID']."&update=1\" method=\"post\">
                                     <div id= \"add_marker\">
                                         <div id= \"first_name\">
-                                            First name:  <input type =\"text\" name= \"M_FN\" value=\"".$this->mysql_result_holder['marker_first_name'] ."\"></input>
+                                            First name:  <input type =\"text\" name= \"M_FN\" id=\"mfn\" onblur=\"checkInput('mfn');\" value=\"".$this->mysql_result_holder['marker_first_name'] ."\"></input>
                                         </div>
                                         <div id =\"last_name\">
-                                            Last name:  <input type =\"text\" name=\"M_LN\" value=\"".$this->mysql_result_holder['marker_last_name'] ."\"></input>
+                                            Last name:  <input type =\"text\" name=\"M_LN\" id=\"mln\" onblur=\"checkInput('mln');\" value=\"".$this->mysql_result_holder['marker_last_name'] ."\"></input>
                                         </div>
                                         <div id=\"delete_button\">
                                             <a href=\"../Helpers/Updater.php?M_ID=".$_GET['M_ID'] ."&delete=1". "\">Delete</a>
@@ -242,13 +242,13 @@ class Page {
                             "<form action=\"../Helpers/Updater.php?S_ID=".$_GET['S_ID'] ."&update=1 \" method=\"post\">
                                 <div id =\"add_student\">
                                     <div id=\"SID\">
-                                        Student Number: <input type=\"text\" name = \"S_SD\" value=".$this->mysql_result_holder['student_number'] .">
+                                        Student Number: <input type=\"text\" name = \"S_SD\" id=\"ssd\" onblur=\"checkInput('ssd');\" value=".$this->mysql_result_holder['student_number'] .">
                                     </div>
                                     <div id=\"first_name\">
-                                        First Name: <input type=\"text\" name = \"S_FN\" value=\"".$this->mysql_result_holder['student_first_name'] ."\">
+                                        First Name: <input type=\"text\" name = \"S_FN\" id=\"sfn\" onblur=\"checkInput('sfn');\" value=\"".$this->mysql_result_holder['student_first_name'] ."\">
                                     </div>
                                     <div id=\"last_name\">
-                                        Last Name: <input type=\"text\" name =\"S_LN\" value=\"".$this->mysql_result_holder['student_last_name'] ."\">
+                                        Last Name: <input type=\"text\" name =\"S_LN\" id=\"sln\" onblur=\"checkInput('sln');\" value=\"".$this->mysql_result_holder['student_last_name'] ."\">
                                     </div>
                                 
                                 <div id =\"select_cohort\">
@@ -601,25 +601,25 @@ class Page {
                         if(isset($_GET['Mark_ID'])){
         $this->Master_String.=
                             "<div id=\"mark1\">" .
-                                "Quality of Oral Delivery: <input type=\"text\" name =\"mark_1\" value=\"". $this->mysql_result_holder['mark_1']. "\"></input><br>" .
+                                "Quality of Oral Delivery: <input type=\"text\" name =\"mark_1\"  id=\"mk1\" onblur=\"checkInput('mk1');\" value=\"". $this->mysql_result_holder['mark_1']. "\"></input><br>" .
                             "</div>" .
                             "<div id=\"mark2\">" .
-                                "Quality of Slides:  <input type=\"text\" name =\"mark_2\"  value=\"". $this->mysql_result_holder['mark_2']. "\"></input><br>" .
+                                "Quality of Slides:  <input type=\"text\" name =\"mark_2\"  id=\"mk2\" onblur=\"checkInput('mk2');\" value=\"". $this->mysql_result_holder['mark_2']. "\"></input><br>" .
                             "</div>" .
                             "<div id=\"mark3\">" .
-                                "Content: <input type=\"text\" name =\"mark_3\" value=\"". $this->mysql_result_holder['mark_3']. "\"></input><br>" .
+                                "Content: <input type=\"text\" name =\"mark_3\"  id=\"mk3\" onblur=\"checkInput('mk3');\" value=\"". $this->mysql_result_holder['mark_3']. "\"></input><br>" .
                             "</div>";
                         }
                         else{
         $this->Master_String.=    
                             "<div id=\"mark1\">" .
-                                "Quality of Oral Delivery: <input type=\"text\" name =\"mark_1\"></input><br>" .
+                                "Quality of Oral Delivery: <input type=\"text\" name =\"mark_1\" id=\"mk1\" onblur=\"checkInput('mk1');\"></input><br>" .
                             "</div>" .
                             "<div id=\"mark2\">" .
-                                "Quality of Slides:  <input type=\"text\" name =\"mark_2\" ></input><br>" .
+                                "Quality of Slides:  <input type=\"text\" name =\"mark_2\"  id=\"mk2\" onblur=\"checkInput('mk2');\" ></input><br>" .
                             "</div>" .
                             "<div id=\"mark3\">" .
-                                "Content: <input type=\"text\" name =\"mark_3\"></input><br>" .
+                                "Content: <input type=\"text\" name =\"mark_3\"  id=\"mk3\" onblur=\"checkInput('mk3');\"></input><br>" .
                             "</div>";
                         }
         $this->Master_String.=                    
