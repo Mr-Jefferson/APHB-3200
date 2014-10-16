@@ -204,4 +204,26 @@ class CSV_Handler {
         }
         return $return_string;
     }
+    
+    public function import_markers($objPHPExcel) {
+        $return_string = "";
+        $lastRow = $objPHPExcel->getActiveSheet()->getHighestRow();
+        for($i = 2; $i<$lastRow+1; $i++) {
+            $row = $objPHPExcel->getActiveSheet()->rangeToArray("A$i:B$i");
+            $new_id = $this->Database_connection->return_new_id('marker');
+            if($this->Error_Handler->new_marker_check($row[0][0],$row[0][1],$new_id)) {
+                $new_id = $this->Database_connection->return_new_id('marker');
+                $query = "INSERT INTO seminar_marks.markers VALUES (".$new_id.",\"".$row[0][0]."\",\"".$row[0][1]."\")";
+                $this->Database_connection->query_Database($query);
+                if($new_id != $this->Database_connection->return_new_id('student')) {
+                    $return_string .= "Marker ".$row[0][0]." ".$row[0][1]." added successfully!<br>";
+                } else {
+                    $return_string .= "Marker ".$row[0][0]." ".$row[0][1]." failed to be added to the database.<br>";
+                }
+            } else {
+                $return_string .= "Marker ".$row[0][0]." ".$row[0][1]." failed, due to either bad data in row or marker already exists.<br>";
+            }
+        }
+        return $return_string;
+    }
 }
