@@ -49,9 +49,14 @@ window.onload= window.onresize = function adjust_shadow_height_width(){
     document.getElementById('shadow').style.height= height + "px";
 };
 
+/**
+ * Method: function designed to dynamically show errors when inputting data via alert boxes and red borders.
+ * 
+ * @returns {undefined}
+ */
 function checkInput(textbox) {
 	var value = document.getElementById(textbox).value;
-	if(textbox=="mk1"||textbox=="mk2"||textbox=="mk3"){
+	if(textbox=="mk1"||textbox=="mk2"||textbox=="mk3"){				//checks if mark value is invalid
 		if(value>10 || value<0 || isNaN(value)){
 		  document.getElementById(textbox).style.border="1px solid red";
 		  alert(value + " is not a number between 1 and 10.");
@@ -63,13 +68,13 @@ function checkInput(textbox) {
 	else{
 		var specialChars = "<>@!#$%^&*()_+[]{}?:;|'\"\\,./~`-= ";
 		var flag=true;
-		if((textbox=="ssd" || textbox=="ssd2")&& isNaN(value)){
+		if((textbox=="ssd" || textbox=="ssd2")&& isNaN(value)){			//checks if studentnumber is invalid
 			document.getElementById(textbox).style.border="1px solid red";
 			alert("Must be a number.");
 			flag=false;
 		}
 		for(i = 0; i < specialChars.length;i++){
-			if(value.indexOf(specialChars[i]) > -1){
+			if(value.indexOf(specialChars[i]) > -1){			//checks if specialcharacters are included
 			  flag=false;
 			}
 		}
