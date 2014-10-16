@@ -25,12 +25,11 @@ Class User_Control {
             require(dirname(__FILE__)."/config.php");
             
             $hashedPassword = crypt($password, $hashString);
-            echo $hashedPassword;
             if ($User_row['password'] === $hashedPassword) {
                 $randomIntString = $this->generate_session_id(); 
                 echo $randomIntString;
                 $_SESSION['session_hash'] =$randomIntString;
-                $this->DB_connection->Prepared_query_Database("UPDATE users SET sessionHash=?", array($randomIntString), array("s"));
+                $this->DB_connection->Prepared_query_Database("UPDATE users SET session_hash=?", array($randomIntString), array("s"));
                 return true;
             } else {
                 return false;
@@ -57,7 +56,7 @@ Class User_Control {
      */
     public function destroy_session(){
         if(isset($_SESSION['session_hash'])){
-            $this->DB_connection->Prepared_query_Database("UPDATE users SET sessionHash=?", array(""), array("s"));
+            $this->DB_connection->Prepared_query_Database("UPDATE users SET session_hash=?", array(""), array("s"));
             session_destroy();
             header('location:Login.php');
         }
