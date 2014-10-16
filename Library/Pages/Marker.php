@@ -5,9 +5,8 @@ include_once "/var/www/html/APHB-3200/Library/Helpers/User_Control.php";
 session_start();
 $User_Check = new User_Control();
 $User_Check_Outcome = $User_Check->is_Session_Active();
-if ($User_Check_Outcome == false) {
-    header('location:/APHB-3200/Library/Pages/Login.php');
-} else {
+if ($User_Check_Outcome == false) {header('location:/APHB-3200/Library/Pages/Login.php');} 
+else {
 
     $new_page = new Page("Markers");
     $new_page->load_html_header();
@@ -35,7 +34,7 @@ if ($User_Check_Outcome == false) {
         $new_page->load_table_body("Marker_home");
     }
     $new_page->close_main_body_wrapper();
-    $new_page->close_body_wrapper();    // might have to rename to something other than body wrapper, could change to body tag?
+    $new_page->close_body_wrapper();    
     $new_page->close_shadow();
     $new_page->close_html();
 

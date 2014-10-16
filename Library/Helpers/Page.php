@@ -67,6 +67,7 @@ class Page {
         }
     }
     
+    
     /**
      * Will append to the Master_String the usual <header></header> contents
      */

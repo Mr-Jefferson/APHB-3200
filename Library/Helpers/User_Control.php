@@ -25,8 +25,8 @@ Class User_Control {
             return false;   
         } else {
             $User_row = $Query_result->fetch_assoc();
-            
-            $hashedPassword = crypt($password, '$1$CKgg8CRW$');
+            require(dirname(__FILE__)."/config.php");
+            $hashedPassword = crypt($password, $hashString);
             if ($User_row['password'] === $hashedPassword) {
                 $randomIntString = $this->generate_session_id(); 
                 $_SESSION['sessionHash'] =$randomIntString;
@@ -45,6 +45,14 @@ Class User_Control {
             $randomIntString .= mt_rand(0, 9);
         }
         return $randomIntString;
+    }
+    
+    public function destroy_session(){
+        if(isset($_SESSION['sessionHash'])){
+            $this->DB_connection->Prepared_query_Database("UPDATE users SET sessionHash=?", array(""), array("s"));
+            session_destroy();
+            header('location:Login.php');
+        }
     }
 
     /**

@@ -288,7 +288,6 @@ class Table_Generation {
     public function generate_Student_Overall() {
         
         $query = "SELECT * FROM students_overall where cohort=".$this->current_cohort['cohort'] ." and semester=".$this->current_cohort['semester'];
-        echo $query;
         $queryResult = $this->Database_connection->query_Database($query);
         $return_string = "<div id=\"inner_table_wrapper\"><table><tr>
             <th colspan=\"1\"></th>
