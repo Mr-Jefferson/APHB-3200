@@ -12,6 +12,7 @@ class Page {
     protected $current_cohort;
     protected $mysql_result_holder;
     protected $Master_String;   // all functions will concationate to the end of this string. once all calls have been made, will return the master string to the PHP page
+    protected $temorary_nick_test;
 
     // calling it at which point it will be echo'ed to the browser
 
@@ -41,7 +42,7 @@ class Page {
             }
         }
         if(isset($_FILES["file"])) {
-            $this->Master_String .= $this->CSV_handler->import();
+            $this->temorary_nick_test = $this->CSV_handler->import();
         }
         if(isset($_GET["export"])) {
             $this->CSV_handler->export();
@@ -333,6 +334,7 @@ class Page {
 
     public function load_main_body_wrapper() {
         $this->Master_String .= "<div id=\"Main_content_wrapper\">";
+        $this->Master_String .= $this->temorary_nick_test;
     }
 
     /**
