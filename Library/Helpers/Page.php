@@ -440,7 +440,7 @@ class Page {
         $this->Master_String .=
                 "<div id = \"nav\">
                         <ul>
-                            <li id =\"left_nav\"><a href=\"/APHB-3200/Library/Pages/Student.php\">Students</a></li>" .
+                            <li id =\"left_nav\" style=\"padding-left:0px;\"><a href=\"/APHB-3200/Library/Pages/Student.php\">Students</a></li>" .
                             
 
                             "<li id =\"middle_nav\"><a href=\"/APHB-3200/Library/Pages/Marker.php\">Markers</a></li>".
