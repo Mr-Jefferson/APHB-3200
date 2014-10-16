@@ -22,7 +22,10 @@ class Table_Generation {
         }
         return $row;
     }
-
+    
+    /*
+     * 
+     */
     private function print_Marker_Individual(mysqli_result $query_outcome) {
         $return_string = "";
         while ($row = $query_outcome->fetch_assoc()) {
@@ -114,8 +117,8 @@ class Table_Generation {
             $array = ["number_of_students","overall_average","overall_maximum","overall_minimum","overall_range","overall_stddev"];
             $row = $this->check_Row_Null($row);
             $return_string .= "<tr>";
-            if($seminar == 0 && $row[$array[$col]] != "n/a") { $return_string .= "<td class=\"student_overall_stats\">Proposal</td>"; }
-            if($seminar == 1 && $row[$array[$col]] != "n/a") { $return_string .= "<td class=\"student_overall_stats\">Final</td>"; }
+            if($seminar == 0) { $return_string .= "<td class=\"student_overall_stats\">Proposal</td>"; }
+            if($seminar == 1) { $return_string .= "<td class=\"student_overall_stats\">Final</td>"; }
             $row2 = $query_outcome2->fetch_assoc();
             $return_string .= "<td>".$row2["number_of_students"]."</td>";
             for($col=1;$col<count($array);$col++) {
