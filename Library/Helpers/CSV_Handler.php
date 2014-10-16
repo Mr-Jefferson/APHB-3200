@@ -198,7 +198,7 @@ class CSV_Handler {
         for($i = 0; $i<$lastRow; $i++) {
             $array = $objPHPExcel->getActiveSheet()->rangeToArray("B1:B2");
             
-            $string .= vardump($array);
+            $string .= var_export($array);
         }
         return $string."HELLO";
     }
