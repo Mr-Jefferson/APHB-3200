@@ -13,5 +13,5 @@ SELECT	CONCAT(marker_first_name, ' ', marker_last_name) AS marker_name,
         marks.seminar,
         marks.id_mark
 FROM	marks INNER JOIN
-	markers ON marks.id_marker = markers.id_marker
+		markers ON marks.id_marker = markers.id_marker
 ORDER BY marker_last_name DESC, marker_first_name DESC;
