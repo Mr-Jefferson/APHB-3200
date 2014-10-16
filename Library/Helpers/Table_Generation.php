@@ -75,20 +75,6 @@ class Table_Generation {
         }
         return $return_string;
     }
-    
-    private function print_Student_Overall(mysqli_result $query_outcome) {
-        $return_string = "";
-        while ($row = $query_outcome->fetch_assoc()) {
-            $array = ["student_name","student_number","proposal_mark_1","proposal_mark_2","proposal_mark_3","proposal_total","final_mark_1","final_mark_2","final_mark_3","final_total"];
-            $row = $this->check_Row_Null($row);
-            $return_string .= "<tr>";
-            for($col=0;$col<count($array);$col++) {
-                $return_string .= "<td>".$row[$array[$col]]."</td>";
-            }
-            $return_string .= "<td><a href=\"Student.php?S_ID=$row[id_student]\">Inspect</a></td></tr>";
-        }
-        return $return_string;
-    }
 
     private function print_Student_Overall_Stats(mysqli_result $query_outcome, $seminar) {
         $return_string = "";
