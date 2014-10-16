@@ -35,9 +35,9 @@ CREATE TABLE IF NOT EXISTS seminar_marks.students (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS seminar_marks.marks (
     id_mark INT NOT NULL PRIMARY KEY,
-    mark_1 INT NOT NULL,
-    mark_2 INT NOT NULL,
-    mark_3 INT NOT NULL,
+    mark_1 DOUBLE NOT NULL,
+    mark_2 DOUBLE NOT NULL,
+    mark_3 DOUBLE NOT NULL,
     seminar TINYINT NOT NULL,
     id_student INT NOT NULL,
     id_marker INT NOT NULL,

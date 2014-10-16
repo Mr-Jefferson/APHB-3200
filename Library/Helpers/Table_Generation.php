@@ -27,7 +27,10 @@ class Table_Generation {
             $row = $this->check_Row_Null($row);
             $return_string .= "<tr>";
             for($col=0;$col<count($array);$col++) {
-                $return_string .= "<td>".$row[$array[$col]]."</td>";
+                $return_string .= "<td>".$row[$array[$col]];
+                if($col==3) { $return_string .= "%"; }
+                if($col==7) { $return_string .= "%"; }
+                $return_string .= "</td>";
             }
             $return_string .= "</tr>";
         }
@@ -41,7 +44,9 @@ class Table_Generation {
             $row = $this->check_Row_Null($row);
             $return_string .= "<tr>";
             for($col=0;$col<count($array);$col++) {
-                $return_string .= "<td>".$row[$array[$col]]."</td>";
+                $return_string .= "<td>".$row[$array[$col]];
+                if($col==5) { $return_string .= "%"; }
+                $return_string .= "</td>";
             }
             $return_string .= "<td><a href=\"dEntry.php?Mark_ID=$row[id_mark]\">Alter</a></td></tr>";
         }
@@ -55,7 +60,11 @@ class Table_Generation {
             $row = $this->check_Row_Null($row);
             $return_string .= "<tr>";
             for($col=0;$col<count($array);$col++) {
-                $return_string .= "<td>".$row[$array[$col]]."</td>";
+                $return_string .= "<td>".$row[$array[$col]];
+                if($col==4) { $return_string .= "%"; }
+                if($col==6) { $return_string .= "%"; }
+                if($col==7) { $return_string .= "%"; }
+                $return_string .= "</td>";
             }
             $return_string .= "<td><a href=\"Marker.php?M_ID=$row[id_marker]\">Inspect</a></td></tr>";
         }
@@ -69,7 +78,10 @@ class Table_Generation {
             $row = $this->check_Row_Null($row);
             $return_string .= "<tr>";
             for($col=0;$col<count($array);$col++) {
-                $return_string .= "<td>".$row[$array[$col]]."</td>";
+                $return_string .= "<td>".$row[$array[$col]];
+                if($col==5) { $return_string .= "%"; }
+                if($col==9) { $return_string .= "%"; }
+                $return_string .= "</td>";
             }
             $return_string .= "<td><a href=\"Student.php?S_ID=$row[id_student]\">Inspect</a></td></tr>";
         }
@@ -82,7 +94,10 @@ class Table_Generation {
             $row = $this->check_Row_Null($row);
             $return_string .= "<tr>";
             for($col=0;$col<count($array);$col++) {
-                $return_string .= "<td>".$row[$array[$col]]."</td>";
+                $return_string .= "<td>".$row[$array[$col]];
+                if($col==3) { $return_string .= "%"; }
+                if($col==7) { $return_string .= "%"; }
+                $return_string .= "</td>";
             }
             $return_string .= "</tr>";
         }
@@ -101,7 +116,9 @@ class Table_Generation {
             $row2 = $query_outcome2->fetch_assoc();
             $return_string .= "<td>".$row2["number_of_students"]."</td>";
             for($col=1;$col<count($array);$col++) {
-                $return_string .= "<td>".$row[$array[$col]]."</td>";
+                $return_string .= "<td>".$row[$array[$col]];
+                if($col!=5) { $return_string .= "%"; }
+                $return_string .= "</td>";
             }
             $return_string .= "</tr>";
             $seminar++;
@@ -116,7 +133,9 @@ class Table_Generation {
             $row = $this->check_Row_Null($row);
             $return_string .= "<tr>";
             for($col=0;$col<count($array);$col++) {
-                $return_string .= "<td>".$row[$array[$col]]."</td>";
+                $return_string .= "<td>".$row[$array[$col]];
+                if($col==4) $return_string .= "%";
+                $return_string .= "</td>";
             }
             $return_string .= "<td><a href=\"dEntry.php?Mark_ID=$row[id_mark]\">Alter</a></td></tr>";
         }
@@ -133,9 +152,9 @@ class Table_Generation {
         if($seminar==2) $return_string .= "<h4>Final Seminar Marks:</h4>";
         $return_string .= "<table><tr>
             <th class=\"subheading\">Name</th>
-            <th class=\"subheading\">AVG M1 (10%)</th>
-            <th class=\"subheading\">AVG M2 (10%)</th>
-            <th class=\"subheading\">AVG M3 (80%)</th>
+            <th class=\"subheading\">AVG M1 (10%) (/10)</th>
+            <th class=\"subheading\">AVG M2 (10%) (/10)</th>
+            <th class=\"subheading\">AVG M3 (80%) (/10)</th>
             <th class=\"subheading\">AVG Overall (100%)</th>
             <th class=\"subheading\">Count</th>
             <th class=\"subheading\">Min</th>
@@ -152,13 +171,13 @@ class Table_Generation {
         $return_string = "<div id=\"inner_table_wrapper\"><h4>Overall Seminar Marks:</h4><table><tr>
             <th colspan=\"4\" class=\"seminar_table_headings\">Proposal</th>
             <th colspan=\"4\" class=\"seminar_table_headings\">Final</th></tr><tr>
-            <th class=\"subheading\" style=\"border-left:1px solid black;\">Mark 1 (10%)</th>
-            <th class=\"subheading\">Mark 2 (10%)</th>
-            <th class=\"subheading\">Mark 3 (80%)</th>
+            <th class=\"subheading\" style=\"border-left:1px solid black;\">Mark 1 (10%) (/10)</th>
+            <th class=\"subheading\">Mark 2 (10%) (/10)</th>
+            <th class=\"subheading\">Mark 3 (80%) (/10)</th>
             <th class=\"subheading\" style=\"border-right:1px solid black;\">Total (100%)</th>
-            <th class=\"subheading\">Mark 1 (10%)</th>
-            <th class=\"subheading\">Mark 2 (10%)</th>
-            <th class=\"subheading\">Mark 3 (80%)</th>
+            <th class=\"subheading\">Mark 1 (10%) (/10)</th>
+            <th class=\"subheading\">Mark 2 (10%) (/10)</th>
+            <th class=\"subheading\">Mark 3 (80%) (/10)</th>
             <th class=\"subheading\"style=\"border-right:1px solid black;\">Total (100%)</th></tr>";
         if ($queryResult != false) { $return_string .= $this->print_Student_Individual($queryResult); }
         return $return_string .= "</table></div>";
@@ -172,9 +191,9 @@ class Table_Generation {
         if ($seminar == 2) { $return_string .= "<h4>Final Seminar Marks:</h4>"; }
         $return_string .= "<table><tr>
             <th class=\"subheading\">Marker Name</th>
-            <th class=\"subheading\">Mark 1 (10%)</th>
-            <th class=\"subheading\">Mark 2 (10%)</th>
-            <th class=\"subheading\">Mark 3 (80%)</th>
+            <th class=\"subheading\">Mark 1 (10%) (/10)</th>
+            <th class=\"subheading\">Mark 2 (10%) (/10)</th>
+            <th class=\"subheading\">Mark 3 (80%) (/10)</th>
             <th class=\"subheading\">Total (100%)</th>
             <th><a href=\"dEntry.php?S_ID=".$student_ID."&seminar=".$seminar."\">Add</a></th></tr>";
         if ($queryResult != false) { $return_string .= $this->print_Student_Individual_Marks($queryResult); }
@@ -191,13 +210,13 @@ class Table_Generation {
             <th colspan=\"4\" class=\"seminar_table_headings\">Final</th></tr><tr>
             <th class=\"subheading\">Student Name</th>
             <th class=\"subheading\">Student Number</th>
-            <th class=\"subheading\" style=\"border-left:1px solid black;\">Mark 1 (10%)</th>
-            <th class=\"subheading\">Mark 2 (10%)</th>
-            <th class=\"subheading\">Mark 3 (80%)</th>
+            <th class=\"subheading\" style=\"border-left:1px solid black;\">Mark 1 (10%) (/10)</th>
+            <th class=\"subheading\">Mark 2 (10%) (/10)</th>
+            <th class=\"subheading\">Mark 3 (80%) (/10)</th>
             <th class=\"subheading\" style=\"border-right:1px solid black;\">Total (100%)</th>
-            <th class=\"subheading\">Mark 1 (10%)</th>
-            <th class=\"subheading\">Mark 2 (10%)</th>
-            <th class=\"subheading\">Mark 3 (80%)</th>
+            <th class=\"subheading\">Mark 1 (10%) (/10)</th>
+            <th class=\"subheading\">Mark 2 (10%) (/10)</th>
+            <th class=\"subheading\">Mark 3 (80%) (/10)</th>
             <th class=\"subheading\"style=\"border-right:1px solid black;\">Total (100%)</th>
             <th class=\"subheading\"></th></tr>";
         if ($queryResult != false) { $return_string .= $this->print_Student_Overall($queryResult); }
@@ -227,13 +246,13 @@ class Table_Generation {
         $return_string = "<div id= \"inner_table_wrapper\"><h4>Marker Average Marks:</h4><table><tr>
             <th colspan=\"4\" class=\"seminar_table_headings\">Proposal</th>
             <th colspan=\"4\" class=\"seminar_table_headings\">Final</th></tr><tr>
-            <th class=\"subheading\" style=\"border-left:1px solid black;\">Mark 1 (10%)</th>
-            <th class=\"subheading\">Mark 2 (10%)</th>
-            <th class=\"subheading\">Mark 3 (80%)</th>
+            <th class=\"subheading\" style=\"border-left:1px solid black;\">Mark 1 (10%) (/10)</th>
+            <th class=\"subheading\">Mark 2 (10%) (/10)</th>
+            <th class=\"subheading\">Mark 3 (80%) (/10)</th>
             <th class=\"subheading\" style=\"border-right:1px solid black;\">Total (100%)</th>
-            <th class=\"subheading\" style=\"border-left:1px solid black;\">Mark 1  (10%)</th>
-            <th class=\"subheading\">Mark 2 (10%)</th>
-            <th class=\"subheading\">Mark 3 (80%)</th>
+            <th class=\"subheading\" style=\"border-left:1px solid black;\">Mark 1 (10%) (/10)</th>
+            <th class=\"subheading\">Mark 2 (10%) (/10)</th>
+            <th class=\"subheading\">Mark 3 (80%) (/10)</th>
             <th class=\"subheading\" style=\"border-right:1px solid black;\">Total (100%)</th></tr>";
         if ($queryResult != false) { $return_string .= $this->print_Marker_Individual($queryResult); }
         return $return_string .= "</table></div>";
@@ -249,9 +268,9 @@ class Table_Generation {
         $return_string .= "<table><tr>
             <th class=\"subheading\">Student Name</th>
             <th class=\"subheading\">Student Number</th>
-            <th class=\"subheading\">Mark 1 (10%)</th>
-            <th class=\"subheading\">Mark 2 (10%)</th>
-            <th class=\"subheading\">Mark 3 (80%)</th>
+            <th class=\"subheading\">Mark 1 (10%) (/10)</th>
+            <th class=\"subheading\">Mark 2 (10%) (/10)</th>
+            <th class=\"subheading\">Mark 3 (80%) (/10)</th>
             <th class=\"subheading\">Total (100%)</th>
             <th><a href=\"dEntry.php?M_ID=$marker_ID&seminar=$seminar\"\">Add</a></th></tr>";
         if ($queryResult != false) { $return_string .= $this->print_Marker_Individual_Marks($queryResult); }
