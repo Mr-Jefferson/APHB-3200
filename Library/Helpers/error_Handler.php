@@ -46,6 +46,10 @@ Class error_handler{
     }
     
     /**
+     * Method: A check function to ensure, when updating a student, that either its attempting to update itself or to check if the update causes a conflict with:
+     *                  - student new first/last name contains illegal character
+     *                  - new cohort results in the same student being added twice.
+     * 
      * 
      * @param int $studentNumber
      * @param string $studentFirstName
@@ -103,6 +107,7 @@ Class error_handler{
     }
    
     /**
+     * Method: Checks students first/last names for illegal characters and checks to see if a student with a student number = $studentNumber which is already appart of the given cohort.
      * 
      * @param int $studentNumber
      * @param string $studentFirstName
@@ -127,6 +132,8 @@ Class error_handler{
     }
 
     /**
+     * Method: Given an array of marks, looks through to check if the mark contains illegal characters
+     * 
      * @param array $marks
      * @return boolean
      */
@@ -141,6 +148,7 @@ Class error_handler{
         return $boolean_flag;
     }
     /**
+     * Method: a check to ensure a mark hasn't already been associated between student/marker for a given cohort
      * 
      * @param int $marker
      * @param int $student
@@ -168,6 +176,7 @@ Class error_handler{
         $this->error_string .= $string;
     }
     /**
+     * A check to ensure a false mark_ID hasn't been provided
      * 
      * @param int $markID
      * @return boolean
@@ -179,6 +188,7 @@ Class error_handler{
         else{return false;}
     }
     /**
+     * Method: checks all three marks to ensure they are floats/ints and checks to see if a mark has already been associated between marker/student for said cohort.
      * 
      * @param array $marks
      * @param int $marker
@@ -207,6 +217,7 @@ Class error_handler{
         return $boolean_flag;
     }
     /**
+     * Method: Checks first name/last name for invalid characters and checks to see if marker already exists 
      * 
      * @param type $markerFirstName
      * @param type $markerLastName
@@ -238,7 +249,7 @@ Class error_handler{
     }
     
     /**
-     * 
+     * Method: return the error string so it can be displayed in the shadow_error div.
      * @return type
      */
     public function return_error_string(){

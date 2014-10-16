@@ -11,9 +11,7 @@ class Page {
     protected $CSV_handler;
     protected $current_cohort;
     protected $mysql_result_holder;
-    protected $Master_String;   // all functions will concationate to the end of this string. once all calls have been made, will return the master string to the PHP page
-
-    // calling it at which point it will be echo'ed to the browser
+    protected $Master_String;   
 
     public function __construct($page_title) {
         $this->page_name = $page_title;
@@ -48,6 +46,10 @@ class Page {
         }
     }
    
+    /**
+     * Method: Based on the string value of $type, there are two options for what will be appeneded to the Master_string
+     * @param string $type
+     */
     public function load_update_button($type){
         $this->Master_String.= "<div id=\"update_individual_button\">";
                     if($type == "student"){
@@ -59,6 +61,10 @@ class Page {
         $this->Master_String.= "</div>";
     }
     
+    /**
+     * Method: used to initialize the current_cohort object variable. Queries the user table to obtain cohort/semester values
+     * @return mysql_result object
+     */
     private function get_current_cohort(){
         $query = "select cohort,semester from users";
         $result = $this->Database_connection->query_Database($query);
@@ -69,7 +75,7 @@ class Page {
     
     
     /**
-     * Will append to the Master_String the usual <header></header> contents
+     * Method: Appends the appropriate <head></head> tags to the Master_String to build the various pages.
      */
     public function load_html_header() {
         $this->Master_String .=
@@ -81,7 +87,10 @@ class Page {
                 "</head>";
     }
 
-    
+    /**
+     * Method: function for populating  the dropdown menu in the cohort shadow div. works by searching students and obtains all years/semesters students are enrolled in
+     * @return string
+     */
      private function populate_cohort_year_dropdown(){
          $return_string = "";
          $result = $this->Database_connection->query_Database("select distinct cohort from students order by cohort ASC");
@@ -97,7 +106,10 @@ class Page {
          }         
          return $return_string;            
      }
-     
+   /**
+    * Method: builds up the string to add two option tags to the dropdown menu of the semester menu in the shadow cohort div.
+    * @return string
+    */  
    private function populate_cohort_semester_dropdown(){
         $return_string = "";
             for($i = 1; $i<=2; $i++){
@@ -110,21 +122,24 @@ class Page {
             }         
          return $return_string; 
    }
-   
+   /**
+    * Method: when a user goes to an individual marker/student/add marks page. Its sets the url for that page into the session variable so it can go back to that page to produce a more flow efficient application
+    */
    public function set_url(){
        $_SESSION['url'] = $_SERVER['REQUEST_URI'];
    }
-   
+   /**
+    * Method: if an error occurs, goes back to the page that called it and prints the error in the error div.
+    */
    public function set_error_url(){
        $_SESSION['ERROR_URL'] = $_SERVER['REQUEST_URI'];
    }
-    /**
-     * 
-     * @param int $Page_type, Identifies what the shadow will be used for 
-     * if $Page_type == 1 then it is indented to be used on the marker_home page.
-     * if $Page_type == 2 then it is indented to be used for the Student_home.page
-     */
-    public function load_shadow($required_shadows) {
+
+   /**
+    * Method: Shadow div, responsible for all pop up displays. based on the array provided, builds the shadow div + pop ups appropriatly. 
+    * @param array $required_shadows
+    */
+    public function load_shadow(array $required_shadows) {
         if(isset($_SESSION['ERROR'])){
             $this->Master_String .=
                 "<div id=\"hidden_form\" >
@@ -344,6 +359,11 @@ class Page {
         $this->Master_String .= "<h3 id=\"page_title\">" . $name . "</h3>";
     }
 
+    /**
+     * Method: Used to produce the titles for the student/marker individual pages.
+     * @param type $type
+     * @param type $ID
+     */
     public function load_page_title_name($type, $ID) {
         $query = "";
         if ($type == 1) {
@@ -392,12 +412,19 @@ class Page {
         }
     }
 
+    /**
+     * Method: function used to generate the individual student tables for overall stats, proposal marks + final marks
+     * @param int $Student_ID
+     */
     public function load_student_tables($Student_ID) {
         $this->Master_String .= $this->Table_generator->generate_Student_Individual($Student_ID);
         $this->Master_String .= $this->Table_generator->generate_Student_Individual_Marks(1, $Student_ID);
         $this->Master_String .= $this->Table_generator->generate_Student_Individual_Marks(2, $Student_ID);
     }
-
+    /**
+     * Method: function used to generate the individual marker tables for overall stats, proposal marks + final marks
+     * @param int $Marker_ID
+     */
     public function load_marker_tables($Marker_ID) {
         // need a way to determine marker_ID/validate it.
         $this->Master_String .= $this->Table_generator->generate_Marker_Individual($Marker_ID);
@@ -448,7 +475,13 @@ class Page {
         }
     }
     
-    private function return_marker_option($row,$identifier){
+    /**
+     * used to build the dropdown menu for data management -> adding marks->marker dropdown. 
+     * @param mysqli_result $row
+     * @param int $identifier
+     * @return type
+     */
+    private function return_marker_option(mysqli_result $row,$identifier){
         $selected =" ";
         if($identifier == "Mark_ID"){
             $selected = $this->compare_ID($row['id_marker'], $this->mysql_result_holder['id_marker']);
@@ -463,8 +496,14 @@ class Page {
         $name = $row['marker_first_name']. " " . $row['marker_last_name'];
         return "<option ".$selected." value=".$value.">".$name."</option>";
     }
-    
-    private function return_student_option($row,$identifier){
+    /**
+     * Method: used to build the dropdown menu for data management-> adding marks -> student dropdown for given cohort
+     * 
+     * @param mysqli_result $row
+     * @param type $identifier
+     * @return type
+     */
+    private function return_student_option(mysqli_result $row,$identifier){
         $selected =" ";
         if($identifier == "Mark_ID"){
             $selected = $this->compare_ID($row['id_student'], $this->mysql_result_holder['id_student']);
@@ -476,7 +515,10 @@ class Page {
         $name = $row['student_first_name']." ".$row['student_last_name']."(".$row['student_number'].")";
         return "<option ".$selected." value=".$value.">". $name."</option>";
     }
-    
+    /**
+     * Method: Obtains a mysqli_result object and loops through it by passing each row to return_student_option to produce the appropriate string to build the option tags for said row.
+     * @return string
+     */
     private function populate_student_d_entry(){
         $return_string = "";
         $query = "select student_first_name,student_last_name,student_number,id_student from students where cohort=".$this->current_cohort['cohort']." and semester=".$this->current_cohort['semester'];
@@ -496,7 +538,10 @@ class Page {
         }
         return $return_string;
     }
-    
+    /**
+     * Method: Obtains a mysqli_result object and loops through it by passing each row to return_marker_option to produce the appropriate string to build the option tags for said row.
+     * @return string
+     */    
     private function populate_marker_d_entry(){
         $return_string = "";
         $query = "select marker_first_name,marker_last_name,id_marker from markers";
