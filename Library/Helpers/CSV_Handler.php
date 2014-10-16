@@ -198,7 +198,7 @@ class CSV_Handler {
         for($i = 0; $i<$lastRow; $i++) {
             $array = $objPHPExcel->getActiveSheet()->ToArray();
             
-            $string .= $array;
+            $string .= implode(",", $array);
         }
         return $string."HELLO";
     }
