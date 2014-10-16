@@ -122,7 +122,7 @@ class Table_Generation {
             <th class=\"subheading\">Min</th>
             <th class=\"subheading\">Max</th>
             <th class=\"subheading\" style =\"border-right:1px solid #000066;\">SD</th>
-            <th class=\"subheading\"></th></tr>";
+           </tr>";
         if ($queryResult != false) { $return_string .= $this->print_Marker_Overall($queryResult); }
         return $return_string .= "</table></div>";
     }
