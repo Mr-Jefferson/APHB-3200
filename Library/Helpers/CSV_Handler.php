@@ -189,7 +189,8 @@ class CSV_Handler {
         $lastRow = $objPHPExcel->getActiveSheet()->getHighestRow();
         for($i = 2; $i<$lastRow+1; $i++) {
             $row = $objPHPExcel->getActiveSheet()->rangeToArray("A$i:E$i");
-            if($this->Error_Handler->new_student_check($row[0][2], $row[0][3],  $row[0][4], $row[0][0], $row[0][1])) {
+            $error = $this->Error_Handler->new_student_check($row[0][2], $row[0][3],  $row[0][4], $row[0][0], $row[0][1]);
+            if($error) {
                 $new_id = $this->Database_connection->return_new_id('student');
                 $query = "INSERT INTO seminar_marks.students VALUES (".$new_id.",".$row[0][3].",".$row[0][4].",".$row[0][2].",".$row[0][0].",".$row[0][1].")";
                 $this->Database_connection->query_Database($query);
