@@ -8,7 +8,7 @@ SELECT	CONCAT(marker_first_name, ' ', marker_last_name) AS marker_name,
         mark_1,
         mark_2,
         mark_3,
-        TRUNCATE(mark_1 + mark_2 + mark_3,2) as mark_total,
+        TRUNCATE(mark_1*0.1 + mark_2*0.1 + mark_3*0.8,2) as mark_total,
         marks.id_student,
         marks.seminar,
         marks.id_mark
