@@ -141,13 +141,12 @@ class CSV_Handler {
      * Students import, Markers import, Marks import
      */
     public function import() {
+        $return_string = "";
+        
         $temp = "/var/www/html/APHB-3200/Temp/".$_FILES["file"]["name"];
         move_uploaded_file($_FILES["file"]["tmp_name"],$temp);
         $objPHPExcel = PHPExcel_IOFactory::load($temp);
-        
-        
-        $import = "";
-        filter_input($_GET["import"],$import);
+        $import = $_GET["import"];
         
         /**if($import == "marks") {
             $before = $this->Database_connection->return_new_id("marks");
@@ -188,7 +187,7 @@ class CSV_Handler {
     }
     
     public function export() {
-        $return_string .= $this->edit_Export();
+        $return_string = $this->edit_Export();
         return $return_string;
     }
     
