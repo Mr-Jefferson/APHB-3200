@@ -1,6 +1,7 @@
 <?php
 include_once "/var/www/html/APHB-3200/Library/DB/Database_Connection.php";
 include_once "/var/www/html/APHB-3200/Library/Helpers/User_Control.php";
+include_once "/var/www/html/APHB-3200/Library/Helpers/error_Handler.php";
 include_once "/var/www/html/APHB-3200/Library/Include/PHPExcel.php";
 include_once "/var/www/html/APHB-3200/Library/Include/PHPExcel/IOFactory.php";
 
@@ -9,7 +10,8 @@ include_once "/var/www/html/APHB-3200/Library/Include/PHPExcel/IOFactory.php";
  */
 class CSV_Handler {
     protected $Database_connection; //Connection to MySQL database
-    protected $current_cohort; //Current cohort variable
+    protected $current_cohort; //Current cohort variable'
+    protected $Error_Handler; //Error handler
     
     /**
      * Initialize variables
@@ -19,17 +21,7 @@ class CSV_Handler {
     public function __construct($cohort) {
         $this->Database_connection = new Database_Connection();
         $this->current_cohort = $cohort;
-    }
-    
-    /**
-     * Deletes first line of a file
-     * 
-     * @param type $filename File path to file that first line is deleted from
-     */
-    private function delete_First_Line($filename) {
-        $file = file($filename);
-        unset($file[0]);
-        file_put_contents($filename, $file);
+        $this->Error_Hander = new error_Handler();
     }
     
     /**
@@ -193,12 +185,23 @@ class CSV_Handler {
     }
     
     public function import_students($objPHPExcel) {
+        $return_string = "";
         $lastRow = $objPHPExcel->getActiveSheet()->getHighestRow();
-        $string = "";
         for($i = 2; $i<$lastRow+1; $i++) {
-            $array = $objPHPExcel->getActiveSheet()->rangeToArray("A$i:E$i");
-            $string .= $array[0][0] . "," . $array[0][1] . "," . $array[0][2] . "," . $array[0][3] . "," . $array[0][4];
+            $row = $objPHPExcel->getActiveSheet()->rangeToArray("A$i:E$i");
+            if($this->Error_Handler->new_student_check($row[0][2], $row[0][3],  $row[0][4], $row[0][0], $row[0][1])) {
+                $new_id = $this->Database_connection->return_new_id('student');
+                $query = "INSERT INTO seminar_marks.students VALUES (".$new_id.",".$row[0][3].",".$row[0][4].",".$row[0][2].",".$row[0][0].",".$row[0][1].")";
+                $this->Database_connection->query_Database($query);
+                if($new_id != $this->Database_connection->return_new_id('student')) {
+                    $return_string .= "Student ".$row[0][3]." ".$row[0][4].", SN: ".$row[0][2]." added successfully!<br>";
+                } else {
+                    $return_string .= "Student ".$row[0][3]." ".$row[0][4].", SN: ".$row[0][2]." failed to be added to the database.<br>";
+                }
+            } else {
+                $return_string .= "Student ".$row[0][3]." ".$row[0][4].", SN: ".$row[0][2]." failed due to bad data in row.<br>";
+            }
         }
-        return $string;
+        return $return_string;
     }
 }
