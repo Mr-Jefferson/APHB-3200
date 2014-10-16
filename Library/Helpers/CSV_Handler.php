@@ -143,8 +143,7 @@ class CSV_Handler {
     public function import() {
         $temp = "/var/www/html/APHB-3200/Temp/".$_FILES["file"]["name"];
         move_uploaded_file($_FILES["file"]["tmp_name"],$temp);
-        $objReader = PHPExcel_IOFactory::createReader($temp);
-        $objPHPExcel = $objReader->load($temp);
+        $objPHPExcel = PHPExcel_IOFactory::load($temp);
         
         
         $import = "";
