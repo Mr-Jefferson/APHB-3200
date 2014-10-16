@@ -34,7 +34,7 @@ else {
         $new_page->load_table_body("Marker_home");
     }
     $new_page->close_main_body_wrapper();
-    $new_page->close_body_wrapper();    // might have to rename to something other than body wrapper, could change to body tag?
+    $new_page->close_body_wrapper();    
     $new_page->close_shadow();
     $new_page->close_html();
 

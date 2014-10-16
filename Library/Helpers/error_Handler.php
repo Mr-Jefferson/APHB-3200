@@ -113,7 +113,7 @@ Class error_handler{
         if(preg_match("/[a-zA-Z!@#$%^&*();\\/|<>\"\'_\-+=,.\s]/", $studentNumber))
             {$this->error_string .= "Entered an invalid value for Student Number. Please provide a valid integer.<br>"; 
             $boolean_flag = false;}
-        if($this->search_cohort_SN($studentNumber, $cohort, $semester)==false){$boolean_flag = false;}
+        if($this->search_cohort_SN($studentNumber, $cohort, $semester,-1)==false){$boolean_flag = false;}
         if($this->check_name($studentFirstName) == false)
           {$this->error_string .= "Invalid first name <br>";
           $boolean_flag = false;}
