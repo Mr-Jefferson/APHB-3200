@@ -25,9 +25,11 @@ Class User_Control {
             require(dirname(__FILE__)."/config.php");
             
             $hashedPassword = crypt($password, $hashString);
+            echo $hashedPassword;
+            
             if ($User_row['password'] === $hashedPassword) {
                 $randomIntString = $this->generate_session_id(); 
-                echo $randomIntString;
+                
                 $_SESSION['session_hash'] =$randomIntString;
                 $this->DB_connection->Prepared_query_Database("UPDATE users SET session_hash=?", array($randomIntString), array("s"));
                 return true;
@@ -74,7 +76,7 @@ Class User_Control {
             $result = $this->DB_connection->query_Database($query);
             if($result!=false){
                 $row = $result->fetch_assoc();
-                if($row['session_hash'] == $_SESSION['sessionHash']){ return true;}
+                if($row['session_hash'] == $_SESSION['session_hash']){ return true;}
                 else{ return false;}
             }
             else{return false;}
