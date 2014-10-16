@@ -14,10 +14,11 @@ class Page {
     protected $Master_String;   
 
     public function __construct($page_title) {
-        $this->page_name = $page_title;       
+        $this->page_name = $page_title;
         $this->Database_connection = new Database_Connection();
         $this->current_cohort = $this->get_current_cohort();
         $this->Table_generator = new Table_Generation($this->current_cohort);
+        $this->CSV_handler = new CSV_Handler($this->current_cohort);
         
         if(isset($_GET['Mark_ID'])){
             $result = $this->Database_connection->query_Database("select * from marks where id_mark =".$_GET['Mark_ID']);
@@ -37,8 +38,12 @@ class Page {
                 $this->mysql_result_holder = $result->fetch_assoc();
             }
         }
-        
-                    
+        if(isset($_FILES["file"])) {
+            $this->Master_String = $this->CSV_handler->import();
+        }
+        if(isset($_GET["export"])) {
+            $this->CSV_handler->export();
+        }
     }
    
     /**
@@ -258,13 +263,13 @@ class Page {
                             "<form action=\"../Helpers/Updater.php?S_ID=".$_GET['S_ID'] ."&update=1 \" method=\"post\">
                                 <div id =\"add_student\">
                                     <div id=\"SID\">
-                                        Student Number: <input type=\"text\" name = \"S_SD\" id=\"ssd2\" onblur=\"checkInput('ssd');\" value=".$this->mysql_result_holder['student_number'] .">
+                                        Student Number: <input type=\"text\" name = \"S_SD\" id=\"ssd2\" onblur=\"checkInput('ssd2');\" value=".$this->mysql_result_holder['student_number'] .">
                                     </div>
                                     <div id=\"first_name\">
-                                        First Name: <input type=\"text\" name = \"S_FN\" id=\"sfn2\" onblur=\"checkInput('sfn');\" value=\"".$this->mysql_result_holder['student_first_name'] ."\">
+                                        First Name: <input type=\"text\" name = \"S_FN\" id=\"sfn2\" onblur=\"checkInput('sfn2');\" value=\"".$this->mysql_result_holder['student_first_name'] ."\">
                                     </div>
                                     <div id=\"last_name\">
-                                        Last Name: <input type=\"text\" name =\"S_LN\" id=\"sln2\" onblur=\"checkInput('sln');\" value=\"".$this->mysql_result_holder['student_last_name'] ."\">
+                                        Last Name: <input type=\"text\" name =\"S_LN\" id=\"sln2\" onblur=\"checkInput('sln2');\" value=\"".$this->mysql_result_holder['student_last_name'] ."\">
                                     </div>
                                 
                                 <div id =\"select_cohort\">
@@ -343,8 +348,6 @@ class Page {
 
     public function load_main_body_wrapper() {
         $this->Master_String .= "<div id=\"Main_content_wrapper\">";
-        $this->CSV_handler = new CSV_Handler($this->current_cohort);
-        $this->Master_String .= $this->CSV_handler->file_manager();
     }
 
     /**

@@ -1,6 +1,7 @@
 <?php
 include_once "/var/www/html/APHB-3200/Library/DB/Database_Connection.php";
 include_once "/var/www/html/APHB-3200/Library/Helpers/User_Control.php";
+include_once "/var/www/html/APHB-3200/Library/Helpers/error_Handler.php";
 include_once "/var/www/html/APHB-3200/Library/Include/PHPExcel.php";
 include_once "/var/www/html/APHB-3200/Library/Include/PHPExcel/IOFactory.php";
 
@@ -9,7 +10,8 @@ include_once "/var/www/html/APHB-3200/Library/Include/PHPExcel/IOFactory.php";
  */
 class CSV_Handler {
     protected $Database_connection; //Connection to MySQL database
-    protected $current_cohort; //Current cohort variable
+    protected $current_cohort; //Current cohort variable'
+    protected $Error_Handler; //Error handler
     
     /**
      * Initialize variables
@@ -19,17 +21,7 @@ class CSV_Handler {
     public function __construct($cohort) {
         $this->Database_connection = new Database_Connection();
         $this->current_cohort = $cohort;
-    }
-    
-    /**
-     * Deletes first line of a file
-     * 
-     * @param type $filename File path to file that first line is deleted from
-     */
-    private function delete_First_Line($filename) {
-        $file = file($filename);
-        unset($file[0]);
-        file_put_contents($filename, $file);
+        $this->Error_Hander = new error_Handler();
     }
     
     /**
@@ -138,63 +130,78 @@ class CSV_Handler {
     
     /**
      * Manages what type of importing or exporting has been requested:
-     * Students import, Markers import, Marks import, Marks export
-     * Returns the number of entries in an imported file
-     * Returns the number of entries that MySQL accepted from the imported file
-     * 
-     * @return string $return_string Import: Returns HTML for reporting errors, query success and query failure. Export: HTML href to download export file
+     * Students import, Markers import, Marks import
      */
-    public function file_manager() {
+    public function import() {
         $return_string = "";
-        if(isset($_FILES["file"])){
-            $temp = "/tmp/temp.csv";
-            move_uploaded_file($_FILES["file"]["tmp_name"],$temp);
-            $this->delete_first_line($temp);
-            $import = $_GET["import"];
-            
-            $return_string .= "<br>";
-            $return_number = 0;
-            $before = 0;
-            $after = 0;
-            
-            $query = "LOAD DATA LOCAL INFILE " . 
-                    "\"$temp\" " .
-                    "INTO TABLE " . $import . " " .
-                    "FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"' " .
-                    "LINES TERMINATED BY ' ' ";
-            if($import == "marks") {
-                $before = $this->Database_connection->return_new_id("marks");
-                $return_number = $this->edit_Marks($temp);
-                for($i = 0; $i<count($return_number);$i++){
-                    $return_string .= $return_number[$i];
-                }
-                $query .= "(id_mark, mark_1, mark_2, mark_3, seminar, id_student, id_marker)";
-                $this->Database_connection->query_Database($query);
-                $after = $this->Database_connection->return_new_id("marks");
-                $added = $after - $before;
-                $return_string .= "<br>Marks in file: $return_number <br>Marks added to database: $added";
-            } else if($import == "students") {
-                $before = $this->Database_connection->return_new_id("student");
-                $return_number = $this->edit_Students($temp);
-                $query .= "(id_student, cohort, semester, student_number, student_first_name, student_last_name)";
-                $this->Database_connection->query_Database($query);
-                $after = $this->Database_connection->return_new_id("student");
-                $added = $after - $before;
-                $return_string .= "<br>Students in file: $return_number <br>Students added to database: $added";
-            } else if($import == "markers") {
-                $before = $this->Database_connection->return_new_id("marker");
-                $return_number = $this->edit_Markers($temp);
-                $query .= "(id_marker, marker_first_name, marker_last_name)";
-                $this->Database_connection->query_Database($query);
-                $after = $this->Database_connection->return_new_id("marker");
-                $added = $after - $before;
-                $return_string .= "<br>Markers in file: $return_number <br>Markers added to database: $added";
-            } else {
-                $return_string .= "<br>Only student, marker, and mark import is available";
+        
+        $temp = "/var/www/html/APHB-3200/Temp/".$_FILES["file"]["name"];
+        move_uploaded_file($_FILES["file"]["tmp_name"],$temp);
+        $objPHPExcel = PHPExcel_IOFactory::load($temp);
+        $import = $_GET["import"];
+        
+        /**if($import == "marks") {
+            $before = $this->Database_connection->return_new_id("marks");
+            $return_number = $this->edit_Marks($temp);
+            for($i = 0; $i<count($return_number);$i++){
+                $return_string .= $return_number[$i];
             }
+            $query .= "(id_mark, mark_1, mark_2, mark_3, seminar, id_student, id_marker)";
+            $this->Database_connection->query_Database($query);
+            $after = $this->Database_connection->return_new_id("marks");
+            $added = $after - $before;
+            $return_string .= "<br>Marks in file: $return_number <br>Marks added to database: $added";
+        } else **/
+        if($import == "students") {
+            $return_string .= $this->import_students($objPHPExcel);
+            /**
+            $before = $this->Database_connection->return_new_id("student");
+            $return_number = $this->edit_Students($temp);
+            $query .= "(id_student, cohort, semester, student_number, student_first_name, student_last_name)";
+            $this->Database_connection->query_Database($query);
+            $after = $this->Database_connection->return_new_id("student");
+            $added = $after - $before;
+            $return_string .= "<br>Students in file: $return_number <br>Students added to database: $added";
+             **/
+        } /**else if($import == "markers") {
+            $before = $this->Database_connection->return_new_id("marker");
+            $return_number = $this->edit_Markers($temp);
+            $query .= "(id_marker, marker_first_name, marker_last_name)";
+            $this->Database_connection->query_Database($query);
+            $after = $this->Database_connection->return_new_id("marker");
+            $added = $after - $before;
+            $return_string .= "<br>Markers in file: $return_number <br>Markers added to database: $added";
+        } **/else {
+            $return_string .= "<br>Only student, marker, and mark import is available (UNDER EDIT NICK)";
         }
-        if(isset($_GET["export"])) {
-            $return_string .= $this->edit_Export();
+        $objPHPExcel->disconnectWorksheets();
+        unset($objPHPExcel);
+        return $return_string;
+    }
+    
+    public function export() {
+        $return_string = $this->edit_Export();
+        return $return_string;
+    }
+    
+    public function import_students($objPHPExcel) {
+        $return_string = "";
+        $lastRow = $objPHPExcel->getActiveSheet()->getHighestRow();
+        for($i = 2; $i<$lastRow+1; $i++) {
+            $row = $objPHPExcel->getActiveSheet()->rangeToArray("A$i:E$i");
+            $error = $this->Error_Handler->new_student_check($row[0][2], $row[0][3],  $row[0][4], $row[0][0], $row[0][1]);
+            if($error) {
+                $new_id = $this->Database_connection->return_new_id('student');
+                $query = "INSERT INTO seminar_marks.students VALUES (".$new_id.",".$row[0][3].",".$row[0][4].",".$row[0][2].",".$row[0][0].",".$row[0][1].")";
+                $this->Database_connection->query_Database($query);
+                if($new_id != $this->Database_connection->return_new_id('student')) {
+                    $return_string .= "Student ".$row[0][3]." ".$row[0][4].", SN: ".$row[0][2]." added successfully!<br>";
+                } else {
+                    $return_string .= "Student ".$row[0][3]." ".$row[0][4].", SN: ".$row[0][2]." failed to be added to the database.<br>";
+                }
+            } else {
+                $return_string .= "Student ".$row[0][3]." ".$row[0][4].", SN: ".$row[0][2]." failed due to bad data in row.<br>";
+            }
         }
         return $return_string;
     }
