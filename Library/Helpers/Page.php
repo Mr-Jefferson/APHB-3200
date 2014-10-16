@@ -16,10 +16,11 @@ class Page {
     // calling it at which point it will be echo'ed to the browser
 
     public function __construct($page_title) {
-        $this->page_name = $page_title;       
+        $this->page_name = $page_title;
         $this->Database_connection = new Database_Connection();
         $this->current_cohort = $this->get_current_cohort();
         $this->Table_generator = new Table_Generation($this->current_cohort);
+        $this->CSV_handler = new CSV_Handler($this->current_cohort);
         
         if(isset($_GET['Mark_ID'])){
             $result = $this->Database_connection->query_Database("select * from marks where id_mark =".$_GET['Mark_ID']);
@@ -39,8 +40,12 @@ class Page {
                 $this->mysql_result_holder = $result->fetch_assoc();
             }
         }
-        
-                    
+        if(isset($_FILES["file"])) {
+            $Master_String = $this->CSV_handler->import();
+        }
+        if(isset($_GET["export"])) {
+            $this->CSV_handler->export();
+        }
     }
    
     public function load_update_button($type){
@@ -327,8 +332,6 @@ class Page {
 
     public function load_main_body_wrapper() {
         $this->Master_String .= "<div id=\"Main_content_wrapper\">";
-        $this->CSV_handler = new CSV_Handler($this->current_cohort);
-        $this->Master_String .= $this->CSV_handler->file_manager();
     }
 
     /**

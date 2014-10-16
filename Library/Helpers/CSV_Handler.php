@@ -138,64 +138,68 @@ class CSV_Handler {
     
     /**
      * Manages what type of importing or exporting has been requested:
-     * Students import, Markers import, Marks import, Marks export
-     * Returns the number of entries in an imported file
-     * Returns the number of entries that MySQL accepted from the imported file
-     * 
-     * @return string $return_string Import: Returns HTML for reporting errors, query success and query failure. Export: HTML href to download export file
+     * Students import, Markers import, Marks import
      */
-    public function file_manager() {
-        $return_string = "";
-        if(isset($_FILES["file"])){
-            $temp = "/tmp/temp.csv";
-            move_uploaded_file($_FILES["file"]["tmp_name"],$temp);
-            $this->delete_first_line($temp);
-            $import = $_GET["import"];
-            
-            $return_string .= "<br>";
-            $return_number = 0;
-            $before = 0;
-            $after = 0;
-            
-            $query = "LOAD DATA LOCAL INFILE " . 
-                    "\"$temp\" " .
-                    "INTO TABLE " . $import . " " .
-                    "FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"' " .
-                    "LINES TERMINATED BY ' ' ";
-            if($import == "marks") {
-                $before = $this->Database_connection->return_new_id("marks");
-                $return_number = $this->edit_Marks($temp);
-                for($i = 0; $i<count($return_number);$i++){
-                    $return_string .= $return_number[$i];
-                }
-                $query .= "(id_mark, mark_1, mark_2, mark_3, seminar, id_student, id_marker)";
-                $this->Database_connection->query_Database($query);
-                $after = $this->Database_connection->return_new_id("marks");
-                $added = $after - $before;
-                $return_string .= "<br>Marks in file: $return_number <br>Marks added to database: $added";
-            } else if($import == "students") {
-                $before = $this->Database_connection->return_new_id("student");
-                $return_number = $this->edit_Students($temp);
-                $query .= "(id_student, cohort, semester, student_number, student_first_name, student_last_name)";
-                $this->Database_connection->query_Database($query);
-                $after = $this->Database_connection->return_new_id("student");
-                $added = $after - $before;
-                $return_string .= "<br>Students in file: $return_number <br>Students added to database: $added";
-            } else if($import == "markers") {
-                $before = $this->Database_connection->return_new_id("marker");
-                $return_number = $this->edit_Markers($temp);
-                $query .= "(id_marker, marker_first_name, marker_last_name)";
-                $this->Database_connection->query_Database($query);
-                $after = $this->Database_connection->return_new_id("marker");
-                $added = $after - $before;
-                $return_string .= "<br>Markers in file: $return_number <br>Markers added to database: $added";
-            } else {
-                $return_string .= "<br>Only student, marker, and mark import is available";
+    public function import() {
+        $temp = "/var/www/html/APHB-3200/Temp/".$_FILES["file"]["name"];
+        move_uploaded_file($_FILES["file"]["tmp_name"],$temp);
+        $objReader = PHPExcel_IOFactory::createReader($temp);
+        $objPHPExcel = $objReader->load($temp);
+        
+        
+        $import = "";
+        filter_input($_GET["import"],$import);
+        
+        /**if($import == "marks") {
+            $before = $this->Database_connection->return_new_id("marks");
+            $return_number = $this->edit_Marks($temp);
+            for($i = 0; $i<count($return_number);$i++){
+                $return_string .= $return_number[$i];
             }
+            $query .= "(id_mark, mark_1, mark_2, mark_3, seminar, id_student, id_marker)";
+            $this->Database_connection->query_Database($query);
+            $after = $this->Database_connection->return_new_id("marks");
+            $added = $after - $before;
+            $return_string .= "<br>Marks in file: $return_number <br>Marks added to database: $added";
+        } else **/
+        if($import == "students") {
+            return $this->import_students($objPHPExcel);
+            /**
+            $before = $this->Database_connection->return_new_id("student");
+            $return_number = $this->edit_Students($temp);
+            $query .= "(id_student, cohort, semester, student_number, student_first_name, student_last_name)";
+            $this->Database_connection->query_Database($query);
+            $after = $this->Database_connection->return_new_id("student");
+            $added = $after - $before;
+            $return_string .= "<br>Students in file: $return_number <br>Students added to database: $added";
+             **/
+        } /**else if($import == "markers") {
+            $before = $this->Database_connection->return_new_id("marker");
+            $return_number = $this->edit_Markers($temp);
+            $query .= "(id_marker, marker_first_name, marker_last_name)";
+            $this->Database_connection->query_Database($query);
+            $after = $this->Database_connection->return_new_id("marker");
+            $added = $after - $before;
+            $return_string .= "<br>Markers in file: $return_number <br>Markers added to database: $added";
+        } **/else {
+            $return_string .= "<br>Only student, marker, and mark import is available (UNDER EDIT NICK)";
         }
-        if(isset($_GET["export"])) {
-            $return_string .= $this->edit_Export();
-        }
+        $objXLS->disconnectWorksheets();
+        unset($objXLS);
+    }
+    
+    public function export() {
+        $return_string .= $this->edit_Export();
         return $return_string;
+    }
+    
+    public function import_students($objPHPExcel) {
+        $lastRow = $objPHPExcel->getActiveSheet()->getHighestRow();
+        $string = "";
+        for($i = 0; i<$lastRow; $i++) {
+            $array = $objPHPExcel->rangeToArray();
+            $string .= $array;
+        }
+        return $string;
     }
 }
