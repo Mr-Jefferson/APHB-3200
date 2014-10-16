@@ -64,7 +64,7 @@ else {
                 
             }
             $param_array = array($_POST['mark_1'],$_POST['mark_2'],$_POST['mark_3'],$_POST['marks_sem_type'],$_POST['marks_student'],$_POST['marks_marker'], $_GET['Mark_ID']);
-            $type_array = array("i","i","i","i","i","i","i");
+            $type_array = array("d","d","d","i","i","i","i");
             echo "4";
         }
         //update marker
@@ -170,7 +170,7 @@ else {
             }
             $query = "insert into marks values (?,?,?,?,?,?,?);";
             $param_array = array($new_id,$_POST['mark_1'],$_POST['mark_2'],$_POST['mark_3'],$_POST['marks_sem_type'],$_POST['marks_student'], $_POST['marks_marker']);
-            $type_array = array("i","i","i","i","i","i","i"); 
+            $type_array = array("d","d","d","i","i","i","i"); 
            
             
         }
