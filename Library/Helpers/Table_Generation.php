@@ -123,7 +123,7 @@ class Table_Generation {
             $return_string .= "<td>".$row2["number_of_students"]."</td>";
             for($col=1;$col<count($array);$col++) {
                 $return_string .= "<td>".$row[$array[$col]];
-                if($col!=5) { $return_string .= "%"; }
+                if($col!=5 && $row[$array[$col]] != "n/a") { $return_string .= "%"; }
                 $return_string .= "</td>";
             }
             $return_string .= "</tr>";
