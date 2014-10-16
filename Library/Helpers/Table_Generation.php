@@ -3,6 +3,9 @@ include_once "/var/www/html/APHB-3200/Library/DB/Database_Connection.php";
 
 /*
  * Class for generating all tables
+ * Each function is split up between generate_ and print_
+ * generate_ outputs the first row of the table and queries the database
+ * print_ prints the result from the database query into table rows
  */
 class Table_Generation {
 
@@ -14,6 +17,10 @@ class Table_Generation {
         $this->current_cohort = $cohort;
     }
     
+    /*
+     * Checks if any mark fields are empty (either no mark for proposal or no mark for final)
+     * Changes fields to "n/a" to avoid confusion
+     */
     private function check_Row_Null($row){
         foreach ($row as $key => $value) {
             if($row[$key] == null){
@@ -24,7 +31,7 @@ class Table_Generation {
     }
     
     /*
-     * 
+     * Prints marker statistics on individual marker page
      */
     private function print_Marker_Individual(mysqli_result $query_outcome) {
         $return_string = "";
@@ -43,6 +50,9 @@ class Table_Generation {
         return $return_string;
     }
 
+    /*
+     * Prints marker marks on individual marker page
+     */
     private function print_Marker_Individual_Marks(mysqli_result $query_outcome) {
         $return_string = "";
         while ($row = $query_outcome->fetch_assoc()) {
@@ -59,6 +69,9 @@ class Table_Generation {
         return $return_string;
     }
 
+    /*
+     * Prints marker stats on markers page
+     */
     private function print_Marker_Overall(mysqli_result $query_outcome) {
         $return_string = "";
         while ($row = $query_outcome->fetch_assoc()) {
@@ -77,6 +90,9 @@ class Table_Generation {
         return $return_string;
     }
 
+    /*
+     * Prints student marks on students page
+     */
     private function print_Student_Overall(mysqli_result $query_outcome) {
         $return_string = "";
         while ($row = $query_outcome->fetch_assoc()) {
@@ -93,6 +109,10 @@ class Table_Generation {
         }
         return $return_string;
     }
+    
+    /*
+     * Prints student marks on individual student page
+     */
     private function print_Student_Individual(mysqli_result $query_outcome) {
         $return_string = "";
         while ($row = $query_outcome->fetch_assoc()) {
@@ -110,6 +130,9 @@ class Table_Generation {
         return $return_string;
     }
 
+    /*
+     * Prints student statistics on students page
+     */
     private function print_Student_Overall_Stats(mysqli_result $query_outcome, mysqli_result $query_outcome2) {
         $return_string = "";
         $seminar = 0;
@@ -132,6 +155,9 @@ class Table_Generation {
         return $return_string;
     }
 
+    /*
+     * Prints individual student marks on individual student page
+     */
     private function print_Student_Individual_Marks(mysqli_result $query_outcome) {
         $return_string = "";
         while ($row = $query_outcome->fetch_assoc()) {
@@ -148,6 +174,9 @@ class Table_Generation {
         return $return_string;
     }
 
+    /*
+     * Generates query and table for marker stats on markers page
+     */
     public function generate_Marker_Overall($seminar) {
         $query = "";
         if($seminar==1) $query .= "SELECT * FROM markers_overall_proposal WHERE cohort=".$this->current_cohort['cohort'] ." and semester=".$this->current_cohort['semester'];
@@ -171,6 +200,9 @@ class Table_Generation {
         return $return_string .= "</table></div>";
     }
 
+    /*
+     * Generates query and table for student marks on individual student page
+     */
     public function generate_Student_Individual($student_ID) {
         $query = "SELECT * FROM students_overall WHERE id_student=$student_ID AND cohort=".$this->current_cohort['cohort'] ." and semester=".$this->current_cohort['semester'];
         $queryResult = $this->Database_connection->query_Database($query);
@@ -189,6 +221,9 @@ class Table_Generation {
         return $return_string .= "</table></div>";
     }
 
+    /*
+     * Generates query and table for individual student marks on individual student page
+     */
     public function generate_Student_Individual_Marks($seminar, $student_ID) {
         $query = "SELECT * FROM students_individual_marks WHERE id_student = $student_ID AND seminar = $seminar";
         $queryResult = $this->Database_connection->query_Database($query);
@@ -206,6 +241,9 @@ class Table_Generation {
         return $return_string .= "</table></div>";
     }
 
+    /*
+     * Generates query and table for student marks on students page
+     */
     public function generate_Student_Overall() {
         $query = "SELECT * FROM students_overall where cohort=".$this->current_cohort['cohort'] ." and semester=".$this->current_cohort['semester'];
         $queryResult = $this->Database_connection->query_Database($query);
@@ -229,6 +267,9 @@ class Table_Generation {
         return $return_string .= "</table></div>";
     }
     
+    /*
+     * Generates query and table for student statistics on students page
+     */
     public function generate_Student_Overall_Stats() {
         $query = "SELECT * FROM students_overall_stats where cohort=".$this->current_cohort['cohort'] ." and semester=".$this->current_cohort['semester'];
         $query2 = "SELECT * FROM students_overall_count where cohort=".$this->current_cohort['cohort'] ." and semester=".$this->current_cohort['semester'];
@@ -246,6 +287,9 @@ class Table_Generation {
         return $return_string .= "</table></div>";
     }
 
+    /*
+     * Generates query and table for marker statistics on individual marker page
+     */
     public function generate_Marker_Individual($marker_ID) {
         $query = "SELECT * FROM markers_individual WHERE id_marker = $marker_ID AND cohort=".$this->current_cohort['cohort'] ." and semester=".$this->current_cohort['semester'];
         $queryResult = $this->Database_connection->query_Database($query);
@@ -264,6 +308,9 @@ class Table_Generation {
         return $return_string .= "</table></div>";
     }
 
+    /*
+     * Generates query and table for marker marks on individual marker page
+     */
     public function generate_Marker_Individual_Marks($seminar, $marker_ID) {
         $query = "SELECT * FROM markers_individual_marks WHERE id_marker = $marker_ID AND seminar = $seminar AND cohort=".$this->current_cohort['cohort'] ." and semester=".$this->current_cohort['semester'];
         $queryResult = $this->Database_connection->query_Database($query);
