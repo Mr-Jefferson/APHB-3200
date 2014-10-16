@@ -51,7 +51,7 @@ class Table_Generation {
     private function print_Marker_Overall(mysqli_result $query_outcome) {
         $return_string = "";
         while ($row = $query_outcome->fetch_assoc()) {
-            $array = ["marker_name","mark_1_average","mark_2_average","mark_3_average","overall_average","number_of_marks","minimum_mark","maximum_mark","standard_deviation"];
+            $array = ["marker_name","mark_1_average","mark_2_average","mark_3_average","overall_average","number_of_students","minimum_mark","maximum_mark","standard_deviation"];
             $row = $this->check_Row_Null($row);
             $return_string .= "<tr>";
             for($col=0;$col<count($array);$col++) {
@@ -89,16 +89,18 @@ class Table_Generation {
         return $return_string;
     }
 
-    private function print_Student_Overall_Stats(mysqli_result $query_outcome) {
+    private function print_Student_Overall_Stats(mysqli_result $query_outcome, mysqli_result $query_outcome2) {
         $return_string = "";
-        $seminar = 1;
+        $seminar = 0;
         while ($row = $query_outcome->fetch_assoc()) {
-            $array = ["number_of_marks","overall_average","overall_maximum","overall_minimum","overall_range","overall_stddev"];
+            $array = ["number_of_students","overall_average","overall_maximum","overall_minimum","overall_range","overall_stddev"];
             $row = $this->check_Row_Null($row);
             $return_string .= "<tr>";
-            if($seminar == 1) { $return_string .= "<td class=\"student_overall_stats\">Proposal</td>"; }
-            if($seminar == 2) { $return_string .= "<td class=\"student_overall_stats\">Final</td>"; }
-            for($col=0;$col<count($array);$col++) {
+            if($seminar == 0) { $return_string .= "<td class=\"student_overall_stats\">Proposal</td>"; }
+            if($seminar == 1) { $return_string .= "<td class=\"student_overall_stats\">Final</td>"; }
+            $row2 = $query_outcome2->fetch_assoc();
+            $return_string .= "<td>".$row[$seminar]."</td>";
+            for($col=1;$col<count($array);$col++) {
                 $return_string .= "<td>".$row[$array[$col]]."</td>";
             }
             $return_string .= "</tr>";
@@ -204,7 +206,9 @@ class Table_Generation {
     
     public function generate_Student_Overall_Stats() {
         $query = "SELECT * FROM students_overall_stats where cohort=".$this->current_cohort['cohort'] ." and semester=".$this->current_cohort['semester'];
+        $query2 = "SELECT * FROM students_overall_count where cohort=".$this->current_cohort['cohort'] ." and semester=".$this->current_cohort['semester'];
         $queryResult = $this->Database_connection->query_Database($query);
+        $queryResult2 = $this->Database_connection->query_Database($query2);
         $return_string = "<div id=\"inner_table_wrapper\"><table><tr>
             <th class=\"subheading\">Seminar</th>
             <th class=\"subheading\">Count</th>
@@ -213,7 +217,7 @@ class Table_Generation {
             <th class=\"subheading\">Minimum</th>
             <th class=\"subheading\">Range</th>
             <th class=\"subheading\">SD</th></tr>";
-        if ($queryResult != false) { $return_string .= $this->print_Student_Overall_Stats($queryResult); }
+        if ($queryResult != false && $queryResult2 != false) { $return_string .= $this->print_Student_Overall_Stats($queryResult, $queryResult2); }
         return $return_string .= "</table></div>";
     }
 

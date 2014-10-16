@@ -19,5 +19,3 @@ FROM	marks INNER JOIN
 		markers ON markers.id_marker = marks.id_marker INNER JOIN
 		students ON marks.id_student = students.id_student
 ORDER BY student_last_name DESC, student_first_name DESC, student_number DESC;
-
-select * from markers_individual_marks
