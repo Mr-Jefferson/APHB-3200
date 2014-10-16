@@ -108,7 +108,7 @@ class CSV_Handler {
                     $return_string .= "Student ".$row[0][3]." ".$row[0][4].", SN: ".$row[0][2]." failed to be added to the database.<br>";
                 }
             } else {
-                $return_string .= "Student ".$row[0][3]." ".$row[0][4].", SN: ".$row[0][2]." failed due to bad data in row.<br>";
+                $return_string .= "Student ".$row[0][3]." ".$row[0][4].", SN: ".$row[0][2]." failed, due to either bad data in row or student already exists.<br>";
             }
         }
         return $return_string;
