@@ -9,4 +9,7 @@ SELECT	COUNT(DISTINCT(students.id_student)) AS number_of_students,
 FROM	students INNER JOIN
 		marks ON marks.id_student = students.id_student
 WHERE	marks.id_student IN (SELECT id_student FROM marks)
-GROUP BY seminar, semester, cohort;
+GROUP BY seminar, semester, cohort
+ORDER BY seminar;
+
+select * from students_overall_count
