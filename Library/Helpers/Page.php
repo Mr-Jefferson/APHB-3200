@@ -41,7 +41,7 @@ class Page {
             }
         }
         if(isset($_FILES["file"])) {
-            $Master_String = $this->CSV_handler->import();
+            $this->$Master_String .= $this->CSV_handler->import();
         }
         if(isset($_GET["export"])) {
             $this->CSV_handler->export();
