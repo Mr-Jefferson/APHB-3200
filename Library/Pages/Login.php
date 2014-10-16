@@ -6,16 +6,16 @@
 include_once "/var/www/html/APHB-3200/Library/Helpers/Page.php";
 include_once "/var/www/html/APHB-3200/Library/Helpers/User_Control.php";
 session_start();
+$new_user = new User_Control();
 if (isset($_POST['username']) && isset($_POST['password'])) {
-    $new_user = new User_Control();
+    
     $outcome = $new_user->validate_User($_POST['username'], $_POST['password']);
 
     if ($outcome == true) {header('location:Student.php');} 
     else {header('location:Login.php');}
 }
 if(isset($_GET['logOut'])){
-    session_destroy();
-     //header('location:Login.php');
+    $new_user->destroy_session();
 }
 
 $new_page = new Page("Login");

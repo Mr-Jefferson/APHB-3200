@@ -10,7 +10,7 @@ include_once "/var/www/html/APHB-3200/Library/Helpers/Table_Generation.php";
 session_start();
 $User_Check = new User_Control();
 $User_Check_Outcome = $User_Check->is_Session_Active();
-if ($User_Check_Outcome == false) {} //header('location:/APHB-3200/Library/Pages/Login.php');
+if ($User_Check_Outcome == false) {header('location:/APHB-3200/Library/Pages/Login.php');} 
 else {
 
     $new_page = new Page("Students");
