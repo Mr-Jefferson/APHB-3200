@@ -19,6 +19,8 @@ SELECT  CONCAT(marker_first_name, ' ', marker_last_name) AS marker_name,
 FROM 	marks INNER JOIN
 		markers ON markers.id_marker = marks.id_marker INNER JOIN
         students ON marks.id_student = students.id_student
-WHERE   marks.seminar = 1
+WHERE   marks.seminar = 1 AND
+		cohort = (SELECT cohort FROM users LIMIT 1) AND
+		semester = (SELECT semester FROM users LIMIT 1)
 GROUP BY marks.id_marker
-ORDER BY marker_last_name DESC, marker_first_name DESC;
+ORDER BY marker_last_name, marker_first_name;

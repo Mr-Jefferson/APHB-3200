@@ -25,5 +25,3 @@ UNION
 FROM	students INNER JOIN
 		students_overall ON students_overall.id_student = students.id_student
 GROUP BY semester, cohort);
-
-select * from students_overall_stats

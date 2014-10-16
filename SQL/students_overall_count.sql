@@ -11,5 +11,3 @@ FROM	students INNER JOIN
 WHERE	marks.id_student IN (SELECT id_student FROM marks)
 GROUP BY seminar, semester, cohort
 ORDER BY seminar;
-
-select * from students_overall_count
