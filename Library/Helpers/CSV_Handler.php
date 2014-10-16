@@ -142,12 +142,12 @@ class CSV_Handler {
             $row = $objPHPExcel->getActiveSheet()->rangeToArray("A$i:I$i");
             $id_student_query = "SELECT id_student FROM students WHERE cohort = ".$row[0][0]." AND semester = ".$row[0][1]." AND student_number = ".$row[0][2];
             $id_student_result = $this->Database_connection->query_Database($id_student_query);
-            $id_student_row = $result->fetch_assoc();
+            $id_student_row = $id_student_result->fetch_assoc();
             $id_student = $id_student_row['id_student'];
             $id_marker_query = "SELECT id_marker FROM markers WHERE marker_first_name = \"".$row[0][7]."\" AND marker_last_name = \"".$row[0][8]."\"";
             $id_marker_result = $this->Database_connection->query_Database($id_marker_query);
-            $id_marker_row = $result->fetch_assoc();
-            $id_marker = $rid_marker_ow['id_marker'];
+            $id_marker_row = $id_marker_result->fetch_assoc();
+            $id_marker = $id_marker_row['id_marker'];
             $new_id = $this->Database_connection->return_new_id('marks');
             if($this->Error_Handler->validate_mark(array($row[0][3],$row[0][4],$row[0][5]),$id_marker,$id_student,$row[0][6],$new_id)) {
                 $query = "INSERT INTO seminar_marks.marks VALUES (".$new_id.",".$row[0][3].",".$row[0][4].",".$row[0][5].",".$row[0][6].",".$id_student.",".$id_marker;
