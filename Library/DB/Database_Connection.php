@@ -44,15 +44,18 @@ class Database_Connection {
             
             call_user_func_array(array($prepared_statement, 'bind_param'), $ref_param);
             $prepared_statement->execute();
-            
-            //return $prepared_statement->fetch_assoc();
+
         }
         else{
             return false;
         }  
         
     }
-    
+    /**
+     *  Method: replaces the auot increment of the mysqli library. queries the database and returns the maximum id +1
+     * @param string $type
+     * @return boolean
+     */
     public function return_new_id($type){
         if($type == "student"){
             $new_ID_query = $this->query_Database("select max(id_student) as ID from students");

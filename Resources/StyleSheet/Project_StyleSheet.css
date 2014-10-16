@@ -14,8 +14,8 @@ html,body {
     top: 0; left: 0; bottom: 0; right: 0;
     
     border-radius:10px;
-    border:2px solid #0A489B;
-    background-color: 	#686868 ; 
+
+    background-color: 	 	#D0D0D0  ; 
 }
 
 #Login_outer_wrapper #Login_inner_wrapper{
@@ -24,9 +24,9 @@ html,body {
     top: 0; left: 0; bottom: 0; right: 0;   
     width:320px;
     height:190px;
-    border:2px solid  	#B0B0B0 ;
+    border:2px solid  	 	#A0A0A0  ;
     border-radius:10px;
-    background-color: 	#C8C8C8 ;
+    background-color: 	#E8E8E8  ;
 }
 
 #Login_inner_wrapper #User_name_title{

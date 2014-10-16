@@ -479,7 +479,7 @@ class Page {
      * used to build the dropdown menu for data management -> adding marks->marker dropdown. 
      * @param mysqli_result $row
      * @param int $identifier
-     * @return type
+     * @return string
      */
     private function return_marker_option(mysqli_result $row,$identifier){
         $selected =" ";
@@ -501,7 +501,7 @@ class Page {
      * 
      * @param mysqli_result $row
      * @param type $identifier
-     * @return type
+     * @return string
      */
     private function return_student_option(mysqli_result $row,$identifier){
         $selected =" ";
@@ -743,7 +743,7 @@ class Page {
 
     /**
      * After all functions have been called and all strings appended to the master_String, the master string is called and returned to the caller to be echoed out to the browser 
-     * @return type
+     * @return string
      */
     public function return_Master_String() {
         return $this->Master_String;

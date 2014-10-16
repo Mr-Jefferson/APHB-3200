@@ -17,6 +17,8 @@ Class User_Control {
      * @return boolean
      */
     public function validate_User($user, $password) {
+        $result = $this->DB_connection->Prepared_query_Database("select * from users where username=?", array($user), array("s"));
+        
         $Query_result = $this->DB_connection->query_Database("select * from users where username =\"" . $user . "\"");
         if ($Query_result == false) {
             return false;   
@@ -43,7 +45,7 @@ Class User_Control {
     /**
      * Method: if the validate_user function returns true, calls generate_session_id to generate a 15 character session key.
      * 
-     * @return type
+     * @return string
      */
     private function generate_session_id(){
         $randomIntString = "";
