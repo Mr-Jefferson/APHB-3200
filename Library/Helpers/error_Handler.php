@@ -88,6 +88,7 @@ Class error_handler{
         $query = "select * from students where student_number=".$studentNumber." and cohort=".$cohort." and semester=".$semester;
         echo $query;
         $result = $this->database_connection->query_Database($query);
+        if($result != false){
             if($result->num_rows !== 0){
                 $row = $result->fetch_assoc();
                 if($row['id_student'] != $id_student || $id_student == -1){
@@ -96,6 +97,8 @@ Class error_handler{
                 }
                 else{return true;} 
             }
+        }
+        else{ return false;}
         return true;
     }
    
