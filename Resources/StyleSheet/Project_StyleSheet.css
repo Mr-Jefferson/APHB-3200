@@ -96,17 +96,17 @@ html,body {
 
     list-style: none;
     margin: 0;
-    padding:0px;
+    padding-left: 0;
     position:relative;
     margin:auto 10px auto 5px;
-    width:680px;
+    width:100%;
 }
 
 #nav #middle_nav, #nav #left_nav, #nav #nav_bar_log_out,#data_import_menu{
 
     display: block;
     float: left;
-    margin:0px;
+    margin: 0 0px 0 0;
     padding: 5px 16px;
     position: relative;
     text-decoration: none;
@@ -157,7 +157,7 @@ html,body {
 #nav ul li:hover > ul { display:block; }
 
 #nav ul li ul li{
-    line-height:25px;
+    //line-height:25px;
     color:black;
     padding-top:10px;
     z-index:10;
@@ -176,7 +176,7 @@ html,body {
     left:30px;
     top:8px;
     z-index:1;
-    width:200px;
+    width:200px
     
 }
 
