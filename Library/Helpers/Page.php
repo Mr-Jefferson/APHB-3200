@@ -446,11 +446,11 @@ class Page {
                             "<li id =\"middle_nav\"><a href=\"/APHB-3200/Library/Pages/Marker.php\">Markers</a></li>".
                             "<li id =\"middle_nav\" style = \"border-right:2px solid black\" onclick=\"display('cohort_select')\">Set Cohort</li>".
                             "<li id =\"data_import_menu\" ><a href=\"/APHB-3200/Library/Pages/dEntry.php\">Data Management</a>".
-                            
                                 "<ul>".
                                     "<li onclick=\"display('import')\">Import</li>".
                                     "<li><a href=\"/APHB-3200/Library/Pages/Student.php?export=marks\">Export</a></li>".
-                                "</ul></li>".
+                                "</ul>".
+                            "</li>".
                             "<li id = \"nav_bar_log_out\" style = \"border-left:2px solid black\"><a href=\"Login.php?logOut=1\">Log Out</a></li>".
                             
                         "</ul>". 
