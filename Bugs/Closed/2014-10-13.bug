@@ -1,0 +1,8 @@
+Found:		13/10/14 (Nick Turner)
+Corrected:	16/10/14 (Nick Turner)(Shane Renshaw)
+Subject: 	Import file not found
+Description:
+
+Import file was not able to be found my MySQL. Problem was determined to be PHP writing of the file causing permissions to change, and the directory permissions not permitting MySQL from reading the file. Temporary import files are now moved to "/tmp/temp.csv". Now MySQL could actually see the file, it chose to report that this MySQL version was not able to do file importing. --fileimport commands found to enable file importing locally directly from MySQL.
+
+RELATED COMMITS:

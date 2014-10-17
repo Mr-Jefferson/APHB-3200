@@ -1,0 +1,11 @@
+Found:		10/10/14 (Nick Turner)
+Corrected:	16/10/14 (Arun Gimblett)
+Subject: 	Shadow div problem
+Description:
+
+When the shadow is activated while the window size is small enough to enable overflow (scrollbar appears), if the user scrolls down then the user will see white spaces.
+This is to do with calculating a valid value for the offset height and then adding that to allow the shadow to affect the entire application.
+
+RELATED COMMITS:
+https://github.com/Mr-Jefferson/APHB-3200/commit/4ef0bc3
+https://github.com/Mr-Jefferson/APHB-3200/commit/bbe18cd

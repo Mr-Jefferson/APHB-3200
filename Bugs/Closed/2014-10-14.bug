@@ -1,0 +1,32 @@
+Found:		14/10/14 (Nick Turner)
+Corrected:	17/10/14 (Nick Turner)
+Subject: 	Import
+Description:
+
+The initial implementation of importing required conversion to .csv, and was not very 'nice' to use.
+Because of the limitations of LOAD DATA LOCAL INFILE, and the lack of control over error handling, I scraped it and started again.
+Import now uses PHPExcel, and can import csv/xls/xlsx. MySQL insert queries are generated from imported files using PHP, with error checking.
+Also, previously CSV_Handler was located in a bit of a 'dodgy' bad-programming place to put it
+Because Arun made his error handler a class, I was able to use his class to check my data, avoiding 10+hours of coding.
+
+RELATED COMMITS:
+https://github.com/Mr-Jefferson/APHB-3200/commit/131cfcc
+https://github.com/Mr-Jefferson/APHB-3200/commit/5993320
+https://github.com/Mr-Jefferson/APHB-3200/commit/76b1750
+https://github.com/Mr-Jefferson/APHB-3200/commit/719acd4
+https://github.com/Mr-Jefferson/APHB-3200/commit/82a5b39
+https://github.com/Mr-Jefferson/APHB-3200/commit/2b7b1fb
+https://github.com/Mr-Jefferson/APHB-3200/commit/8d4c363
+https://github.com/Mr-Jefferson/APHB-3200/commit/20c93fe
+https://github.com/Mr-Jefferson/APHB-3200/commit/522cef7
+https://github.com/Mr-Jefferson/APHB-3200/commit/4a4e361
+https://github.com/Mr-Jefferson/APHB-3200/commit/be6ab8b
+https://github.com/Mr-Jefferson/APHB-3200/commit/9958098
+https://github.com/Mr-Jefferson/APHB-3200/commit/ee703ff
+https://github.com/Mr-Jefferson/APHB-3200/commit/39af848
+https://github.com/Mr-Jefferson/APHB-3200/commit/21ccf53
+https://github.com/Mr-Jefferson/APHB-3200/commit/ec37eef
+https://github.com/Mr-Jefferson/APHB-3200/commit/3040e30
+https://github.com/Mr-Jefferson/APHB-3200/commit/12edf9d
+https://github.com/Mr-Jefferson/APHB-3200/commit/668af56
+https://github.com/Mr-Jefferson/APHB-3200/commit/6692c79

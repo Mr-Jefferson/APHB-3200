@@ -1,0 +1,11 @@
+Found:		12/10/14 (Nick Turner)
+Corrected:	UNRESOLVED
+Subject: 	Function requires reimplementation
+Description:
+
+markers_overall_proposal.sql/markers_overall_final.sql::
+(cohort,semester) = (SELECT cohort,semester FROM users LIMIT 1)
+
+Function works as long as only one user exists, else a wrong cohort table could be generated.
+
+RELATED COMMITS:

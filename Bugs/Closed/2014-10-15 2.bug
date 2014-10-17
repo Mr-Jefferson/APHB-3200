@@ -1,0 +1,11 @@
+Found:		15/10/14 (Arun Gimblett)
+Corrected:	16/10/14 (Arun Gimblett)
+Subject: 	Security
+Description:
+
+Initial user log in was easy to bi-pass and could return to previous pages which had user log in requirements.
+
+Resolved by adding an additional field to the user table called session_hash which was a 15 random digit value that both the server/user had stored.
+The password was also hashed with a string stored in a secure config.php file. The password on the server was hashed using md5
+
+RELATED COMMITS:

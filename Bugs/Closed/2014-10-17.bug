@@ -1,0 +1,12 @@
+Found:		17/10/14 (Nick Turner)
+Corrected:	17/10/14 (Nick Turner)
+Subject: 	Export download button
+Description:
+
+Marks export was affected by changes to import functionality.
+Output from the marks export function was not showing, as it wasn't being printed.
+Moved output from marks export to new outer_table_wrapper div.
+
+RELATED COMMITS:
+https://github.com/Mr-Jefferson/APHB-3200/commit/7f60c7f
+https://github.com/Mr-Jefferson/APHB-3200/commit/5705c6f

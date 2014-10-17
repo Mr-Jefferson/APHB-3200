@@ -1,0 +1,12 @@
+Found:		16/10/14 (Nick Turner)
+Corrected:	16/10/14 (Nick Turner)
+Subject: 	"n/a%" display in all tables
+Description:
+
+"n/a" was originally created to remove null(empty) fields from the tables.
+"n/a%" was created by the addition of % to all total marks.
+
+Check has been put in, which doesn't add the "%" to total marks variables that are equal to "n/a".
+
+RELATED COMMITS:
+https://github.com/Mr-Jefferson/APHB-3200/commit/0185f70

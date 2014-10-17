@@ -1,0 +1,10 @@
+Found:		16/10/14 (Luke Davis)
+Corrected:	16/10/14 (Luke Davis)
+Subject: 	Manually adding mark causing errors
+Description:
+
+Adding a mark, when the marker exists and the student exists, and no marks exist, reported an error.
+Deduced down to a missing array(param1,param2,param3) call.
+
+RELATED COMMITS:
+https://github.com/Mr-Jefferson/APHB-3200/commit/905f771

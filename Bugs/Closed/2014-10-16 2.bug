@@ -1,0 +1,11 @@
+Found:		16/10/14 (Shane Renshaw)
+Corrected:	16/10/14 (Nick Turner)(Shane Renshaw)
+Subject: 	Excessive decimal places in table fields
+Description:
+
+"Minimum Mark: 50.0000000000"
+All SQL views were believed to have added TRUNCATE(,2) many hours prior, however this one on the markers overall page avoided detection - for a while.
+
+RELATED COMMITS:
+https://github.com/Mr-Jefferson/APHB-3200/commit/1870f74
+https://github.com/Mr-Jefferson/APHB-3200/commit/a3809d4

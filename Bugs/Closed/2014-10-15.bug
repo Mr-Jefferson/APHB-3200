@@ -1,0 +1,9 @@
+Found:		15/10/14 (Shane Renshaw)
+Corrected:	16/10/14 (Nick Turner)
+Subject: 	Error number_of_students not an index
+Description:
+
+Found $row, referencing first stats query. Second query was needed for count: $row2
+
+RELATED COMMITS:
+https://github.com/Mr-Jefferson/APHB-3200/commit/055e806
