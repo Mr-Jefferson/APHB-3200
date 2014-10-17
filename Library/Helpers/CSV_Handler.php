@@ -74,11 +74,11 @@ class CSV_Handler {
         $objPHPExcel = PHPExcel_IOFactory::load($temp);
         $import = $_GET["import"];
         
-        if($import == "marks") {
+        if($import == "markers") {
             $return_string .= $this->import_markers($objPHPExcel);
         } else if($import == "students") {
             $return_string .= $this->import_students($objPHPExcel);
-        } else if($import == "markers") {
+        } else if($import == "marks") {
             $return_string .= $this->import_marks($objPHPExcel);
         } else {
             $return_string .= "<br>Only students, markers, and marks import is available.";
@@ -123,7 +123,7 @@ class CSV_Handler {
             if($this->Error_Handler->new_marker_check($row[0][0],$row[0][1],$new_id)) {
                 $query = "INSERT INTO seminar_marks.markers VALUES (".$new_id.",\"".$row[0][0]."\",\"".$row[0][1]."\")";
                 $this->Database_connection->query_Database($query);
-                if($new_id != $this->Database_connection->return_new_id('student')) {
+                if($new_id != $this->Database_connection->return_new_id('marker')) {
                     $return_string .= "Marker ".$row[0][0]." ".$row[0][1]." added successfully!<br>";
                 } else {
                     $return_string .= "Marker ".$row[0][0]." ".$row[0][1]." failed to be added to the database.<br>";
@@ -139,19 +139,26 @@ class CSV_Handler {
         $return_string = "";
         $lastRow = $objPHPExcel->getActiveSheet()->getHighestRow();
         for($i = 2; $i<$lastRow+1; $i++) {
-            $row = $objPHPExcel->getActiveSheet()->rangeToArray("A$i:B$i");
+            $row = $objPHPExcel->getActiveSheet()->rangeToArray("A$i:I$i");
+            $id_student_query = "SELECT id_student FROM students WHERE cohort = ".$row[0][0]." AND semester = ".$row[0][1]." AND student_number = ".$row[0][2];
+            $id_student_result = $this->Database_connection->query_Database($id_student_query);
+            $id_student_row = $id_student_result->fetch_assoc();
+            $id_student = $id_student_row['id_student'];
+            $id_marker_query = "SELECT id_marker FROM markers WHERE marker_first_name = \"".$row[0][7]."\" AND marker_last_name = \"".$row[0][8]."\"";
+            $id_marker_result = $this->Database_connection->query_Database($id_marker_query);
+            $id_marker_row = $id_marker_result->fetch_assoc();
+            $id_marker = $id_marker_row['id_marker'];
             $new_id = $this->Database_connection->return_new_id('marks');
-            if($this->Error_Handler->new_marker_check($row[0][0],$row[0][1],$new_id)) {
-                $new_id = $this->Database_connection->return_new_id('marks');
-                $query = "INSERT INTO seminar_marks.marks VALUES (".$new_id.",\"".$row[0][0]."\",\"".$row[0][1]."\")";
+            if($this->Error_Handler->validate_mark(array($row[0][3],$row[0][4],$row[0][5]),$id_marker,$id_student,$row[0][6],$new_id)) {
+                $query = "INSERT INTO seminar_marks.marks VALUES (".$new_id.",".$row[0][3].",".$row[0][4].",".$row[0][5].",".$row[0][6].",".$id_student.",".$id_marker.")";
                 $this->Database_connection->query_Database($query);
-                if($new_id != $this->Database_connection->return_new_id('student')) {
-                    $return_string .= "Mark ".$row[0][0]." ".$row[0][1]." added successfully!<br>";
+                if($new_id != $this->Database_connection->return_new_id('marks')) {
+                    $return_string .= "Mark by ".$row[0][7]." ".$row[0][8]." on student ".$row[0][2]." added successfully!<br>";
                 } else {
-                    $return_string .= "Mark ".$row[0][0]." ".$row[0][1]." failed to be added to the database.<br>";
+                    $return_string .= "Mark by ".$row[0][7]." ".$row[0][8]." on student ".$row[0][2]." failed to be added to the database.<br>";
                 }
             } else {
-                $return_string .= "Mark ".$row[0][0]." ".$row[0][1]." failed, due to either bad data in row or marker already exists.<br>";
+                $return_string .= "Mark by ".$row[0][7]." ".$row[0][8]." on student ".$row[0][2]." failed, due to either bad data in row or mark already exists.<br>";
             }
         }
         return $return_string;
