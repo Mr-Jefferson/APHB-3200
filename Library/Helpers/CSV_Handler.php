@@ -1,7 +1,7 @@
 <?php
 include_once "/var/www/html/APHB-3200/Library/DB/Database_Connection.php";
 include_once "/var/www/html/APHB-3200/Library/Helpers/User_Control.php";
-include_once "/var/www/html/APHB-3200/Library/Helpers/error_Handler.php";
+include_once "/var/www/html/APHB-3200/Library/Helpers/Error_Handler.php";
 include_once "/var/www/html/APHB-3200/Library/Include/PHPExcel.php";
 include_once "/var/www/html/APHB-3200/Library/Include/PHPExcel/IOFactory.php";
 
@@ -21,7 +21,7 @@ class CSV_Handler {
     public function __construct($cohort) {
         $this->Database_connection = new Database_Connection();
         $this->current_cohort = $cohort;
-        $this->Error_Handler = new error_Handler();
+        $this->Error_Handler = new Error_Handler();
     }
     
     /**

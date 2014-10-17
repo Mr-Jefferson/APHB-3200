@@ -41,7 +41,7 @@ Class error_handler{
      * @return boolean
      */
     private function check_name( $name){
-        if(!ctype_alpha($name)){return false;}
+        if(!ctype_alpha($name) || strlen($name)<1){return false;}
         else{return true;}
     }
     

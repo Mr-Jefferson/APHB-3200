@@ -42,7 +42,7 @@ class Page {
             $this->Master_String = $this->CSV_handler->import();
         }
         if(isset($_GET["export"])) {
-            $this->CSV_handler->export();
+            $this->Master_String = $this->CSV_handler->export();
         }
     }
    

@@ -1,7 +1,7 @@
 <?php
 include_once "/var/www/html/APHB-3200/Library/DB/Database_Connection.php";
 include_once "/var/www/html/APHB-3200/Library/Helpers/User_Control.php";
-include_once "/var/www/html/APHB-3200/Library/Helpers/error_Handler.php";
+include_once "/var/www/html/APHB-3200/Library/Helpers/Error_Handler.php";
 
 
 session_start();
