@@ -625,23 +625,23 @@ class Page {
                             if(isset($_GET['Mark_ID']) || isset($_GET['S_ID']) || isset($_GET['M_ID'])){
                                 if(isset($_GET['seminar'])){//($this->mysql_result_holder['seminar'] == 1) || 
                                     if(( $_GET['seminar'] == 1)){
-                                        $this->Master_String.="<option selected=selected value=1>Proposal</option> <option value=2>Final</option>";
+                                        $this->Master_String.="<option selected=selected value=\"1\">Proposal</option> <option value=\"2\">Final</option>";
                                     }
                                     else{
-                                        $this->Master_String.="<option value=1>Proposal</option><option selected=selected value=2>Final</option>";
+                                        $this->Master_String.="<option value=\"1\">Proposal</option><option selected=selected value=\"2\">Final</option>";
                                     }
                                 }
                                 else{
                                     if($this->mysql_result_holder['seminar'] == 1){
-                                        $this->Master_String.="<option selected=selected value=1>Proposal</option> <option value=2>Final</option>";
+                                        $this->Master_String.="<option selected=selected value=\"1\">Proposal</option> <option value=\"2\">Final</option>";
                                     }
                                     else{
-                                        $this->Master_String.="<option value=1>Proposal</option><option selected=selected value=2>Final</option>";
+                                        $this->Master_String.="<option value=\"1\">Proposal</option><option selected=selected value=\"2\">Final</option>";
                                     }
                                 }
                             }
                             else{
-                                $this->Master_String.="<option value = 1>Proposal</option> <option value = 2>Final</option>";
+                                $this->Master_String.="<option value = \"1\">Proposal</option> <option value = \"2\">Final</option>";
                                 
                             }
                                 
