@@ -118,10 +118,14 @@ class XLS_Handler {
                 if($new_id != $this->Database_connection->return_new_id('student')) {
                     $return_string .= "Student ".$row[0][3]." ".$row[0][4].", SN: ".$row[0][2]." added successfully!<br>";
                 } else {
-                    $return_string .= "Student ".$row[0][3]." ".$row[0][4].", SN: ".$row[0][2]." failed to be added to the database.<br>";
+                    $return_string .= "Student ".$row[0][3]." ".$row[0][4].", SN: ".$row[0][2]." adding failed:<br>"
+                               . $this->Error_Handler->return_error_string();
+                $this->Error_Handler->delete_error_string();
                 }
             } else {
-                $return_string .= "Student ".$row[0][3]." ".$row[0][4].", SN: ".$row[0][2]." failed, due to either bad data in row or student already exists.<br>";
+                $return_string .= "Student ".$row[0][3]." ".$row[0][4].", SN: ".$row[0][2]." adding failed:<br>"
+                               . $this->Error_Handler->return_error_string();
+                $this->Error_Handler->delete_error_string();
             }
         }
         return $return_string;
@@ -144,10 +148,14 @@ class XLS_Handler {
                 if($new_id != $this->Database_connection->return_new_id('marker')) {
                     $return_string .= "Marker ".$row[0][0]." ".$row[0][1]." added successfully!<br>";
                 } else {
-                    $return_string .= "Marker ".$row[0][0]." ".$row[0][1]." failed to be added to the database.<br>";
+                    $return_string .= "Marker ".$row[0][0]." ".$row[0][1]." adding failed:<br>"
+                               . $this->Error_Handler->return_error_string();
+                    $this->Error_Handler->delete_error_string();
                 }
             } else {
-                $return_string .= "Marker ".$row[0][0]." ".$row[0][1]." failed, due to either bad data in row or marker already exists.<br>";
+                $return_string .= "Marker ".$row[0][0]." ".$row[0][1]." adding failed:<br>"
+                               . $this->Error_Handler->return_error_string();
+                $this->Error_Handler->delete_error_string();
             }
         }
         return $return_string;
@@ -178,10 +186,14 @@ class XLS_Handler {
                 if($new_id != $this->Database_connection->return_new_id('marks')) {
                     $return_string .= "Mark by ".$row[0][7]." ".$row[0][8]." on student ".$row[0][2]." added successfully!<br>";
                 } else {
-                    $return_string .= "Mark by ".$row[0][7]." ".$row[0][8]." on student ".$row[0][2]." failed to be added to the database.<br>";
+                    $return_string .= "Mark by ".$row[0][7]." ".$row[0][8]." on student ".$row[0][2]." adding failed:<br>"
+                               . $this->Error_Handler->return_error_string();
+                    $this->Error_Handler->delete_error_string();
                 }
             } else {
-                $return_string .= "Mark by ".$row[0][7]." ".$row[0][8]." on student ".$row[0][2]." failed, due to either bad data in row or mark already exists.<br>";
+                $return_string .= "Mark by ".$row[0][7]." ".$row[0][8]." on student ".$row[0][2]." adding failed:<br>"
+                               . $this->Error_Handler->return_error_string();
+                $this->Error_Handler->delete_error_string();
             }
         }
         return $return_string;

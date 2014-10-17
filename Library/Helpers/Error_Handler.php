@@ -7,7 +7,7 @@ Class error_handler{
      *
      * @var string
      */
-    protected $error_string;    
+    protected $error_string;
     /**
      *
      * @var Database_Connection object
@@ -255,5 +255,10 @@ Class error_handler{
         return $this->error_string;
     }
     
-    
+    /**
+     * Method: deletes the error string
+     */
+    public function delete_error_string(){
+        $this->error_string="";
+    }
 }
