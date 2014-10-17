@@ -1,0 +1,151 @@
+
+
+   _____ _____ _______ _____ ____ ___   ___   ___     _____                         _    _ 
+  / ____|_   _|__   __/ ____|___ \__ \ / _ \ / _ \   / ____|                       | |  | |
+ | |      | |    | | | (___   __) | ) | | | | | | | | |  __ _ __ ___  _   _ _ __   | |__| |
+ | |      | |    | |  \___ \ |__ < / /| | | | | | | | | |_ | '__/ _ \| | | | '_ \  |  __  |
+ | |____ _| |_   | |  ____) |___) / /_| |_| | |_| | | |__| | | | (_) | |_| | |_) | | |  | |
+  \_____|_____|  |_| |_____/|____/____|\___/ \___/   \_____|_|  \___/ \__,_| .__/  |_|  |_|
+                                                                           | |             
+                                                                           |_|             
+__________________________________________________________________________________________________________
+
+Group Members:
+
+	Shane Renshaw: 21014166
+	Arun Gimblett: 21136295
+	Nick Turner: 21118739
+	Luke Davis: 21128099
+__________________________________________________________________________________________________________
+
+Project Folder Structure:
+
+	Library
+		-DB
+			- includes all database related php files
+		-Helpers
+			- stores php class files used by Page files to build the site
+		-Include
+			- Stores any plugins used for the project
+		-Pages
+			- includes all php pages used to build the application pages
+	Resources
+		-JavaScript
+			- All javascript files
+		-StyleSheet
+			- CSS stylesheet for the project
+	SQL
+		-Contains all MYSQL code to build the database
+	Temp
+		-Temperary folder used for file uploads to be stored before deleteing them
+_________________________________________________________________________________________________________
+
+Installation:
+
+1. Initialising the Server:
+
+	The application has been designed to operate on a Linux based server, during production we used 
+	a ubuntu 14.04 which is a recommended server because of the cost factor (being none) and
+	the large repositories available.
+
+
+2. Connecting to the server:
+
+	Once a server linux based operating system has been implemented, you need to SSH into it.
+	This is achieved by the following commands:
+
+		sudo apt-get install openssh-server
+		sudo apt-get update
+	
+	This should be done on both server/client machine to ensure communication can be established.
+
+3. Setting up LAMP on the server:
+
+	Once both have fully updated you will want to install LAMP (linux,Apache,MySQL,PHP) on the server
+	by calling the following in the terminal:
+
+		sudo apt-get install apache2
+		sudo apt-get update
+
+	These set up Apache which will act as the web server. Next stage in the LAMP installation is 		installing MySQL. To do this run the following command
+	on the server side:
+
+		sudo apt-get install mysql-server php5-mysql
+			
+			-NOTE: during the installation of mysql, you will be prompted to 
+			initialise a root password. Ensure you make it something remember-able/secure
+
+	Once the above command/prompts have finished enter the following:
+
+		sudo mysql_install_db
+
+	The final step is to install PHP onto the server, to do so run the following command in terminal:
+
+		sudo apt-get install php5 libapache2-mod-php5 php5-mcrypt
+
+4. Setting up MySQL database:
+	
+	Before we start setting up the database, I'd like to recommend the following application:
+
+		http://www.mysql.com/products/workbench/
+	
+	MySQL workbench is a free and extremely useful tool in interacting with databases. I recommend
+	you download the application through the link provided and follow their installation guide.
+
+	Once MySQL Workbench is install, move to the SQL folder in the project folder.
+
+		../APHB-3200/SQL
+
+	This folder as the name gives away holds all the scripts to build the applications database.
+	It is advised you load up/execute seminar_marks.sql first as that contains all the scripts to
+	build the basic skeleton on the database.
+
+	Once seminar_marks.sql has been completely loaded into the database feel free to repeat this 
+	process for the remaining files in the folder. The remaining folders will produce the views which
+	take advantage of MySQL optimised search queries. 
+
+	The final stage is to navigate to ../APHB-3200/Library/DB/config.php
+	This file contains the settings for your servers MySQL. Please enter the appropriate 
+	values for user name,password and enter "seminar_marks" as the desired schema. 
+
+
+5. Setting up your login account:
+
+	Currently the login account is quite insecure with the password being quite obvious. The 		password value has been hashed using md5 and a salt (included in the 
+	/APHB-3200/Library/Helper/config.php file). Currently the user account is as follows:
+
+		Username: Admin
+		Password: Password
+
+	It is assumed you will be wanting to alter this to provide a more secure application. As there
+	will only ever be one user using this application, user initiation has been excluded from the 
+	application as the event would be rare. 
+
+	The following are the SQL commands you will want to execute into the database:
+
+	DELETE FROM seminar_marks.users;		// this will empty the user table
+	INSERT INTO seminar_marks.users values (1, ?, ? , null,null,null);
+
+	The two question marks corrospond to username and password. When replacing the ? with your
+	new strings, ensure they are wrapped in " " to ensure no errors occur.
+	
+	In creating your password, you must go to the following URL
+
+		https://www.functions-online.com/crypt.html
+	
+	enter in your new password in the $str input bar and place the value stored at 
+	/APHB-3200/Library/Helper/config.php file into the $Salt input bar.
+	This will produce a string underneath result: which you should place into the second ? in the 
+	above insertion query. 
+
+	If you have changed the salt to something else then repeat the process and add your own salt to 
+	the input bar ensuring that the first three characters are $1$ and ending in $ (to ensure md5).
+	
+
+6. Placing the folder into the correct directory:
+	
+	Once all other steps have been completed, its time to place it into its final directory at which 		point the application will be live. Place the APHB-3200 folder into:
+
+	../var/www/html/ 		(this is for a Linux distributions)
+
+	
