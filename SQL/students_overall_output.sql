@@ -10,10 +10,10 @@ SELECT 	student_last_name,
         student_number,
 		ROUND(AVG(proposal_marks.mark_1)*0.5 + AVG(proposal_marks.mark_2)*0.5,2) AS proposal_mark_1_2_average,
         ROUND(AVG(proposal_marks.mark_3)*1.0,2) AS proposal_mark_3,
-        ROUND(AVG(proposal_marks.mark_1)*0.1 + AVG(proposal_marks.mark_2)*0.1 + AVG(proposal_marks.mark_3)*0.8,2)*10 AS proposal_mark_1_2_3_weighted,
+        ROUND(AVG(proposal_marks.mark_1) + AVG(proposal_marks.mark_2) + AVG(proposal_marks.mark_3)*8,2) AS proposal_mark_1_2_3_weighted,
         ROUND(AVG(final_marks.mark_1)*0.5 + AVG(final_marks.mark_2)*0.5,2) AS final_mark_1_2_average,
         ROUND(AVG(final_marks.mark_3)*1.0,2) AS final_mark_3,
-        ROUND(AVG(final_marks.mark_1)*0.1 + AVG(final_marks.mark_2)*0.1 + AVG(final_marks.mark_3)*0.8,2)*10 AS final_mark_1_2_3_weighted,
+        ROUND(AVG(final_marks.mark_1) + AVG(final_marks.mark_2) + AVG(final_marks.mark_3)*8,2) AS final_mark_1_2_3_weighted,
         students.cohort,
         students.semester
 FROM	students
