@@ -184,7 +184,7 @@ class Page {
                                     <div id=\"last_name\">
                                         Last Name: <input type=\"text\" name =\"S_LN\" id=\"sln\" onblur=\"checkInput('sln');\">
                                     </div>
-                                    <input type=\"submit\" value=\"create\">
+                                    <input type=\"submit\" id=\"Screate\" value=\"create\">
                                 </div>
                             </form>
                     </div>";
@@ -201,7 +201,7 @@ class Page {
                                     <div id =\"last_name\">
                                         Last name:  <input type =\"text\" name=\"M_LN\" id=\"mln\" onblur=\"checkInput('mln');\"></input>
                                     </div>
-                                    <input type=\"submit\" value=\"create\"></input>
+                                    <input type=\"submit\" id=\"Mcreate\" value=\"create\"></input>
                                 </div>
                             </form>
                     </div>";
@@ -238,15 +238,15 @@ class Page {
                             "<form action=\"../Helpers/Updater.php?M_ID=".$_GET['M_ID']."&update=1\" method=\"post\">
                                     <div id= \"add_marker\">
                                         <div id= \"first_name\">
-                                            First name:  <input type =\"text\" name= \"M_FN\" id=\"mfn\" onblur=\"checkInput('mfn');\" value=\"".$this->mysql_result_holder['marker_first_name'] ."\"></input>
+                                            First name:  <input type =\"text\" name= \"M_FN\" id=\"mfn2\" onblur=\"checkInput('mfn2');\" value=\"".$this->mysql_result_holder['marker_first_name'] ."\"></input>
                                         </div>
                                         <div id =\"last_name\">
-                                            Last name:  <input type =\"text\" name=\"M_LN\" id=\"mln\" onblur=\"checkInput('mln');\" value=\"".$this->mysql_result_holder['marker_last_name'] ."\"></input>
+                                            Last name:  <input type =\"text\" name=\"M_LN\" id=\"mln2\" onblur=\"checkInput('mln2');\" value=\"".$this->mysql_result_holder['marker_last_name'] ."\"></input>
                                         </div>
                                         <div id=\"delete_button\">
                                             <a href=\"../Helpers/Updater.php?M_ID=".$_GET['M_ID'] ."&delete=1". "\">Delete</a>
                                         </div>
-                                        <input type=\"submit\" value=\"Update\"></input>
+                                        <input type=\"submit\" id=\"MUpdate\" value=\"Update\"></input>
                                     </div>
                             </form>";
                             }
@@ -678,7 +678,7 @@ class Page {
                     $this->Master_String.=  "<div id=\"delete_button\">".
                                                 "<a href=\"../Helpers/Updater.php?Mark_ID=".$_GET['Mark_ID'] ."&delete=1". "\">Delete</a>".
                                             "</div>";
-                    $this->Master_String.= "<input type=\"submit\" id=\"MUpdate\" value=\"Update\">";
+                    $this->Master_String.= "<input type=\"submit\" id=\"MkUpdate\" value=\"Update\">";
                 }
                 else{
                     $this->Master_String.= "<input type=\"submit\" value=\"Add Marks\">";
