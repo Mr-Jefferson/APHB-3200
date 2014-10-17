@@ -16,6 +16,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 }
 if(isset($_GET['logOut'])){
     $new_user->destroy_session();
+    
 }
 
 $new_page = new Page("Login");

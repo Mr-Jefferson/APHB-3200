@@ -625,23 +625,23 @@ class Page {
                             if(isset($_GET['Mark_ID']) || isset($_GET['S_ID']) || isset($_GET['M_ID'])){
                                 if(isset($_GET['seminar'])){//($this->mysql_result_holder['seminar'] == 1) || 
                                     if(( $_GET['seminar'] == 1)){
-                                        $this->Master_String.="<option selected=selected value=1>Proposal</option> <option value=2>Final</option>";
+                                        $this->Master_String.="<option selected=selected value=\"1\">Proposal</option> <option value=\"2\">Final</option>";
                                     }
                                     else{
-                                        $this->Master_String.="<option value=1>Proposal</option><option selected=selected value=2>Final</option>";
+                                        $this->Master_String.="<option value=\"1\">Proposal</option><option selected=selected value=\"2\">Final</option>";
                                     }
                                 }
                                 else{
                                     if($this->mysql_result_holder['seminar'] == 1){
-                                        $this->Master_String.="<option selected=selected value=1>Proposal</option> <option value=2>Final</option>";
+                                        $this->Master_String.="<option selected=selected value=\"1\">Proposal</option> <option value=\"2\">Final</option>";
                                     }
                                     else{
-                                        $this->Master_String.="<option value=1>Proposal</option><option selected=selected value=2>Final</option>";
+                                        $this->Master_String.="<option value=\"1\">Proposal</option><option selected=selected value=\"2\">Final</option>";
                                     }
                                 }
                             }
                             else{
-                                $this->Master_String.="<option value = 1>Proposal</option> <option value = 2>Final</option>";
+                                $this->Master_String.="<option value = \"1\">Proposal</option> <option value = \"2\">Final</option>";
                                 
                             }
                                 
@@ -663,13 +663,13 @@ class Page {
                         else{
         $this->Master_String.=    
                             "<div id=\"mark1\">" .
-                                "Quality of Oral Delivery: <input type=\"text\" name =\"mark_1\" id=\"mk1\" onblur=\"checkInput('mk1');\"></input><br>" .
+                                "Quality of Oral Delivery: <input type=\"text\" name =\"mark_1\" id=\"mk12\" onblur=\"checkInput('mk12');\"></input><br>" .
                             "</div>" .
                             "<div id=\"mark2\">" .
-                                "Quality of Slides:  <input type=\"text\" name =\"mark_2\"  id=\"mk2\" onblur=\"checkInput('mk2');\" ></input><br>" .
+                                "Quality of Slides:  <input type=\"text\" name =\"mark_2\"  id=\"mk22\" onblur=\"checkInput('mk22');\" ></input><br>" .
                             "</div>" .
                             "<div id=\"mark3\">" .
-                                "Content: <input type=\"text\" name =\"mark_3\"  id=\"mk3\" onblur=\"checkInput('mk3');\"></input><br>" .
+                                "Content: <input type=\"text\" name =\"mark_3\"  id=\"mk32\" onblur=\"checkInput('mk32');\"></input><br>" .
                             "</div>";
                         }
         $this->Master_String.=                    
