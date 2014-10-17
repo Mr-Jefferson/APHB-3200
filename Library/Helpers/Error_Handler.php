@@ -7,7 +7,7 @@ Class error_handler{
      *
      * @var string
      */
-    protected $error_string;    
+    protected $error_string;
     /**
      *
      * @var Database_Connection object
@@ -41,7 +41,7 @@ Class error_handler{
      * @return boolean
      */
     private function check_name( $name){
-        if(!ctype_alpha($name)){return false;}
+        if(!ctype_alpha($name) || strlen($name)<1){return false;}
         else{return true;}
     }
     
@@ -141,6 +141,10 @@ Class error_handler{
         for($i = 0; $i < count($marks);$i++){
             if(!is_numeric($marks[$i])){
                 $this->error_string .= "Invalid value for Mark $i, please provide an integer or float value <br>";
+                $boolean_flag = false;
+            }
+            else if($marks[$i]>10||$marks[$i]<0){
+                $this->error_string .= "Invalid value for Mark $i, please provide an integer or float between 0 and 10 (inclusive) <br>";
                 $boolean_flag = false;
             }
         }
@@ -255,5 +259,10 @@ Class error_handler{
         return $this->error_string;
     }
     
-    
+    /**
+     * Method: deletes the error string
+     */
+    public function delete_error_string(){
+        $this->error_string="";
+    }
 }

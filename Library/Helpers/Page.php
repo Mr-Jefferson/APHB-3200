@@ -1,6 +1,6 @@
 <?php
 include_once "/var/www/html/APHB-3200/Library/Helpers/Table_Generation.php";
-include_once "/var/www/html/APHB-3200/Library/Helpers/CSV_Handler.php";
+include_once "/var/www/html/APHB-3200/Library/Helpers/XLS_Handler.php";
 include_once "/var/www/html/APHB-3200/Library/DB/Database_Connection.php";
 
 class Page {
@@ -8,17 +8,18 @@ class Page {
     protected $page_name;
     protected $Database_connection;
     protected $Table_generator;
-    protected $CSV_handler;
+    protected $XLS_handler;
     protected $current_cohort;
     protected $mysql_result_holder;
-    protected $Master_String;   
+    protected $Master_String;
+    protected $XLS_string;
 
     public function __construct($page_title) {
         $this->page_name = $page_title;
         $this->Database_connection = new Database_Connection();
         $this->current_cohort = $this->get_current_cohort();
         $this->Table_generator = new Table_Generation($this->current_cohort);
-        $this->CSV_handler = new CSV_Handler($this->current_cohort);
+        $this->XLS_handler = new XLS_Handler($this->current_cohort);
         
         if(isset($_GET['Mark_ID'])){
             $result = $this->Database_connection->query_Database("select * from marks where id_mark =".$_GET['Mark_ID']);
@@ -39,10 +40,10 @@ class Page {
             }
         }
         if(isset($_FILES["file"])) {
-            $this->Master_String = $this->CSV_handler->import();
+            $this->XLS_string = "<div id=\"outer_table_wrapper\">".$this->XLS_handler->import()."</div>";
         }
         if(isset($_GET["export"])) {
-            $this->CSV_handler->export();
+            $this->XLS_string = "<div id=\"outer_table_wrapper\">".$this->XLS_handler->export()."</div>";
         }
     }
    
@@ -291,7 +292,6 @@ class Page {
                 $this->Master_String .= 
                        "</div>";
         }
-        
         if(in_array("error",$required_shadows)){
             if(isset($_SESSION['ERROR'])){
             $this->Master_String .= 
@@ -348,6 +348,7 @@ class Page {
 
     public function load_main_body_wrapper() {
         $this->Master_String .= "<div id=\"Main_content_wrapper\">";
+        $this->Master_String .= $this->XLS_string;
     }
 
     /**

@@ -1,14 +1,14 @@
 <?php
 include_once "/var/www/html/APHB-3200/Library/DB/Database_Connection.php";
 include_once "/var/www/html/APHB-3200/Library/Helpers/User_Control.php";
-include_once "/var/www/html/APHB-3200/Library/Helpers/error_Handler.php";
+include_once "/var/www/html/APHB-3200/Library/Helpers/Error_Handler.php";
 include_once "/var/www/html/APHB-3200/Library/Include/PHPExcel.php";
 include_once "/var/www/html/APHB-3200/Library/Include/PHPExcel/IOFactory.php";
 
 /*
- * Class for handling CSV import and XLS output
+ * Class for handling XLS import and output
  */
-class CSV_Handler {
+class XLS_Handler {
     protected $Database_connection; //Connection to MySQL database
     protected $current_cohort; //Current cohort variable'
     protected $Error_Handler; //Error handler
@@ -21,7 +21,7 @@ class CSV_Handler {
     public function __construct($cohort) {
         $this->Database_connection = new Database_Connection();
         $this->current_cohort = $cohort;
-        $this->Error_Handler = new error_Handler();
+        $this->Error_Handler = new Error_Handler();
     }
     
     /**
@@ -59,13 +59,17 @@ class CSV_Handler {
             }
             $objWriter = new PHPExcel_Writer_Excel5($objPHPExcel);
             $objWriter->save($output);
-            $return_string .= "<br><a href=\"$send\" download>Click to download marks file!</a>";
+            $return_string .= "<a href=\"$send\" download>Click to download marks file!</a>";
         } else {
-            $return_string = "<br>Only marks export is available.";
+            $return_string = "Only marks export is available.";
         }
         return $return_string;
     }
     
+    /**
+     * Imports a file through $_FILES
+     * @return string Error handling of insert queries to database from import file
+     */
     public function import() {
         $return_string = "";
         
@@ -81,18 +85,27 @@ class CSV_Handler {
         } else if($import == "marks") {
             $return_string .= $this->import_marks($objPHPExcel);
         } else {
-            $return_string .= "<br>Only students, markers, and marks import is available.";
+            $return_string .= "Only students, markers, and marks import is available.";
         }
         $objPHPExcel->disconnectWorksheets();
         unset($objPHPExcel);
         return $return_string;
     }
     
+    /**
+     * Exports a file
+     * @return type HTML href of file
+     */
     public function export() {
         $return_string = $this->edit_Export();
         return $return_string;
     }
     
+    /**
+     * Imports a student file
+     * @param type $objPHPExcel Student file to be imported
+     * @return string Error handling of insert queries to database from import file
+     */
     public function import_students($objPHPExcel) {
         $return_string = "";
         $lastRow = $objPHPExcel->getActiveSheet()->getHighestRow();
@@ -105,15 +118,24 @@ class CSV_Handler {
                 if($new_id != $this->Database_connection->return_new_id('student')) {
                     $return_string .= "Student ".$row[0][3]." ".$row[0][4].", SN: ".$row[0][2]." added successfully!<br>";
                 } else {
-                    $return_string .= "Student ".$row[0][3]." ".$row[0][4].", SN: ".$row[0][2]." failed to be added to the database.<br>";
+                    $return_string .= "Student ".$row[0][3]." ".$row[0][4].", SN: ".$row[0][2]." adding failed:<br>"
+                               . $this->Error_Handler->return_error_string();
+                $this->Error_Handler->delete_error_string();
                 }
             } else {
-                $return_string .= "Student ".$row[0][3]." ".$row[0][4].", SN: ".$row[0][2]." failed due to bad data in row.<br>";
+                $return_string .= "Student ".$row[0][3]." ".$row[0][4].", SN: ".$row[0][2]." adding failed:<br>"
+                               . $this->Error_Handler->return_error_string();
+                $this->Error_Handler->delete_error_string();
             }
         }
         return $return_string;
     }
     
+    /**
+     * Imports a marker file
+     * @param type $objPHPExcel Marker file to be imported
+     * @return string Error handling of insert queries to database from import file
+     */
     public function import_markers($objPHPExcel) {
         $return_string = "";
         $lastRow = $objPHPExcel->getActiveSheet()->getHighestRow();
@@ -126,15 +148,24 @@ class CSV_Handler {
                 if($new_id != $this->Database_connection->return_new_id('marker')) {
                     $return_string .= "Marker ".$row[0][0]." ".$row[0][1]." added successfully!<br>";
                 } else {
-                    $return_string .= "Marker ".$row[0][0]." ".$row[0][1]." failed to be added to the database.<br>";
+                    $return_string .= "Marker ".$row[0][0]." ".$row[0][1]." adding failed:<br>"
+                               . $this->Error_Handler->return_error_string();
+                    $this->Error_Handler->delete_error_string();
                 }
             } else {
-                $return_string .= "Marker ".$row[0][0]." ".$row[0][1]." failed, due to either bad data in row or marker already exists.<br>";
+                $return_string .= "Marker ".$row[0][0]." ".$row[0][1]." adding failed:<br>"
+                               . $this->Error_Handler->return_error_string();
+                $this->Error_Handler->delete_error_string();
             }
         }
         return $return_string;
     }
     
+    /**
+     * Imports a marks file
+     * @param type $objPHPExcel Marks file to be imported
+     * @return string Error handling of insert queries to database from import file
+     */
     public function import_marks($objPHPExcel) {
         $return_string = "";
         $lastRow = $objPHPExcel->getActiveSheet()->getHighestRow();
@@ -155,10 +186,14 @@ class CSV_Handler {
                 if($new_id != $this->Database_connection->return_new_id('marks')) {
                     $return_string .= "Mark by ".$row[0][7]." ".$row[0][8]." on student ".$row[0][2]." added successfully!<br>";
                 } else {
-                    $return_string .= "Mark by ".$row[0][7]." ".$row[0][8]." on student ".$row[0][2]." failed to be added to the database.<br>";
+                    $return_string .= "Mark by ".$row[0][7]." ".$row[0][8]." on student ".$row[0][2]." adding failed:<br>"
+                               . $this->Error_Handler->return_error_string();
+                    $this->Error_Handler->delete_error_string();
                 }
             } else {
-                $return_string .= "Mark by ".$row[0][7]." ".$row[0][8]." on student ".$row[0][2]." failed, due to either bad data in row or mark already exists.<br>";
+                $return_string .= "Mark by ".$row[0][7]." ".$row[0][8]." on student ".$row[0][2]." adding failed:<br>"
+                               . $this->Error_Handler->return_error_string();
+                $this->Error_Handler->delete_error_string();
             }
         }
         return $return_string;
