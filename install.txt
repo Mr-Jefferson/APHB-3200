@@ -149,3 +149,7 @@ Installation:
 	../var/www/html/ 		(this is for a Linux distributions)
 
 	
+7. File ownership must be set for ../APHB-3200/Temp owner must be www-data
+	
+	#chown -R www-data:www-data ../APHB-3200/Temp
+	
