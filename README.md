@@ -1,12 +1,14 @@
 APHB-SeminarMarksDatabase
 =========
 
-*
+* Database for Honours students in the department of Anatomy Physiology and human Biology 
 
 ---
 
 **Created:** Sunday Aug 3 2014
 **Current version:** Thursday Oct 16 2014
+
+**Version:** 1.1
 
 **Contributers:**
 
@@ -15,6 +17,12 @@ APHB-SeminarMarksDatabase
 * Arun Gimblet
 * Shane Renshaw
 * Nick Turner
+
+---
+
+This database system stores student details, marker details and marks assigned by markers to students across 2 seminar presentations. The PHP front end displays overall and individual marks for students and markers as well as descriptive stats by cohort, markers and individual marker.
+
+Deployment instructions can be found in install.txt
 
 ---
 
@@ -31,17 +39,5 @@ See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
----
-
-
-name of the projects and all sub-modules and libraries (sometimes they are named different and very confusing to new users)
-descriptions of all the project, and all sub-modules and libraries
-5-line code snippet on how its used (if it's a library)
-copyright and licensing information (or "Read LICENSE")
-instruction to grab the documentation
-instructions to install, configure, and to run the programs
-instruction to grab the latest code and detailed instructions to build it (or quick overview and "Read INSTALL")
-list of authors or "Read AUTHORS"
 
 ---

@@ -247,7 +247,7 @@ class Page {
                                         <div id=\"delete_button\">
                                             <a href=\"../Helpers/Updater.php?M_ID=".$_GET['M_ID'] ."&delete=1". "\">Delete</a>
                                         </div>
-                                        <input type=\"submit\" id=\"MUpdate\" value=\"Update\"></input>
+                                        <input type=\"submit\" id=\"MUpdate\" value=\"  Update\"></input>
                                     </div>
                             </form>";
                             }
