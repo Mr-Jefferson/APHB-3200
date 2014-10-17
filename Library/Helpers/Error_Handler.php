@@ -143,6 +143,10 @@ Class error_handler{
                 $this->error_string .= "Invalid value for Mark $i, please provide an integer or float value <br>";
                 $boolean_flag = false;
             }
+            else if($marks[$i]>10||$marks[$i]<0){
+                $this->error_string .= "Invalid value for Mark $i, please provide an integer or float between 0 and 10 (inclusive) <br>";
+                $boolean_flag = false;
+            }
         }
         return $boolean_flag;
     }
