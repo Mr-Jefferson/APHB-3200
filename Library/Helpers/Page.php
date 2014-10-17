@@ -481,7 +481,7 @@ class Page {
      * @param int $identifier
      * @return string
      */
-    private function return_marker_option(mysqli_result $row,$identifier){
+    private function return_marker_option( $row,$identifier){
         $selected =" ";
         if($identifier == "Mark_ID"){
             $selected = $this->compare_ID($row['id_marker'], $this->mysql_result_holder['id_marker']);
