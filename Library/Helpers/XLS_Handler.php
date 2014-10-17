@@ -59,9 +59,9 @@ class XLS_Handler {
             }
             $objWriter = new PHPExcel_Writer_Excel5($objPHPExcel);
             $objWriter->save($output);
-            $return_string .= "<br><a href=\"$send\" download>Click to download marks file!</a>";
+            $return_string .= "<a href=\"$send\" download>Click to download marks file!</a>";
         } else {
-            $return_string = "<br>Only marks export is available.";
+            $return_string = "Only marks export is available.";
         }
         return $return_string;
     }
@@ -85,7 +85,7 @@ class XLS_Handler {
         } else if($import == "marks") {
             $return_string .= $this->import_marks($objPHPExcel);
         } else {
-            $return_string .= "<br>Only students, markers, and marks import is available.";
+            $return_string .= "Only students, markers, and marks import is available.";
         }
         $objPHPExcel->disconnectWorksheets();
         unset($objPHPExcel);
