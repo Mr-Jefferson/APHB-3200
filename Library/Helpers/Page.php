@@ -40,10 +40,10 @@ class Page {
             }
         }
         if(isset($_FILES["file"])) {
-            $this->XLS_string = $this->CSV_handler->import();
+            $this->XLS_string = $this->XLS_handler->import();
         }
         if(isset($_GET["export"])) {
-            $this->XLS_string = $this->CSV_handler->export();
+            $this->XLS_string = $this->XLS_handler->export();
         }
     }
    
