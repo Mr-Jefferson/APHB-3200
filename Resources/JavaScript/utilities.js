@@ -56,7 +56,7 @@ window.onload= window.onresize = function adjust_shadow_height_width(){
  */
 function checkInput(textbox) {
 	var value = document.getElementById(textbox).value;
-	if(textbox=="mk1"||textbox=="mk2"||textbox=="mk3"){				//checks if mark value is invalid
+	if(textbox=="mk1"||textbox=="mk2"||textbox=="mk3"||textbox=="mk12"||textbox=="mk22"||textbox=="mk32"){				//checks if mark value is invalid
 		if(value>10 || value<0 || isNaN(value)){
 		  document.getElementById(textbox).style.border="1px solid red";
 		  alert(value + " is not a number between 1 and 10.");
