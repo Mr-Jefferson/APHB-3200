@@ -6,9 +6,9 @@ include_once "/var/www/html/APHB-3200/Library/Include/PHPExcel.php";
 include_once "/var/www/html/APHB-3200/Library/Include/PHPExcel/IOFactory.php";
 
 /*
- * Class for handling CSV import and XLS output
+ * Class for handling XLS import and output
  */
-class CSV_Handler {
+class XLS_Handler {
     protected $Database_connection; //Connection to MySQL database
     protected $current_cohort; //Current cohort variable'
     protected $Error_Handler; //Error handler
@@ -66,6 +66,10 @@ class CSV_Handler {
         return $return_string;
     }
     
+    /**
+     * Imports a file through $_FILES
+     * @return string Error handling of insert queries to database from import file
+     */
     public function import() {
         $return_string = "";
         
@@ -88,11 +92,20 @@ class CSV_Handler {
         return $return_string;
     }
     
+    /**
+     * Exports a file
+     * @return type HTML href of file
+     */
     public function export() {
         $return_string = $this->edit_Export();
         return $return_string;
     }
     
+    /**
+     * Imports a student file
+     * @param type $objPHPExcel Student file to be imported
+     * @return string Error handling of insert queries to database from import file
+     */
     public function import_students($objPHPExcel) {
         $return_string = "";
         $lastRow = $objPHPExcel->getActiveSheet()->getHighestRow();
@@ -114,6 +127,11 @@ class CSV_Handler {
         return $return_string;
     }
     
+    /**
+     * Imports a marker file
+     * @param type $objPHPExcel Marker file to be imported
+     * @return string Error handling of insert queries to database from import file
+     */
     public function import_markers($objPHPExcel) {
         $return_string = "";
         $lastRow = $objPHPExcel->getActiveSheet()->getHighestRow();
@@ -135,6 +153,11 @@ class CSV_Handler {
         return $return_string;
     }
     
+    /**
+     * Imports a marks file
+     * @param type $objPHPExcel Marks file to be imported
+     * @return string Error handling of insert queries to database from import file
+     */
     public function import_marks($objPHPExcel) {
         $return_string = "";
         $lastRow = $objPHPExcel->getActiveSheet()->getHighestRow();
