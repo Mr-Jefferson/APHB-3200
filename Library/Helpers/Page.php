@@ -503,7 +503,7 @@ class Page {
      * @param type $identifier
      * @return string
      */
-    private function return_student_option(mysqli_result $row,$identifier){
+    private function return_student_option($row,$identifier){
         $selected =" ";
         if($identifier == "Mark_ID"){
             $selected = $this->compare_ID($row['id_student'], $this->mysql_result_holder['id_student']);
