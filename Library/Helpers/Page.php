@@ -40,10 +40,10 @@ class Page {
             }
         }
         if(isset($_FILES["file"])) {
-            $this->XLS_string = "<div id=\"outer_table_wrapper\">".$this->XLS_handler->import()."</div>";
+            $this->XLS_string = "<div id=\"outer_table_wrapper\">".$this->XLS_handler->import()."<br></div>";
         }
         if(isset($_GET["export"])) {
-            $this->XLS_string = "<div id=\"outer_table_wrapper\">".$this->XLS_handler->export()."</div>";
+            $this->XLS_string = "<div id=\"outer_table_wrapper\">".$this->XLS_handler->export()."<br></div>";
         }
     }
    
